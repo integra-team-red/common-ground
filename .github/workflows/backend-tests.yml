@@ -1,16 +1,15 @@
-name: Verifier 🔎
+name: Backend Tests 🧪
 
-on: [ pull_request ]
+on: [pull_request]
 
 permissions:
   contents: read
   pull-requests: write
 
 jobs:
-  build:
+  backend-tests:
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout sources 📄
         uses: actions/checkout@v6
 
@@ -22,12 +21,6 @@ jobs:
 
       - name: Setup Gradle 💾
         uses: gradle/actions/setup-gradle@v4
-
-      - name: Set up editorconfig-checker
-        uses: editorconfig-checker/action-editorconfig-checker@main
-
-      - name: Run editorconfig-checker
-        run: editorconfig-checker
 
       - name: Run backend tests 🧪
         run: ./backend/gradlew -p ./backend/ build
