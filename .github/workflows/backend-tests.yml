@@ -20,4 +20,4 @@ jobs:
           java-version: 24
 
       - name: Run backend tests 🧪
-        run: ./backend/gradlew -p ./backend/ build -x test --tests '!**.*ArchUnit*'
+        run: ./backend/gradlew -p ./backend/ test -PexcludeTags=architecture

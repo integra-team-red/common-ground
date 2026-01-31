@@ -29,6 +29,11 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+test {
+    useJUnitPlatform {
+        if (project.hasProperty('excludeTags')) {
+            excludeTags project.property('excludeTags').split(',')
+        }
+    }
 }
+
