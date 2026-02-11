@@ -15,12 +15,19 @@ public class CoffeeMug {
 
     public CoffeeMug() {}
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getColor() { return color; }
-    public void setColor(String color) { this.color = color; }
-    public int getCapacityMl() { return capacityMl; }
-    public void setCapacityMl(int capacityMl) { this.capacityMl = capacityMl; }
-    public boolean isClean() { return clean; }
-    public void setClean(boolean clean) { this.clean = clean; }
+    public Long getId() {return id;}
+
+    public void setId(Long id) {this.id = id;}
+
+    public String getColor() {return color;}
+
+    public void setColor(String color) {this.color = color;}
+
+    public int getCapacityMl() {return capacityMl;}
+
+    public void setCapacityMl(int capacityMl) {this.capacityMl = capacityMl;}
+
+    public boolean isClean() {return clean;}
+
+    public void setClean(boolean clean) {this.clean = clean;}
 }
