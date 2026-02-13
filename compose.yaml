@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: common_ground_postgres
+    env_file: "env.properties"
+    restart: unless-stopped
+    ports:
+      - "5400:5432"
+
+
