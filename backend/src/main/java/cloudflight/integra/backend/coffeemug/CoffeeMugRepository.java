@@ -1,9 +1,10 @@
 package cloudflight.integra.backend.coffeemug;
 
 import cloudflight.integra.backend.coffeemug.model.CoffeeMug;
+import org.springframework.stereotype.Repository;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
-import org.springframework.stereotype.Repository;
 
 @Repository
 public class CoffeeMugRepository {
