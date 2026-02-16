@@ -1,4 +1,4 @@
-rootProject.name = 'student-skeleton-project'
+rootProject.name = 'common ground'
 
 include 'backend'
 include 'frontend'
