@@ -1,6 +1,25 @@
 spring:
   application:
     name: backend
+  config:
+    import: "optional:file:env.properties"
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    out-of-order: true
+#    locations: classpath:db/migration
+
+logging:
+  level:
+    org.flywaydb: INFO
 
 server:
   servlet:
