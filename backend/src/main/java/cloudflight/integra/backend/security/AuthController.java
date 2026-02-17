@@ -1,5 +1,6 @@
 package cloudflight.integra.backend.security;
 
+import cloudflight.integra.backend.tag.TagService;
 import cloudflight.integra.backend.user.CustomUserDetails;
 import cloudflight.integra.backend.user.UserService;
 import cloudflight.integra.backend.user.model.User;
@@ -10,21 +11,28 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class AuthController {
     private final UserService userService;
+    private final TagService tagService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthController(UserService userService, JwtService jwtService,  AuthenticationManager authenticationManager)
+    public AuthController(
+        UserService userService,
+        TagService tagService,
+        JwtService jwtService,
+        AuthenticationManager authenticationManager
+    )
     {
         this.userService = userService;
+        this.tagService = tagService;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
     }
@@ -48,5 +56,27 @@ public class AuthController {
     public ResponseEntity<HttpStatus> register(@RequestBody User user) {
         userService.register(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping("/set-tags-to-user/{username}")
+    public ResponseEntity<HttpStatus> setTags(@PathVariable String username, @RequestBody List<Long> tagIds) {
+        try{
+            userService.setTagsToUser(username, tagService.getTagsFromIds(tagIds));
+
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PutMapping("/add-tags-to-user/{username}")
+    public ResponseEntity<HttpStatus> addTags(@PathVariable String username, @RequestBody List<Long> tagIds) {
+        try{
+            userService.addTagsToUser(username, tagService.getTagsFromIds(tagIds));
+
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +22,14 @@ public class TagService {
 
     public Page<Tag> getByNormalizedLabel(String normalizedLabel, Pageable pageable) {
         return this.repository.findByNormalizedLabel(normalizedLabel, pageable);
+    }
+
+    public List<Long> getIdsFromTags(List<Tag> tags) {
+        return tags.stream().map(Tag::getId).toList();
+    }
+
+    public List<Tag> getTagsFromIds(List<Long> tagIds) {
+        return tagIds.stream().map(repository::getReferenceById).toList();
     }
 
     private String generateNormalizedLabel(String label) {
