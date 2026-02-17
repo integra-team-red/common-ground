@@ -1,15 +1,13 @@
 package cloudflight.integra.backend.event.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-public class Event { ;
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -17,11 +15,17 @@ public class Event { ;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
-    public Event(UUID id, String title, LocalDateTime startTime, LocalDateTime endTime) {
+    @ManyToOne
+    @JoinColumn(name="hobby_group_id", nullable = false)
+    private HobbyGroup hobbyGroup;
+
+
+    public Event(UUID id, String title, LocalDateTime startTime, LocalDateTime endTime, HobbyGroup hobbyGroup) {
         this.id = id;
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.hobbyGroup = hobbyGroup;
     }
     public Event(){}
 
@@ -48,5 +52,13 @@ public class Event { ;
     }
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public HobbyGroup getHobbyGroup() {
+        return hobbyGroup;
+    }
+
+    public void setHobbyGroup(HobbyGroup hobbyGroup) {
+        this.hobbyGroup = hobbyGroup;
     }
 }
