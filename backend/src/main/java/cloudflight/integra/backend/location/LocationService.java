@@ -16,23 +16,19 @@ public class LocationService {
     }
 
     public List<Location> getAll() {
-        return repository.getAll();
+        return repository.findAll();
     }
 
     public Optional<Location> getById(UUID id) {
-        return repository.getById(id);
+        return repository.findById(id);
     }
 
     public Location create(Location location) {
         return repository.save(location);
     }
 
-    public boolean delete(UUID id) {
-        if (repository.getById(id).isPresent()) {
-            repository.deleteById(id);
-            return true;
-        }
-        return false;
+    public void delete(UUID id) {
+        repository.deleteById(id);
     }
 
 

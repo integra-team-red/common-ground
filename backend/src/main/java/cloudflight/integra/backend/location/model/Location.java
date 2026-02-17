@@ -1,12 +1,23 @@
 package cloudflight.integra.backend.location.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.util.UUID;
 
+@Entity
 public class Location {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
     private double latitude;
     private double longitude;
+
+    public Location() {
+    }
 
     public Location(UUID id, String name, double latitude, double longitude) {
         this.id = id;
