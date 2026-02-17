@@ -27,7 +27,7 @@ public class EventController {
 
     @GetMapping("/after/{after}")
     public List<EventDto> getAllAfter(
-        @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime after
+        @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd HH::mm:ss.SSSSSS") LocalDateTime after
     ) {
         return service.getAllByTime(after).stream().map(mapper::toDto).collect(Collectors.toList());
     }
