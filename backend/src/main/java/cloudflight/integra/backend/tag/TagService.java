@@ -4,7 +4,6 @@ import cloudflight.integra.backend.tag.model.Tag;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -20,8 +19,7 @@ public class TagService {
     public Optional<Tag> getById(Long id) { return this.repository.findById(id); }
 
     public List<Tag> getByNormalizedLabel(String normalizedLabel) {
-        return this.repository.findAll().stream()
-            .filter(tag -> Objects.equals(tag.getNormalizedLabel(), normalizedLabel)).toList();
+        return this.repository.findByNormalizedLabel(normalizedLabel);
     }
 
     private String generateNormalizedLabel(String label) {
@@ -44,7 +42,7 @@ public class TagService {
         return Optional.empty();
     }
 
-    public boolean delete(Long id) {
-        return this.repository.deleteById(id);
+    public void delete(Long id) {
+        this.repository.deleteById(id);
     }
 }
