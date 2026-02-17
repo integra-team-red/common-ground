@@ -1,7 +1,14 @@
 package cloudflight.integra.backend.tag.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table
 public class Tag {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String label;
     private String normalizedLabel;
 
