@@ -48,4 +48,11 @@ public class EventService {
     public void delete(UUID id) {
         repository.deleteById(id);
     }
+
+    public List<Event> getByLocationId(UUID locationId) {
+        if (repository.findAllByLocationId(locationId).isEmpty()) {
+            throw new ObjectNotFoundException("There are no events held at this location.");
+        }
+        return repository.findAllByLocationId(locationId);
+    }
 }

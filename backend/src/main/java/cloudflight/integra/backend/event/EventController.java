@@ -1,6 +1,8 @@
 package cloudflight.integra.backend.event;
 
 import cloudflight.integra.backend.event.model.EventDto;
+import cloudflight.integra.backend.location.LocationService;
+import cloudflight.integra.backend.location.model.Location;
 import cloudflight.integra.backend.hobbyGroup.HobbyGroupService;
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -8,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -17,13 +18,16 @@ import java.util.stream.Collectors;
 public class EventController {
     private final EventService service;
     private final EventMapper mapper;
+    private final LocationService locationService;
 
     private final HobbyGroupService hobbyGroupService;
 
-    public EventController(EventService service, EventMapper mapper, HobbyGroupService hobbyGroupService) {
+    public EventController(EventService service, EventMapper mapper, LocationService locationService, HobbyGroupService hobbyGroupService) {
         this.service = service;
         this.mapper = mapper;
         this.hobbyGroupService = hobbyGroupService;
+        this.locationService = locationService;
+
     }
 
     @GetMapping
@@ -44,17 +48,23 @@ public class EventController {
             .map(mapper::toDto).orElse(null);
     }
 
+    @GetMapping("/location/{locationId}")
+    public List<EventDto> getAllEventsByLocationId(@PathVariable UUID locationId) {
+        return service.getByLocationId(locationId).stream().map(mapper::toDto).collect(Collectors.toList());
+    }
+
     @PostMapping
     public EventDto create(@RequestBody EventDto dto) {
-        Optional<HobbyGroup> hobbyGroupById = hobbyGroupService.getById(dto.hobbyGroupID());
-        return mapper.toDto(service.create(mapper.toEntity(dto, hobbyGroupById)));
+        Location location = locationService.getById(dto.locationId()).orElseThrow();
+        HobbyGroup hobbyGroupById = hobbyGroupService.getById(dto.hobbyGroupID()).orElseThrow();
+        return mapper.toDto(service.create(mapper.toEntity(dto, location, hobbyGroupById)));
     }
 
     @PutMapping("/{id}")
     public EventDto update(@PathVariable UUID id, @RequestBody EventDto dto) {
-        Optional<HobbyGroup> hobbyGroupById = hobbyGroupService.getById(dto.hobbyGroupID());
-        return service.update(id, mapper.toEntity(dto, hobbyGroupById))
-            .map(mapper::toDto).orElse(null);
+        HobbyGroup hobbyGroupById = hobbyGroupService.getById(dto.hobbyGroupID()).orElseThrow();
+        Location location = locationService.getById(dto.locationId()).orElseThrow();
+        return service.update(id, mapper.toEntity(dto, location, hobbyGroupById)).map(mapper::toDto).orElse(null);
     }
 
     @DeleteMapping("/{id}")
