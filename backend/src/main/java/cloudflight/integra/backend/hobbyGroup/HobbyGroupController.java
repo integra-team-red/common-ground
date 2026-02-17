@@ -1,55 +1,68 @@
 package cloudflight.integra.backend.hobbyGroup;
 
+import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroupDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import cloudflight.integra.backend.tag.TagService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 
 @RestController
 @RequestMapping("/api/hobbygroups")
 public class HobbyGroupController {
-    private final HobbyGroupService service;
+    private final HobbyGroupService hobbyGroupService;
+    private final TagService tagService;
     private final HobbyGroupMapper mapper;
 
-    public HobbyGroupController(HobbyGroupService service, HobbyGroupMapper mapper) {
-        this.service = service;
+    public HobbyGroupController(HobbyGroupService service, TagService tagService, HobbyGroupMapper mapper) {
+        this.hobbyGroupService = service;
+        this.tagService = tagService;
         this.mapper = mapper;
     }
 
     @GetMapping
-    public List<Page<HobbyGroupDto>> getAll(Pageable pageable) {
-        return List.of(service.getAll(pageable).map(mapper::toDto));
+    public Page<HobbyGroupDto> getAll(Pageable pageable) {
+        return hobbyGroupService.getAll(pageable)
+            .map(group -> mapper.toDto(group, tagService.getIdsFromTags(group.getTags())));
     }
 
     @GetMapping("/filter")
-    public List<Page<HobbyGroupDto>> filterByName(@RequestParam String name, Pageable pageable) {
-        return List.of(service.filterByName(name, pageable).map(mapper::toDto));
+    public Page<HobbyGroupDto> filterByName(@RequestParam String name, Pageable pageable) {
+        return hobbyGroupService.filterByName(name, pageable)
+            .map(group -> mapper.toDto(group, tagService.getIdsFromTags(group.getTags())));
     }
 
     @GetMapping("/{id}")
     public HobbyGroupDto getById(@PathVariable UUID id) {
-        return mapper.toDto(service.getById(id));
+        HobbyGroup group = hobbyGroupService.getById(id);
+        return mapper.toDto(group, tagService.getIdsFromTags(group.getTags()));
     }
 
 
     @PostMapping
     public HobbyGroupDto create(@RequestBody HobbyGroupDto groupDto) {
-        return mapper.toDto(service.create(mapper.toEntity(groupDto)));
+        HobbyGroup createHobbyGroup = hobbyGroupService.create(mapper.toEntity(
+            groupDto,
+            tagService.getTagsFromIds(groupDto.tagIds())));
+
+        return mapper.toDto(createHobbyGroup, groupDto.tagIds());
     }
 
     @PutMapping("/{id}")
     public HobbyGroupDto update(@PathVariable UUID id, @RequestBody HobbyGroupDto groupDto) {
-        return mapper.toDto(service.update(id, mapper.toEntity(groupDto)));
+        HobbyGroup updateHobbyGroup = hobbyGroupService.update(id, mapper.toEntity(
+            groupDto,
+            tagService.getTagsFromIds(groupDto.tagIds())));
 
+        return mapper.toDto(updateHobbyGroup, groupDto.tagIds());
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) {
-        service.delete(id);
+        hobbyGroupService.delete(id);
     }
 
 }

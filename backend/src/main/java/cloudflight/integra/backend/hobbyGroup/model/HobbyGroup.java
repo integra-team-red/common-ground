@@ -1,7 +1,9 @@
 package cloudflight.integra.backend.hobbyGroup.model;
 
+import cloudflight.integra.backend.tag.model.Tag;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -13,11 +15,20 @@ public class HobbyGroup {
     private String description;
     private double radiusKm;
 
-    public HobbyGroup(UUID id, String name, String description, double radiusKm) {
+    @ManyToMany
+    @JoinTable(
+        name = "Group_Tags",
+        joinColumns = { @JoinColumn(name = "hobby_group_id") },
+        inverseJoinColumns = { @JoinColumn(name = "tag_id") }
+    )
+    private List<Tag> tags;
+
+    public HobbyGroup(UUID id, String name, String description, double radiusKm, List<Tag> tags) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.radiusKm = radiusKm;
+        this.tags = tags;
     }
 
     public HobbyGroup() {
@@ -40,6 +51,10 @@ public class HobbyGroup {
         return radiusKm;
     }
 
+    public List<Tag> getTags() {
+        return tags;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }
@@ -54,5 +69,9 @@ public class HobbyGroup {
 
     public void setRadiusKm(double radiusKm) {
         this.radiusKm = radiusKm;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }
