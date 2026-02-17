@@ -1,9 +1,13 @@
 package cloudflight.integra.backend.hobbyGroup.model;
 
+import jakarta.persistence.*;
+
 import java.util.UUID;
 
+@Entity
 public class HobbyGroup {
-    // Create a HobbyGroup POJO with fields: id (UUID), name, description, and radiusKm[cite: 41, 55].
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
     private String description;
@@ -16,20 +20,39 @@ public class HobbyGroup {
         this.radiusKm = radiusKm;
     }
 
+    public HobbyGroup() {
 
-    public UUID getId() {return id; }
+    }
 
-    public String getName() { return name; }
+    public UUID getId() {
+        return id;
+    }
 
-    public String getDescription() { return description; }
+    public String getName() {
+        return name;
+    }
 
-    public double getRadiusKm() { return radiusKm; }
+    public String getDescription() {
+        return description;
+    }
 
-    public void setId(UUID id) { this.id = id; }
+    public double getRadiusKm() {
+        return radiusKm;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
-    public void setDescription(String description) {this.description = description; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public void setRadiusKm(double radiusKm) { this.radiusKm = radiusKm;  }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setRadiusKm(double radiusKm) {
+        this.radiusKm = radiusKm;
+    }
 }
