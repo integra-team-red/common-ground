@@ -1,12 +1,13 @@
 package cloudflight.integra.backend.systemFeedback;
 
-
 import cloudflight.integra.backend.systemFeedback.model.SystemFeedbackDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/systemfeedbacks")
@@ -21,15 +22,10 @@ public class SystemFeedbackController {
     }
 
     @GetMapping
-    public List<SystemFeedbackDTO> getAll() {
-        return service.getAll().stream()
-            .sorted((f1, f2) -> {
-                if (f1.getCreatedAt() == null) return 1;
-                if (f2.getCreatedAt() == null) return -1;
-                return f2.getCreatedAt().compareTo(f1.getCreatedAt());
-            })
-            .map(mapper::toDto)
-            .collect(Collectors.toList());
+    public Page<SystemFeedbackDTO> getAll(
+        @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        return service.getAllPaginated(pageable).map(mapper::toDto);
     }
 
     @GetMapping("/{id}")
