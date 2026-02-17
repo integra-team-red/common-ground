@@ -2,6 +2,7 @@ package cloudflight.integra.backend.systemFeedback;
 
 import cloudflight.integra.backend.systemFeedback.model.SystemFeedback;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,7 +19,9 @@ public class SystemFeedbackService {
     public SystemFeedbackService(SystemFeedbackRepository repository) {
         this.repository = repository;
     }
-
+    public Page<SystemFeedback> getAllPaginated(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
     public List<SystemFeedback> getAll() {
         return repository.findAll();
     }
