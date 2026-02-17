@@ -5,13 +5,13 @@ import cloudflight.integra.backend.hobbyGroup.HobbyGroupService;
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
 import cloudflight.integra.backend.location.LocationService;
 import cloudflight.integra.backend.location.model.Location;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/events")
@@ -35,15 +35,16 @@ public class EventController {
     }
 
     @GetMapping
-    public List<EventDto> getAll() {
-        return service.getAll().stream().map(mapper::toDto).collect(Collectors.toList());
+    public Page<EventDto> getAll(
+        @PageableDefault(sort = "startTime", direction = Sort.Direction.DESC) Pageable pageable){
+        return service.getAll(pageable).map(mapper::toDto);
     }
 
     @GetMapping("/after/{after}")
-    public List<EventDto> getAllAfter(
-        @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd HH::mm:ss.SSSSSS") LocalDateTime after
+    public Page<EventDto> getAllAfter(
+        @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd HH::mm:ss.SSSSSS") LocalDateTime after, Pageable pageable
     ) {
-        return service.getAllByTime(after).stream().map(mapper::toDto).collect(Collectors.toList());
+        return service.getAllByTime(after, pageable).map(mapper::toDto);
     }
 
     @GetMapping("/{id}")
@@ -53,8 +54,8 @@ public class EventController {
     }
 
     @GetMapping("/location/{locationId}")
-    public List<EventDto> getAllEventsByLocationId(@PathVariable UUID locationId) {
-        return service.getByLocationId(locationId).stream().map(mapper::toDto).collect(Collectors.toList());
+    public Page<EventDto> getAllEventsByLocationId(@PathVariable UUID locationId, Pageable pageable) {
+        return service.getByLocationId(locationId, pageable).map(mapper::toDto);
     }
 
     @PostMapping
