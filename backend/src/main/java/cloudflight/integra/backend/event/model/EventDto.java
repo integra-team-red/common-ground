@@ -1,6 +1,5 @@
 package cloudflight.integra.backend.event.model;
 
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 

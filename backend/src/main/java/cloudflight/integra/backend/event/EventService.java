@@ -2,10 +2,11 @@ package cloudflight.integra.backend.event;
 
 import cloudflight.integra.backend.event.model.Event;
 import cloudflight.integra.backend.exceptions.ObjectNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,12 +18,12 @@ public class EventService {
         this.repository = repository;
     }
 
-    public List<Event> getAll() {
-        return repository.findAll();
+    public Page<Event> getAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
-    public List<Event> getAllByTime(LocalDateTime after) {
-        return repository.findAllByStartTimeAfter(after);
+    public Page<Event> getAllByTime(LocalDateTime after, Pageable pageable) {
+        return repository.findAllByStartTimeAfter(after, pageable);
     }
 
     public Optional<Event> getById(UUID id) {
@@ -48,9 +49,9 @@ public class EventService {
         repository.deleteById(id);
     }
 
-    public List<Event> getByLocationId(UUID locationId) {
-        List<Event> events = repository.findAllByLocationId(locationId);
-        if (events.isEmpty()) {
+    public Page<Event> getByLocationId(UUID locationId, Pageable pageable) {
+        Page<Event> events = repository.findAllByLocationId(locationId, pageable);
+        if(events.isEmpty()){
             throw new ObjectNotFoundException("There is not Event found at this location.");
         }
         return events;

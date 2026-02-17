@@ -1,6 +1,8 @@
 package cloudflight.integra.backend.event;
 
 import cloudflight.integra.backend.event.model.Event;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +12,7 @@ import java.util.UUID;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, UUID> {
-    List<Event> findAllByStartTimeAfter(LocalDateTime after);
+    Page<Event> findAllByStartTimeAfter(LocalDateTime after, Pageable pageable);
 
-    List<Event> findAllByLocationId(UUID locationId);
+    Page<Event> findAllByLocationId(UUID locationId, Pageable pageable);
 }
