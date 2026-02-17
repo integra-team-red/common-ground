@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import cloudflight.integra.backend.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
@@ -24,9 +23,7 @@ public class EventService {
     }
 
     public List<Event> getAllByTime(LocalDateTime after) {
-        return repository.findAll().stream()
-            .filter(e -> e.getStartTime() != null && !e.getStartTime().isBefore(after))
-            .collect(Collectors.toList());
+        return repository.findAllByStartTimeAfter(after);
     }
 
     public Optional<Event> getById(UUID id) {
@@ -49,9 +46,6 @@ public class EventService {
     }
 
     public void delete(UUID id) {
-        boolean deleted = repository.deleteById(id);
-        if (!deleted) {
-            throw new ObjectNotFoundException("Event not found");
-        }
+        repository.deleteById(id);
     }
 }
