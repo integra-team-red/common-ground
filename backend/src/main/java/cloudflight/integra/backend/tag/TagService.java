@@ -1,9 +1,10 @@
 package cloudflight.integra.backend.tag;
 
 import cloudflight.integra.backend.tag.model.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,12 +15,12 @@ public class TagService {
         this.repository = repository;
     }
 
-    public List<Tag> getAll() { return this.repository.findAll(); }
+    public Page<Tag> getAll(Pageable pageable) { return this.repository.findAll(pageable); }
 
     public Optional<Tag> getById(Long id) { return this.repository.findById(id); }
 
-    public List<Tag> getByNormalizedLabel(String normalizedLabel) {
-        return this.repository.findByNormalizedLabel(normalizedLabel);
+    public Page<Tag> getByNormalizedLabel(String normalizedLabel, Pageable pageable) {
+        return this.repository.findByNormalizedLabel(normalizedLabel, pageable);
     }
 
     private String generateNormalizedLabel(String label) {

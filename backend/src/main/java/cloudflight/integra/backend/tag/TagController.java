@@ -1,9 +1,12 @@
 package cloudflight.integra.backend.tag;
 
 import cloudflight.integra.backend.tag.model.TagDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/tags")
@@ -17,8 +20,8 @@ public class TagController {
     }
 
     @GetMapping()
-    public List<TagDto> getAll() {
-        return this.service.getAll().stream().map(this.mapper::toDto).toList();
+    public Page<TagDto> getAll(@PageableDefault(sort = "label", direction = Sort.Direction.ASC) Pageable pageable) {
+        return this.service.getAll(pageable).map(this.mapper::toDto);
     }
 
     @GetMapping("/{id}")
@@ -27,8 +30,11 @@ public class TagController {
     }
 
     @GetMapping("/normalized/{label}")
-    public List<TagDto> search(@PathVariable String label) {
-        return this.service.getByNormalizedLabel(label).stream().map(this.mapper::toDto).toList();
+    public Page<TagDto> search(
+        @PathVariable String label,
+        @PageableDefault(sort = "label", direction = Sort.Direction.ASC) Pageable pageable
+    ) {
+        return this.service.getByNormalizedLabel(label, pageable).map(this.mapper::toDto);
     }
 
     @PostMapping()
