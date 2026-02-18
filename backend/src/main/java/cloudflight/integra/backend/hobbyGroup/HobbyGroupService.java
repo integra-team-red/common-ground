@@ -1,22 +1,24 @@
 package cloudflight.integra.backend.hobbyGroup;
 
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class HobbyGroupService {
     private final HobbyGroupRepository repository;
 
+
     public HobbyGroupService(HobbyGroupRepository repository) {
         this.repository = repository;
+
     }
 
-    public List<HobbyGroup> getAll() {
-        return repository.findAll();
+    public Page<HobbyGroup> getAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public Optional<HobbyGroup> getById(UUID id) {
@@ -43,12 +45,8 @@ public class HobbyGroupService {
         return false;
     }
 
-    public List<HobbyGroup> filterByName(String containedString) {
-        return repository.findAll()
-            .stream()
-            .filter(group -> group.getName() != null &&
-                group.getName().toLowerCase().contains(containedString.toLowerCase()))
-            .collect(Collectors.toList());
+    public Page<HobbyGroup> filterByName(String containedString, Pageable pageable) {
+        return repository.findByNameContainingIgnoreCase(containedString, pageable);
     }
 
 }

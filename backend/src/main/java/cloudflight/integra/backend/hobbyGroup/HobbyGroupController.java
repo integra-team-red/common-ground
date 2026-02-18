@@ -1,6 +1,8 @@
 package cloudflight.integra.backend.hobbyGroup;
 
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroupDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,13 +21,13 @@ public class HobbyGroupController {
     }
 
     @GetMapping
-    public List<HobbyGroupDto> getAll() {
-        return service.getAll().stream().map(mapper::toDto).toList();
+    public List<Page<HobbyGroupDto>> getAll(Pageable pageable) {
+        return List.of(service.getAll(pageable).map(mapper::toDto));
     }
 
     @GetMapping("/filter")
-    public List<HobbyGroupDto> filterByName(@RequestParam String name) {
-        return service.filterByName(name).stream().map(mapper::toDto).toList();
+    public List<Page<HobbyGroupDto>> filterByName(@RequestParam String name, Pageable pageable) {
+        return List.of(service.filterByName(name, pageable).map(mapper::toDto));
     }
 
     @GetMapping("/{id}")
