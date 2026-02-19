@@ -21,6 +21,3 @@ logging:
   level:
     org.flywaydb: INFO
 
-server:
-  servlet:
-    context-path: /api
