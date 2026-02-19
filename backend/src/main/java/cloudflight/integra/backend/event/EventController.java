@@ -1,10 +1,10 @@
 package cloudflight.integra.backend.event;
 
 import cloudflight.integra.backend.event.model.EventDto;
-import cloudflight.integra.backend.location.LocationService;
-import cloudflight.integra.backend.location.model.Location;
 import cloudflight.integra.backend.hobbyGroup.HobbyGroupService;
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
+import cloudflight.integra.backend.location.LocationService;
+import cloudflight.integra.backend.location.model.Location;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +22,16 @@ public class EventController {
 
     private final HobbyGroupService hobbyGroupService;
 
-    public EventController(EventService service, EventMapper mapper, LocationService locationService, HobbyGroupService hobbyGroupService) {
+    public EventController(
+        EventService service,
+        EventMapper mapper,
+        LocationService locationService,
+        HobbyGroupService hobbyGroupService
+    ) {
         this.service = service;
         this.mapper = mapper;
         this.hobbyGroupService = hobbyGroupService;
         this.locationService = locationService;
-
     }
 
     @GetMapping
@@ -56,13 +60,13 @@ public class EventController {
     @PostMapping
     public EventDto create(@RequestBody EventDto dto) {
         Location location = locationService.getById(dto.locationId()).orElseThrow();
-        HobbyGroup hobbyGroupById = hobbyGroupService.getById(dto.hobbyGroupID()).orElseThrow();
+        HobbyGroup hobbyGroupById = hobbyGroupService.getById(dto.hobbyGroupId()).orElseThrow();
         return mapper.toDto(service.create(mapper.toEntity(dto, location, hobbyGroupById)));
     }
 
     @PutMapping("/{id}")
     public EventDto update(@PathVariable UUID id, @RequestBody EventDto dto) {
-        HobbyGroup hobbyGroupById = hobbyGroupService.getById(dto.hobbyGroupID()).orElseThrow();
+        HobbyGroup hobbyGroupById = hobbyGroupService.getById(dto.hobbyGroupId()).orElseThrow();
         Location location = locationService.getById(dto.locationId()).orElseThrow();
         return service.update(id, mapper.toEntity(dto, location, hobbyGroupById)).map(mapper::toDto).orElse(null);
     }

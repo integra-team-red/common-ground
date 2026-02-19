@@ -1,14 +1,13 @@
 package cloudflight.integra.backend.event;
 
 import cloudflight.integra.backend.event.model.Event;
+import cloudflight.integra.backend.exceptions.ObjectNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import cloudflight.integra.backend.exceptions.ObjectNotFoundException;
-import org.springframework.stereotype.Service;
 
 @Service
 public class EventService {
@@ -50,9 +49,10 @@ public class EventService {
     }
 
     public List<Event> getByLocationId(UUID locationId) {
-        if (repository.findAllByLocationId(locationId).isEmpty()) {
-            throw new ObjectNotFoundException("There are no events held at this location.");
+        List<Event> events = repository.findAllByLocationId(locationId);
+        if (events.isEmpty()) {
+            throw new ObjectNotFoundException("There is not Event found at this location.");
         }
-        return repository.findAllByLocationId(locationId);
+        return events;
     }
 }
