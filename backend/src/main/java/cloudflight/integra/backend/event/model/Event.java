@@ -1,8 +1,8 @@
 package cloudflight.integra.backend.event.model;
 
+import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
 import cloudflight.integra.backend.location.model.Location;
 import jakarta.persistence.*;
-import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -19,11 +19,17 @@ public class Event {
     private Location location;
 
     @ManyToOne
-    @JoinColumn(name="hobby_group_id", nullable = false)
     private HobbyGroup hobbyGroup;
 
 
-    public Event(UUID id, String title, LocalDateTime startTime, LocalDateTime endTime, Location location, HobbyGroup hobbyGroup) {
+    public Event(
+        UUID id,
+        String title,
+        LocalDateTime startTime,
+        LocalDateTime endTime,
+        Location location,
+        HobbyGroup hobbyGroup
+    ) {
         this.id = id;
         this.title = title;
         this.startTime = startTime;
@@ -31,7 +37,9 @@ public class Event {
         this.hobbyGroup = hobbyGroup;
         this.location = location;
     }
-    public Event(){}
+
+    public Event() {
+    }
 
     public UUID getId() {
         return id;
