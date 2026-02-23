@@ -1,9 +1,10 @@
 package cloudflight.integra.backend.location;
 
 import cloudflight.integra.backend.location.model.Location;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,8 +16,8 @@ public class LocationService {
         this.repository = repository;
     }
 
-    public List<Location> getAll() {
-        return repository.findAll();
+    public Page<Location> getAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public Optional<Location> getById(UUID id) {
@@ -31,8 +32,7 @@ public class LocationService {
         repository.deleteById(id);
     }
 
-
-    public List<Location> getByName(String name) {
-        return getAll().stream().filter(x -> x.getName().toLowerCase().contains(name.toLowerCase())).toList();
+    public Page<Location> getByName(String name, Pageable pageable) {
+        return repository.findByNameContainingIgnoreCase(name, pageable);
     }
 }

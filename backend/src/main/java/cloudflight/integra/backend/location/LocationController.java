@@ -2,9 +2,11 @@ package cloudflight.integra.backend.location;
 
 import cloudflight.integra.backend.location.model.Location;
 import cloudflight.integra.backend.location.model.LocationDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -19,13 +21,15 @@ public class LocationController {
     }
 
     @GetMapping("/search/{name}")
-    public List<LocationDto> getByName(@PathVariable("name") String name) {
-        return locationService.getByName(name).stream().map(locationMapper::toDto).toList();
+    public ResponseEntity<Page<LocationDto>> getByName(@PathVariable("name") String name, Pageable pageable) {
+        Page<LocationDto> locations = locationService.getByName(name, pageable).map(locationMapper::toDto);
+        return ResponseEntity.ok(locations);
     }
 
     @GetMapping
-    public List<LocationDto> getAll() {
-        return locationService.getAll().stream().map(locationMapper::toDto).toList();
+    public ResponseEntity<Page<LocationDto>> getAll(Pageable pageable) {
+        Page<LocationDto> locations = locationService.getAll(pageable).map(locationMapper::toDto);
+        return ResponseEntity.ok(locations);
     }
 
     @GetMapping("/{id}")
