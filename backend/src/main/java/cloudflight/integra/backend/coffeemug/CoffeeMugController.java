@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/coffeemugs")
-
-
 public class CoffeeMugController {
     private final CoffeeMugService service;
     private final CoffeeMugMapper mapper;
@@ -26,7 +24,7 @@ public class CoffeeMugController {
 
     @GetMapping("/{id}")
     public CoffeeMugDto getById(@PathVariable Long id) {
-        return service.getById(id).map(mapper::toDto).orElse(null);
+        return mapper.toDto(service.getById(id));
     }
 
     @PostMapping
@@ -36,8 +34,7 @@ public class CoffeeMugController {
 
     @PutMapping("/{id}")
     public CoffeeMugDto update(@PathVariable Long id, @RequestBody CoffeeMugDto dto) {
-        return service.update(id, mapper.toEntity(dto)).map(mapper::toDto).orElse(null);
-
+        return mapper.toDto(service.update(id, mapper.toEntity(dto)));
     }
 
     @DeleteMapping("/{id}")
