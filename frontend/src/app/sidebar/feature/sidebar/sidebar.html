@@ -1,23 +1,35 @@
-<div class="h-full bg-primary m-4 p-8 rounded-xl">
-    <div class="flex flex-col gap-8 items-center text-white font-thin">
-        <h1 class="text-4xl animate-[pulse_4s_infinite]">Common Ground</h1>
+<div class="lg:hidden p-4 ">
+    <p-button icon="pi pi-bars" (click)="visible = true" severity="secondary" [text]="true" />
+</div>
 
-        <div class="flex flex-col w-full text-2xl gap-2">
-            @for (route of navRoutes; track route.path) {
-                <a [routerLink]="route.path"
-                   routerLinkActive="font-bold"
-                   [routerLinkActiveOptions]="{ exact: true }"
-                   class="
-                      p-3 rounded
-                      transition-all duration-300
-                      hover:bg-primary-400 hover:pl-6"
-                >
-                    <span class="flex items-center gap-3">
-                        <i [class]="'pi ' + route.icon"></i>
-                        {{ route.title ?? route.path }}
-                    </span>
-                </a>
-            }
+<aside class="hidden lg:block h-full w-72">
+    <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+</aside>
+
+<p-drawer [(visible)]="visible" [style]="{'background': '#F06D58', 'border': 'none', 'width': '300px'}">
+    <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+</p-drawer>
+
+<ng-template #sidebarContent>
+    <div class="h-full bg-primary m-4 p-8 rounded-xl">
+        <div class="flex flex-col gap-8 items-center text-white font-thin">
+            <h1 class="text-4xl animate-[pulse_4s_infinite]">Common Ground</h1>
+
+            <div class="flex flex-col w-full text-2xl gap-2">
+                @for (route of navRoutes; track route.path) {
+                    <a [routerLink]="route.path"
+                       routerLinkActive="font-bold"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       (click)="visible = false"
+                       class="p-3 rounded transition-all duration-300 hover:bg-primary-400 hover:pl-6 no-underline text-white"
+                    >
+                        <span class="flex items-center gap-3">
+                            <i [class]="'pi ' + route.icon"></i>
+                            {{ route.title ?? route.path }}
+                        </span>
+                    </a>
+                }
+            </div>
         </div>
     </div>
-</div>
+</ng-template>

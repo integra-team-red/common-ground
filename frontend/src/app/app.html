@@ -1,10 +1,14 @@
-<div class="min-h-screen overflow-hidden grid grid-cols-4">
-    <header class="col-span-1">
+<div class="lg:hidden flex items-center bg-primary text-white">
+    <app-sidebar/>
+</div>
+
+<div class="min-h-screen flex flex-col lg:flex-row overflow-hidden">
+    <header class="hidden lg:block w-80 h-screen sticky top-0">
         <app-sidebar/>
     </header>
 
-    <main class="col-span-3">
-        <div class="h-screen overflow-scroll">
+    <main class="flex-1">
+        <div class="h-screen overflow-y-auto p-4 lg:p-8">
             <router-outlet/>
         </div>
     </main>
