@@ -1,13 +1,11 @@
-<div class="min-h-screen flex flex-col justify-between">
-  <header>
-    <h1>My Application</h1>
-  </header>
+<div class="min-h-screen overflow-hidden grid grid-cols-6">
+    <header class="col-span-1">
+        <app-sidebar/>
+    </header>
 
-  <main class="m-4 flex-grow">
-    <router-outlet/>
-  </main>
-
-  <footer class="text-center text-xs">
-    <app-about/>
-  </footer>
+    <main class="col-span-5">
+        <div class="h-screen overflow-scroll">
+            <router-outlet/>
+        </div>
+    </main>
 </div>

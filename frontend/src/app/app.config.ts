@@ -3,8 +3,8 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import {providePrimeNG} from 'primeng/config';
+import {CommonGroundTheme} from "./theme/theme";
 
-import Aura from '@primeuix/themes/aura';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     providePrimeNG({
       theme: {
-        preset: Aura,
+        preset: CommonGroundTheme,
         options: {
           darkModeSelector: '.my-app-dark'
         }
