@@ -5,10 +5,15 @@ import {ThemeShowcaseComponent} from "./theme/feature/theme-showcase/theme-showc
 export const routes: Routes = [
     {
         path: '',
+        title: "Home",
         component: HomePage,
+        data: {
+            icon: "pi-house"
+        }
     },
     {
         path: 'theme',
+        title: "Theme",
         component: ThemeShowcaseComponent,
     }
 ];

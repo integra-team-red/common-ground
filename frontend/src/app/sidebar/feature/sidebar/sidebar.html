@@ -1,3 +1,23 @@
-<div class="h-full bg-red-300">
-    Common Ground
+<div class="h-full bg-primary m-4 p-8 rounded-xl">
+    <div class="flex flex-col gap-8 items-center text-white font-thin">
+        <h1 class="text-4xl animate-[pulse_4s_infinite]">Common Ground</h1>
+
+        <div class="flex flex-col w-full text-2xl gap-2">
+            @for (route of navRoutes; track route.path) {
+                <a [routerLink]="route.path"
+                   routerLinkActive="font-bold"
+                   [routerLinkActiveOptions]="{ exact: true }"
+                   class="
+                      p-3 rounded
+                      transition-all duration-300
+                      hover:bg-primary-400 hover:pl-6"
+                >
+                    <span class="flex items-center gap-3">
+                        <i [class]="'pi ' + route.icon"></i>
+                        {{ route.title ?? route.path }}
+                    </span>
+                </a>
+            }
+        </div>
+    </div>
 </div>

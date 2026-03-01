@@ -1,12 +1,10 @@
 import {Component, signal} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {Sidebar} from './sidebar/feature/sidebar/sidebar';
-import {ReactiveFormsModule} from "@angular/forms";
-import {Scroller} from "primeng/scroller";
+import {Sidebar} from "./sidebar/feature/sidebar/sidebar";
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, Sidebar, Scroller],
+    imports: [RouterOutlet, Sidebar],
     templateUrl: './app.html',
     styleUrl: './app.css'
 })
