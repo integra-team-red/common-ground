@@ -1,9 +1,13 @@
 package cloudflight.integra.backend.hobbyGroup;
 
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroupDto;
+import cloudflight.integra.backend.user.UserService;
+import cloudflight.integra.backend.user.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,10 +18,12 @@ import java.util.UUID;
 public class HobbyGroupController {
     private final HobbyGroupService service;
     private final HobbyGroupMapper mapper;
+    private final UserService userService;
 
-    public HobbyGroupController(HobbyGroupService service, HobbyGroupMapper mapper) {
+    public HobbyGroupController(HobbyGroupService service, HobbyGroupMapper mapper, UserService userService) {
         this.service = service;
         this.mapper = mapper;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -37,13 +43,17 @@ public class HobbyGroupController {
 
 
     @PostMapping
-    public HobbyGroupDto create(@RequestBody HobbyGroupDto groupDto) {
-        return mapper.toDto(service.create(mapper.toEntity(groupDto)));
+    public HobbyGroupDto create(@RequestBody HobbyGroupDto groupDto, @AuthenticationPrincipal UserDetails currentUser) {
+        User owner = userService.getByUsername(currentUser.getUsername());
+        return mapper.toDto(service.create(mapper.toEntity(groupDto, owner)));
     }
 
     @PutMapping("/{id}")
-    public HobbyGroupDto update(@PathVariable UUID id, @RequestBody HobbyGroupDto groupDto) {
-        return service.update(id, mapper.toEntity(groupDto)).map(mapper::toDto).orElse(null);
+    public HobbyGroupDto update(@PathVariable UUID id,
+                                @RequestBody HobbyGroupDto groupDto,
+                                @AuthenticationPrincipal UserDetails currentUser) {
+        User owner = userService.getByUsername(currentUser.getUsername());
+        return service.update(id, mapper.toEntity(groupDto, owner)).map(mapper::toDto).orElse(null);
 
     }
 
