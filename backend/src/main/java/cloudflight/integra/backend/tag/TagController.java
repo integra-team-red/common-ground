@@ -26,7 +26,7 @@ public class TagController {
 
     @GetMapping("/{id}")
     public TagDto getById(@PathVariable Long id) {
-        return this.service.getById(id).map(this.mapper::toDto).orElse(null);
+        return mapper.toDto(this.service.getById(id));
     }
 
     @GetMapping("/normalized/{label}")
@@ -44,7 +44,7 @@ public class TagController {
 
     @PutMapping("/{id}")
     public TagDto update(@PathVariable Long id, @RequestBody TagDto dto) {
-        return this.service.update(id, this.mapper.toEntity(dto)).map(this.mapper::toDto).orElse(null);
+        return mapper.toDto(this.service.update(id, this.mapper.toEntity(dto)));
     }
 
     @DeleteMapping("/{id}")

@@ -34,7 +34,7 @@ public class LocationController {
 
     @GetMapping("/{id}")
     public LocationDto getById(@PathVariable UUID id) {
-        return locationService.getById(id).map(locationMapper::toDto).orElse(null);
+        return locationMapper.toDto(locationService.getById(id));
     }
 
     @DeleteMapping("/{id}")
