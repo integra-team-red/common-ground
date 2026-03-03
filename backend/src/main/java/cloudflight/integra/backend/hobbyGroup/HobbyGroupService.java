@@ -1,10 +1,13 @@
 package cloudflight.integra.backend.hobbyGroup;
 
+
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
+
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -17,34 +20,42 @@ public class HobbyGroupService {
 
     }
 
+    @Transactional(readOnly = true)
     public Page<HobbyGroup> getAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
-    public Optional<HobbyGroup> getById(UUID id) {
-        return repository.findById(id);
+    @Transactional(readOnly = true)
+    public HobbyGroup getById(UUID id) {
+        return repository.findById(id).orElseThrow();
     }
 
+    @Transactional
     public HobbyGroup create(HobbyGroup group) {
+        group.setId(null);
         return repository.save(group);
     }
 
-    public Optional<HobbyGroup> update(UUID id, HobbyGroup group) {
-        if (repository.findById(id).isPresent()) {
-            group.setId(id);
-            return Optional.of(repository.save(group));
-        }
-        return Optional.empty();
+    @Transactional
+    public HobbyGroup update(UUID id, HobbyGroup newGroup) {
+
+        HobbyGroup oldGroup = repository.findById(id).orElseThrow();
+        oldGroup.setName(newGroup.getName());
+        oldGroup.setDescription(newGroup.getDescription());
+        oldGroup.setRadiusKm(newGroup.getRadiusKm());
+
+        return oldGroup;
     }
 
+    @Transactional
     public boolean delete(UUID id) {
         if (repository.findById(id).isPresent()) {
             repository.deleteById(id);
             return true;
-        }
-        return false;
+        } else throw new NoSuchElementException();
     }
 
+    @Transactional(readOnly = true)
     public Page<HobbyGroup> filterByName(String containedString, Pageable pageable) {
         return repository.findByNameContainingIgnoreCase(containedString, pageable);
     }
