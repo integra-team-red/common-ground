@@ -1,5 +1,6 @@
 package cloudflight.integra.backend.user;
 
+import cloudflight.integra.backend.security.LoginRequest;
 import cloudflight.integra.backend.user.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,11 +18,13 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User register(User user) {
-        if (userRepository.findByUsername(user.getUsername()) != null)
+    public User register(LoginRequest loginRequest) {
+        if (userRepository.findByUsername(loginRequest.username()) != null)
             throw new IllegalArgumentException("Username already exists");
+        User user = new User();
+        user.setUsername(loginRequest.username());
         user.setRole(Role.USER);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(loginRequest.password()));
         return userRepository.save(user);
     }
 
