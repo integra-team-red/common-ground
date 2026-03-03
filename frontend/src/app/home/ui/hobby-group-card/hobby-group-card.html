@@ -1,0 +1,26 @@
+<p-card>
+    <ng-template #title>
+        <h3>{{ cardTitle() }}</h3>
+    </ng-template>
+
+    <ng-template #content>
+        <p>{{ cardContent() }}</p>
+    </ng-template>
+
+    <ng-template #footer>
+        <div class="flex flex-row justify-between">
+            <div>
+                <p-avatar icon="pi pi-user" class="mr-2" shape="circle"/>
+                <span>Name LastName</span>
+            </div>
+            <div class="flex flex-row gap-2">
+                <p-tag severity="secondary">#hiking</p-tag>
+                <p-tag severity="secondary">#hiking</p-tag>
+            </div>
+        </div>
+        <div class="flex gap-4 mt-2 -mb-4">
+            <p-button label="Like" icon="pi pi-heart" variant="text"/>
+            <p-button label="Join" icon="pi pi-users" variant="text"/>
+        </div>
+    </ng-template>
+</p-card>
