@@ -39,7 +39,6 @@ function DropdownModule() {
         Checkbox,
         Slider,
         Select,
-        Tag,
         Tabs,
         TabList,
         Tab,

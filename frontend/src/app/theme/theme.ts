@@ -27,5 +27,10 @@ export const CommonGroundTheme = definePreset(Aura, {
                 color: '{surface.950}'
             }
         },
+        dialog: {
+            root: {
+                background: '{sand.50}'
+            }
+        }
     }
 });
