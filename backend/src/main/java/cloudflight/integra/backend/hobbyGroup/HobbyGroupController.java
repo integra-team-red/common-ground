@@ -1,11 +1,14 @@
 package cloudflight.integra.backend.hobbyGroup;
 
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroupDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 
@@ -21,13 +24,25 @@ public class HobbyGroupController {
     }
 
     @GetMapping
-    public List<Page<HobbyGroupDto>> getAll(Pageable pageable) {
-        return List.of(service.getAll(pageable).map(mapper::toDto));
+    @Operation(
+        summary = "Get all Hobby Groups",
+        operationId = "getAllHobbyGroups",
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Page.class))),
+        }
+    )
+    public Page<HobbyGroupDto> getAll(Pageable pageable) throws InterruptedException {
+        return service.getAll(pageable).map(mapper::toDto);
     }
 
     @GetMapping("/filter")
-    public List<Page<HobbyGroupDto>> filterByName(@RequestParam String name, Pageable pageable) {
-        return List.of(service.filterByName(name, pageable).map(mapper::toDto));
+    public Page<HobbyGroupDto> filterByName(@RequestParam String name, Pageable pageable) {
+        return service.filterByName(name, pageable).map(mapper::toDto);
     }
 
     @GetMapping("/{id}")
@@ -37,6 +52,18 @@ public class HobbyGroupController {
 
 
     @PostMapping
+    @Operation(
+        summary = "Add an hobbyGroup to the repository",
+        operationId = "createNewHobbyGroup",
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                description = "HobbyGroup added successfully; returns the added hobbyGroup",
+                content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = HobbyGroupDto.class))),
+        })
     public HobbyGroupDto create(@RequestBody HobbyGroupDto groupDto) {
         return mapper.toDto(service.create(mapper.toEntity(groupDto)));
     }

@@ -1,0 +1,50 @@
+<div class="flex flex-row w-full justify-between gap-8">
+    <div class="w-full">
+        <h2 class="text-4xl">Hobby Group</h2>
+        <div class="mt-4 flex flex-col gap-4">
+            @for (hobbyGroup of hobbyGroups(); track hobbyGroup.id) {
+                <app-hobby-group-card
+                    [cardTitle]="hobbyGroup.name ?? '' "
+                    [cardContent]="hobbyGroup.description ?? ''"
+                />
+            } @empty {
+                <p>No hobby groups found.</p>
+            }
+        </div>
+    </div>
+    <div class="w-full flex flex-col">
+        <div class="flex flex-row w-full gap-2 mb-3">
+            <p-button class="w-full" label="Create " severity="secondary" fluid/>
+            <p-button class="w-full" label="Create Hobby group" (click)="visible.set(true)" fluid/>
+        </div>
+        <img src="https://placehold.co/700x1000?text=Placeholder+Map"/>
+    </div>
+
+
+    <p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }" dismissableMask>
+        <span class="p-text-secondary block mb-8">Create a new Hobby Group</span>
+
+        <form #hobbyGroupForm="ngForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 w-48">
+            <div class="flex flex-col items-center gap-2">
+                <div class="flex flex-col gap-1">
+                    <input pInputText type="text" id="name" placeholder="Name" name="name" [(ngModel)]="newHobbyGroup.name"
+                           #name="ngModel" [invalid]="name.invalid && (name.touched || hobbyGroupForm.submitted)" required
+                    />
+                    @if (name.invalid && (name.touched || hobbyGroupForm.submitted)) {
+                        <p-message severity="error" size="small" variant="simple">Name is required.</p-message>
+                    }
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <input pInputText type="text" id="description" placeholder="Description" name="description" [(ngModel)]="newHobbyGroup.description"
+                           #description="ngModel" [invalid]="description.invalid && (description.touched || hobbyGroupForm.submitted)" required
+                    />
+                    @if (description.invalid && (description.touched || hobbyGroupForm.submitted)) {
+                        <p-message severity="error" size="small" variant="simple">Description is required.</p-message>
+                    }
+                </div>
+            </div>
+            <p-button label="Submit" severity="secondary" type="submit"/>
+        </form>
+    </p-dialog>
+</div>
