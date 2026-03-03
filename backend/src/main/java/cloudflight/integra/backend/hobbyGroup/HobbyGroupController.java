@@ -32,7 +32,7 @@ public class HobbyGroupController {
 
     @GetMapping("/{id}")
     public HobbyGroupDto getById(@PathVariable UUID id) {
-        return service.getById(id).map(mapper::toDto).orElse(null);
+        return mapper.toDto(service.getById(id));
     }
 
 
@@ -43,7 +43,7 @@ public class HobbyGroupController {
 
     @PutMapping("/{id}")
     public HobbyGroupDto update(@PathVariable UUID id, @RequestBody HobbyGroupDto groupDto) {
-        return service.update(id, mapper.toEntity(groupDto)).map(mapper::toDto).orElse(null);
+        return mapper.toDto(service.update(id, mapper.toEntity(groupDto)));
 
     }
 

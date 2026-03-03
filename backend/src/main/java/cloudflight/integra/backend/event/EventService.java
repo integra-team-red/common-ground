@@ -1,13 +1,13 @@
 package cloudflight.integra.backend.event;
 
 import cloudflight.integra.backend.event.model.Event;
-import cloudflight.integra.backend.exceptions.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -18,41 +18,53 @@ public class EventService {
         this.repository = repository;
     }
 
+    @Transactional(readOnly = true)
     public Page<Event> getAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
+    @Transactional(readOnly = true)
     public Page<Event> getAllByTime(LocalDateTime after, Pageable pageable) {
         return repository.findAllByStartTimeAfter(after, pageable);
     }
 
-    public Optional<Event> getById(UUID id) {
-        if (repository.findById(id).isEmpty()) {
-            throw new ObjectNotFoundException("Event not found");
-        }
-        return repository.findById(id);
+    @Transactional(readOnly = true)
+    public Event getById(UUID id) {
+        return repository.findById(id).orElseThrow();
     }
 
+    @Transactional
     public Event create(Event event) {
+        event.setId(null);
         return repository.save(event);
     }
 
-    public Optional<Event> update(UUID id, Event event) {
+    @Transactional
+    public Event update(UUID id, Event event) {
 
-        if (repository.findById(id).isPresent()) {
-            event.setId(id);
-            return Optional.of(repository.save(event));
-        } else throw new ObjectNotFoundException("Event not found");
+        Event oldEvent = repository.findById(id).orElseThrow();
+
+        oldEvent.setEndTime(event.getEndTime());
+        oldEvent.setStartTime(event.getStartTime());
+        oldEvent.setHobbyGroup(event.getHobbyGroup());
+        oldEvent.setLocation(event.getLocation());
+        oldEvent.setTitle(event.getTitle());
+
+        return oldEvent;
     }
 
-    public void delete(UUID id) {
-        repository.deleteById(id);
+    @Transactional
+    public boolean delete(UUID id) {
+        Event event = repository.findById(id).orElseThrow();
+        repository.deleteById(event.getId());
+        return true;
     }
 
+    @Transactional(readOnly = true)
     public Page<Event> getByLocationId(UUID locationId, Pageable pageable) {
         Page<Event> events = repository.findAllByLocationId(locationId, pageable);
-        if(events.isEmpty()){
-            throw new ObjectNotFoundException("There is not Event found at this location.");
+        if (events.isEmpty()) {
+            throw new NoSuchElementException("There is not Event found at this location.");
         }
         return events;
     }

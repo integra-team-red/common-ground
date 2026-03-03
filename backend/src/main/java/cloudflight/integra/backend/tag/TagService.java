@@ -4,8 +4,8 @@ import cloudflight.integra.backend.tag.model.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
 @Service
 public class TagService {
@@ -15,10 +15,13 @@ public class TagService {
         this.repository = repository;
     }
 
+    @Transactional(readOnly = true)
     public Page<Tag> getAll(Pageable pageable) { return this.repository.findAll(pageable); }
 
-    public Optional<Tag> getById(Long id) { return this.repository.findById(id); }
+    @Transactional(readOnly = true)
+    public Tag getById(Long id) { return this.repository.findById(id).orElseThrow(); }
 
+    @Transactional(readOnly = true)
     public Page<Tag> getByNormalizedLabel(String normalizedLabel, Pageable pageable) {
         return this.repository.findByNormalizedLabel(normalizedLabel, pageable);
     }
@@ -27,23 +30,25 @@ public class TagService {
         return label.trim().toLowerCase();
     }
 
+    @Transactional
     public Tag create(Tag tag) {
         tag.setNormalizedLabel(this.generateNormalizedLabel(tag.getLabel()));
         return this.repository.save(tag);
     }
 
-    public Optional<Tag> update(Long id, Tag newTag) {
-        if (this.repository.findById(id).isPresent()) {
-            newTag.setId(id);
-            newTag.setNormalizedLabel(this.generateNormalizedLabel(newTag.getLabel()));
+    @Transactional
+    public Tag update(Long id, Tag newTag) {
+        Tag oldTag = repository.findById(id).orElseThrow();
 
-            return Optional.of(this.repository.save(newTag));
-        }
-
-        return Optional.empty();
+        oldTag.setLabel(newTag.getLabel());
+        oldTag.setNormalizedLabel(newTag.getNormalizedLabel());
+        return oldTag;
     }
 
-    public void delete(Long id) {
-        this.repository.deleteById(id);
+    @Transactional
+    public boolean delete(Long id) {
+        Tag tag = repository.findById(id).orElseThrow();
+        this.repository.deleteById(tag.getId());
+        return true;
     }
 }
