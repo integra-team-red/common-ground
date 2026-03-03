@@ -2,7 +2,12 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.5.4'
     id 'io.spring.dependency-management' version '1.1.7'
+    id "org.openapi.generator" version "7.15.0"
 }
+
+def frontendPath = "$projectDir/../frontend"
+def backendStaticPath = "$projectDir/src/main/resources/static"
+def frontendDistPath = "$frontendPath/dist"
 
 group = 'cloudflight.integra'
 version = '0.0.1-SNAPSHOT'
@@ -21,6 +26,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'com.tngtech.archunit:archunit-junit5:1.4.1'
@@ -39,6 +45,51 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+}
+
+
+openApiGenerate {
+    generatorName = "typescript-angular"
+    inputSpec = "${projectDir}/openapi.yaml"
+    outputDir = "$frontendPath/typescript-client"
+    apiPackage = "api"
+    modelPackage = "model"
+}
+
+tasks.register('generateOpenApiDocs', Test) {
+    dependsOn testClasses
+    useJUnitPlatform()
+
+    filter {
+        includeTestsMatching 'cloudflight.integra.backend.OpenApiExportTest'
+    }
+
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+
+    outputs.upToDateWhen { false }
+
+    doFirst {
+        println "========================================"
+        println "OPENAPI DOCS: Running OpenApiExportTest"
+        println "========================================"
+    }
+
+    doLast {
+        def openapiFile = file("${projectDir}/openapi.yaml")
+        if (openapiFile.exists()) {
+            println "OPENAPI DOCS: openapi.yaml generated successfully"
+            println "  Location: ${projectDir}/openapi.yaml"
+            println "  Size: ${openapiFile.length()} bytes"
+        } else {
+            println "WARNING: openapi.yaml was NOT generated!"
+        }
+        println "========================================\n"
+    }
+}
+
+tasks.named('openApiGenerate') {
+    dependsOn tasks.named('generateOpenApiDocs')
 }
 
 test {

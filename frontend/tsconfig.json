@@ -13,7 +13,12 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve"
+    "module": "preserve",
+      "paths": {
+          "@app/api/*": [
+              "./typescript-client/*"
+          ]
+      }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

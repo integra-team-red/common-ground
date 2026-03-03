@@ -1,15 +1,12 @@
 import {Routes} from '@angular/router';
-import {HomePage} from './home/feature/home-page/home-page';
 import {ThemeShowcaseComponent} from "./theme/feature/theme-showcase/theme-showcase";
+import {Home} from "./home/feature/home";
 
 export const routes: Routes = [
     {
         path: '',
         title: "Home",
-        component: HomePage,
-        data: {
-            icon: "pi-house"
-        }
+        component: Home
     },
     {
         path: 'theme',
