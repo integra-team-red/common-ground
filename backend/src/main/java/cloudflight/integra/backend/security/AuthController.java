@@ -2,7 +2,6 @@ package cloudflight.integra.backend.security;
 
 import cloudflight.integra.backend.user.CustomUserDetails;
 import cloudflight.integra.backend.user.UserService;
-import cloudflight.integra.backend.user.model.User;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +29,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<HttpStatus> login(@RequestBody User user) {
+    public ResponseEntity<HttpStatus> login(@RequestBody LoginRequest loginRequest) {
         try{
             Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));
 
             CustomUserDetails authenticatedUser = (CustomUserDetails) authentication.getPrincipal();
 
@@ -45,8 +44,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<HttpStatus> register(@RequestBody User user) {
-        userService.register(user);
+    public ResponseEntity<HttpStatus> register(@RequestBody LoginRequest loginRequest) {
+        userService.register(loginRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

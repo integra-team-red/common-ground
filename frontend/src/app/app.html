@@ -1,13 +1,15 @@
-<div class="min-h-screen flex flex-col justify-between">
-  <header>
-    <h1>My Application</h1>
-  </header>
+<div class="lg:hidden flex items-center bg-primary text-white">
+    <app-sidebar/>
+</div>
 
-  <main class="m-4 flex-grow">
-    <router-outlet/>
-  </main>
+<div class="min-h-screen flex flex-col lg:flex-row overflow-hidden">
+    <header class="hidden lg:block w-80 h-screen sticky top-0">
+        <app-sidebar/>
+    </header>
 
-  <footer class="text-center text-xs">
-    <app-about/>
-  </footer>
+    <main class="flex-1">
+        <div class="h-screen overflow-y-auto p-4 lg:p-8">
+            <router-outlet/>
+        </div>
+    </main>
 </div>
