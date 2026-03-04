@@ -49,8 +49,7 @@ public class EventController {
 
     @GetMapping("/{id}")
     public EventDto getById(@PathVariable UUID id) {
-        return service.getById(id)
-            .map(mapper::toDto).orElse(null);
+        return mapper.toDto(service.getById(id));
     }
 
     @GetMapping("/location/{locationId}")
@@ -60,16 +59,16 @@ public class EventController {
 
     @PostMapping
     public EventDto create(@RequestBody EventDto dto) {
-        Location location = locationService.getById(dto.locationId()).orElseThrow();
-        HobbyGroup hobbyGroupById = hobbyGroupService.getById(dto.hobbyGroupId()).orElseThrow();
+        Location location = locationService.getById(dto.locationId());
+        HobbyGroup hobbyGroupById = hobbyGroupService.getById(dto.hobbyGroupId());
         return mapper.toDto(service.create(mapper.toEntity(dto, location, hobbyGroupById)));
     }
 
     @PutMapping("/{id}")
     public EventDto update(@PathVariable UUID id, @RequestBody EventDto dto) {
-        HobbyGroup hobbyGroupById = hobbyGroupService.getById(dto.hobbyGroupId()).orElseThrow();
-        Location location = locationService.getById(dto.locationId()).orElseThrow();
-        return service.update(id, mapper.toEntity(dto, location, hobbyGroupById)).map(mapper::toDto).orElse(null);
+        HobbyGroup hobbyGroupById = hobbyGroupService.getById(dto.hobbyGroupId());
+        Location location = locationService.getById(dto.locationId());
+        return mapper.toDto(service.update(id, mapper.toEntity(dto, location, hobbyGroupById)));
     }
 
     @DeleteMapping("/{id}")

@@ -30,7 +30,7 @@ public class SystemFeedbackController {
 
     @GetMapping("/{id}")
     public SystemFeedbackDTO getById(@PathVariable UUID id) {
-        return service.getById(id).map(mapper::toDto).orElse(null);
+        return mapper.toDto(service.getById(id));
     }
 
     @PostMapping
@@ -40,7 +40,7 @@ public class SystemFeedbackController {
 
     @PutMapping("/{id}")
     public SystemFeedbackDTO update(@PathVariable UUID id, @RequestBody SystemFeedbackDTO dto) {
-        return service.update(id, mapper.toEntity(dto)).map(mapper::toDto).orElse(null);
+        return mapper.toDto(service.update(id, mapper.toEntity(dto)));
     }
 
     @DeleteMapping("/{id}")
