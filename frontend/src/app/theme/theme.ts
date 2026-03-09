@@ -36,6 +36,11 @@ export const CommonGroundTheme = definePreset(Aura, {
             panel: {
                 background: '{surface.50}'
             }
+        },
+        multiselect: {
+            overlay: {
+                background: '{surface.50}'
+            }
         }
     }
 });

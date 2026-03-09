@@ -52,7 +52,7 @@ public class TagController {
                     mediaType = "application/json",
                     schema = @Schema(implementation = TagDto.class)
                 )
-        )}
+            )}
     )
     public TagDto getById(@PathVariable Long id) {
         return mapper.toDto(this.service.getById(id));
