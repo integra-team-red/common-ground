@@ -2,10 +2,15 @@ package cloudflight.integra.backend.hobbyGroup;
 
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroupDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import cloudflight.integra.backend.tag.TagService;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.UUID;
 
@@ -23,6 +28,18 @@ public class HobbyGroupController {
         this.mapper = mapper;
     }
 
+    @Operation(
+        summary = "Get all Hobby Groups",
+        operationId = "getAllHobbyGroups",
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Page.class))),
+        })
+
     @GetMapping
     public Page<HobbyGroupDto> getAll(Pageable pageable) {
         return hobbyGroupService.getAll(pageable)
@@ -30,12 +47,34 @@ public class HobbyGroupController {
     }
 
     @GetMapping("/filter")
+    @Operation(
+        summary = "Get all Hobby Groups for which the title contain a given string",
+        operationId = "filterAllHobbyGroupsByName",
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Page.class))),
+        })
     public Page<HobbyGroupDto> filterByName(@RequestParam String name, Pageable pageable) {
         return hobbyGroupService.filterByName(name, pageable)
             .map(group -> mapper.toDto(group, tagService.getIdsFromTags(group.getTags())));
     }
 
     @GetMapping("/{id}")
+    @Operation(
+        summary = "Get a single Hobby Group by its ID",
+        operationId = "getHobbyGroup",
+        responses = {
+            @ApiResponse(responseCode = "200",
+                description = "Found the group",
+                content = @Content(
+                    schema = @Schema(implementation = HobbyGroupDto.class))),
+            @ApiResponse(responseCode = "404", description = "Hobby Group not found")
+        }
+    )
     public HobbyGroupDto getById(@PathVariable UUID id) {
         HobbyGroup group = hobbyGroupService.getById(id);
         return mapper.toDto(group, tagService.getIdsFromTags(group.getTags()));
@@ -43,6 +82,18 @@ public class HobbyGroupController {
 
 
     @PostMapping
+    @Operation(
+        summary = "Add an hobbyGroup to the repository",
+        operationId = "createNewHobbyGroup",
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                description = "HobbyGroup added successfully; returns the added hobbyGroup",
+                content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = HobbyGroupDto.class))),
+        })
     public HobbyGroupDto create(@RequestBody HobbyGroupDto groupDto) {
         HobbyGroup createHobbyGroup = hobbyGroupService.create(mapper.toEntity(
             groupDto,
@@ -52,6 +103,20 @@ public class HobbyGroupController {
     }
 
     @PutMapping("/{id}")
+    @Operation(
+        summary = "Update an existing Hobby Group",
+        operationId = "updateHobbyGroup",
+        responses = {
+            @ApiResponse(responseCode = "200",
+                description = "Group updated successfully",
+                content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = HobbyGroupDto.class))),
+            @ApiResponse(responseCode = "404",
+                description = "Group not found")
+        })
+
     public HobbyGroupDto update(@PathVariable UUID id, @RequestBody HobbyGroupDto groupDto) {
         HobbyGroup updateHobbyGroup = hobbyGroupService.update(id, mapper.toEntity(
             groupDto,
@@ -61,6 +126,14 @@ public class HobbyGroupController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(
+        summary = "Delete a Hobby Group by ID",
+        operationId = "deleteHobbyGroup",
+        responses = {
+            @ApiResponse(responseCode = "204", description = "Group deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Group not found")
+        }
+    )
     public void delete(@PathVariable UUID id) {
         hobbyGroupService.delete(id);
     }
