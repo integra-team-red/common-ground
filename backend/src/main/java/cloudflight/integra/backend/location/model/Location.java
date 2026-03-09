@@ -13,13 +13,13 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
 
     public Location() {
     }
 
-    public Location(UUID id, String name, double latitude, double longitude) {
+    public Location(UUID id, String name, Double latitude, Double longitude) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -44,7 +44,7 @@ public class Location {
         return this;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
@@ -53,7 +53,7 @@ public class Location {
         return this;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 

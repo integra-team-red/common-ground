@@ -31,7 +31,7 @@ public class LocationService {
         return repository.save(location);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public boolean delete(UUID id) {
         Location location = repository.findById(id).orElseThrow();
         repository.deleteById(location.getId());

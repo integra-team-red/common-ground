@@ -1,0 +1,22 @@
+<div class="flex flex-col">
+    <div class="flex flex-row justify-between mb-10">
+        <h2 class="font-bold text-3xl">Admin: Locations View</h2>
+        <div class="flex flex-row gap-4">
+            <app-search-bar (search)="onSearch($event)"></app-search-bar>
+            <p-button label="Create New Location" (onClick)="openCreateDialog()"/>
+        </div>
+    </div>
+    <app-locations-table
+        [locations]="locations()"
+        [totalRecords]="totalElements()"
+        [rows]="rows()"
+        (pageChange)="onPageChange($event)"
+        (delete)="openDeleteDialog($event)"/>
+</div>
+
+<app-create-edit-location-dialog [(visible)]="openCreateDialogVisible" [locationDto]="selectedLocation()"
+                                 (saved)="handleCreateDialogSubmit($event)"/>
+<app-delete-location-dialog [(visible)]="openDeleteDialogVisible" [locationDto]="selectedLocation()"
+                            (confirmed)="handleDeleteDialogSubmit($event)"/>
+
+<p-toast/>

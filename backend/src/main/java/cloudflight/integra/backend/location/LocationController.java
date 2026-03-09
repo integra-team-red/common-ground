@@ -2,9 +2,12 @@ package cloudflight.integra.backend.location;
 
 import cloudflight.integra.backend.location.model.Location;
 import cloudflight.integra.backend.location.model.LocationDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -21,15 +24,41 @@ public class LocationController {
     }
 
     @GetMapping("/search/{name}")
-    public ResponseEntity<Page<LocationDto>> getByName(@PathVariable("name") String name, Pageable pageable) {
-        Page<LocationDto> locations = locationService.getByName(name, pageable).map(locationMapper::toDto);
-        return ResponseEntity.ok(locations);
+    @Operation(
+        operationId = "getByName",
+        summary = "Search locations by name",
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                description = "Returns paged list of searched locations",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Page.class)
+                )
+            )
+        }
+    )
+    public Page<LocationDto> getByName(@PathVariable("name") String name, Pageable pageable) {
+        return locationService.getByName(name, pageable).map(locationMapper::toDto);
     }
 
     @GetMapping
-    public ResponseEntity<Page<LocationDto>> getAll(Pageable pageable) {
-        Page<LocationDto> locations = locationService.getAll(pageable).map(locationMapper::toDto);
-        return ResponseEntity.ok(locations);
+    @Operation(
+        operationId = "getLocations",
+        summary = "Get all locations",
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                description = "Returns paged list of locations",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Page.class)
+                )
+            )
+        }
+    )
+    public Page<LocationDto> getAll(Pageable pageable) {
+        return locationService.getAll(pageable).map(locationMapper::toDto);
     }
 
     @GetMapping("/{id}")
@@ -38,11 +67,33 @@ public class LocationController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(
+        summary = "Delete a Location",
+        operationId = "deleteLocation",
+        responses = {
+            @ApiResponse(
+                responseCode = "200"
+            )
+        }
+    )
     public void delete(@PathVariable UUID id) {
         locationService.delete(id);
     }
 
+
     @PostMapping
+    @Operation(
+        summary = "Create a Location",
+        operationId = "createLocation",
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                content =
+                @Content(mediaType = "application/json", schema = @Schema(implementation = LocationDto.class)
+                )
+            )
+        }
+    )
     public LocationDto create(@RequestBody LocationDto locationDto) {
         Location entity = locationMapper.toEntity(locationDto);
         Location location = locationService.create(entity);
