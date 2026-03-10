@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.net.http.HttpHeaders;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -51,7 +52,7 @@ public class EventService {
 
     public Page<Event> getByLocationId(UUID locationId, Pageable pageable) {
         Page<Event> events = repository.findAllByLocationId(locationId, pageable);
-        if(events.isEmpty()){
+        if (events.isEmpty()) {
             throw new ObjectNotFoundException("There is not Event found at this location.");
         }
         return events;

@@ -15,9 +15,13 @@ public class TagService {
         this.repository = repository;
     }
 
-    public Page<Tag> getAll(Pageable pageable) { return this.repository.findAll(pageable); }
+    public Page<Tag> getAll(Pageable pageable) {
+        return this.repository.findAll(pageable);
+    }
 
-    public Optional<Tag> getById(Long id) { return this.repository.findById(id); }
+    public Optional<Tag> getById(Long id) {
+        return this.repository.findById(id);
+    }
 
     public Page<Tag> getByNormalizedLabel(String normalizedLabel, Pageable pageable) {
         return this.repository.findByNormalizedLabel(normalizedLabel, pageable);
