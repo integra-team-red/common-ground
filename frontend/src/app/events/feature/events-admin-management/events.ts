@@ -31,12 +31,16 @@ import {MessageService} from "primeng/api";
 })
 export class Events implements OnInit {
     eventService = inject(EventControllerService);
+
     events = signal<EventDto[]>([])
+
+    rows = signal<number>(10);
+    totalRecords = signal<number>(0);
     pageNumber = signal<number>(0);
+
     searchQuery = signal<string>('');
 
     ngOnInit() {
-        this.getEvents()
     }
 
     getEvents() {
@@ -48,17 +52,17 @@ export class Events implements OnInit {
         })
     }
 
-    protected fetchEventsLazily($event: TableLazyLoadEvent) {
-        this.pageNumber.set(this.pageNumber() + 1);
+    loadEventsLazy(event: TableLazyLoadEvent) {
+        const page = Math.floor((event.first ?? 0) / (event.rows ?? this.rows()));
+        const size = event.rows ?? this.rows();
+
         this.eventService.getAllEvents({
-            size: 3,
-            page: this.pageNumber()
+            page,
+            size
         }).subscribe((response: PageEventDto) => {
-            const oldEvents = this.events();
-            const newEvents = response.content ?? [];
-            const allEvents = oldEvents.concat(newEvents);
-            this.events.set(allEvents);
-        })
+            this.events.set(response.content ?? []);
+            this.totalRecords.set(response.totalElements ?? 0);
+        });
     }
 
     filteredEvents = computed(() => {

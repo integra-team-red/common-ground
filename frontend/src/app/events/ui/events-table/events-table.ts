@@ -19,6 +19,9 @@ import {DeleteEvent} from "../delete-event/delete-event";
 })
 export class EventsTable {
     events = input<EventDto[]>([]);
+    rows = input<number>(0);
+    totalRecords = input<number>(0);
+
     refresh = output<void>();
     lazyEvent = output<TableLazyLoadEvent>();
 

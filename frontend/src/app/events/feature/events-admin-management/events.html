@@ -20,7 +20,9 @@
     <div class="w-full overflow-x-auto">
         <app-events-table
                 [events]="filteredEvents()"
-                (refresh)="getEvents()" (lazyEvent)="fetchEventsLazily($event)">
+                [rows]="rows()"
+                [totalRecords]="totalRecords()"
+                (refresh)="getEvents()" (lazyEvent)="loadEventsLazy($event)">
         </app-events-table>
     </div>
 </div>

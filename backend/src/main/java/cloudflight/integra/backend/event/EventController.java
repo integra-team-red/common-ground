@@ -47,10 +47,8 @@ public class EventController {
         responses = {
             @ApiResponse(
                 responseCode = "200",
-                content =
-                @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = Page.class))),
+                content = @Content(mediaType = "application/json")
+            ),
         }
     )
     public Page<EventDto> getAll(

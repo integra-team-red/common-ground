@@ -1,8 +1,6 @@
-<!--<p-table [columns]="cols" [value]="virtualEvents" [scrollable]="true" scrollHeight="400px"-->
-<!--         [rows]="100" [virtualScroll]="true" [virtualScrollItemSize]="46" [lazy]="true"-->
-<!--         (onLazyLoad)="loadCarsLazy($event)">-->
-<p-table [value]="events()" [tableStyle]="{ 'min-width': '50rem' }" [scrollable]="true" scrollHeight="200px"
-         [lazy]="true" [virtualScroll]="true" (onLazyLoad)="loadEventsLazy($event)">
+<p-table [value]="events()" [tableStyle]="{ 'min-width': '50rem' }" [scrollable]="true" [lazy]="true"
+         (onLazyLoad)="loadEventsLazy($event)" [paginator]="true" [rows]="rows()" [totalRecords]="totalRecords()"
+         [showCurrentPageReport]="true">
     <ng-template pTemplate="header">
         <tr>
             <th>Id</th>
