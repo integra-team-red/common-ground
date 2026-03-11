@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {IconField} from "primeng/iconfield";
 import {InputIcon} from "primeng/inputicon";
 import {InputText} from "primeng/inputtext";
@@ -33,6 +33,7 @@ export class Events implements OnInit {
     eventService = inject(EventControllerService);
     events = signal<EventDto[]>([])
     pageNumber = signal<number>(0);
+    searchQuery = signal<string>('');
 
     ngOnInit() {
         this.getEvents()
@@ -59,4 +60,13 @@ export class Events implements OnInit {
             this.events.set(allEvents);
         })
     }
+
+    filteredEvents = computed(() => {
+        const query = this.searchQuery().toLowerCase().trim();
+        const allEvents = this.events();
+        if (!query) return allEvents;
+        return allEvents.filter(event =>
+            event.title?.toLowerCase().includes(query)
+        );
+    })
 }

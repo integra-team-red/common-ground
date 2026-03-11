@@ -8,7 +8,8 @@
             <div class="grow max-w-md">
                 <p-iconfield class="w-full">
                     <p-inputicon class="pi pi-search"/>
-                    <input type="text" pInputText placeholder="Search Events..." class="w-full"/>
+                    <input type="text" pInputText placeholder="Search Events..." class="w-full"
+                           [(ngModel)]="searchQuery"/>
                 </p-iconfield>
             </div>
             <div>
@@ -18,7 +19,7 @@
     </div>
     <div class="w-full overflow-x-auto">
         <app-events-table
-                [events]="events()"
+                [events]="filteredEvents()"
                 (refresh)="getEvents()" (lazyEvent)="fetchEventsLazily($event)">
         </app-events-table>
     </div>
