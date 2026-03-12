@@ -1,0 +1,20 @@
+<p-dialog header="Update tag" [modal]="true" [visible]="visible()" [style]="{ width: '25rem' }" (onHide)="onHide()">
+    <form #tagForm="ngForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4" >
+        <div class="flex flex-col gap-1">
+            <label for="label">Label</label>
+            <input pInputText
+                   type="text"
+                   id="label"
+                   name="tagLabel"
+                   [(ngModel)]="updateTag().label"
+                   autocomplete="off"
+                   #tagLabel="ngModel"
+                   [invalid]="tagLabel.invalid && (tagLabel.touched || tagForm.submitted)"
+                   required/>
+            @if (tagLabel.invalid && (tagLabel.touched || tagForm.submitted)) {
+                <p-message severity="error" size="small" variant="simple">Label is required</p-message>
+            }
+        </div>
+        <p-button label="Submit" severity="secondary" type="submit" [disabled]="tagForm.invalid"/>
+    </form>
+</p-dialog>
