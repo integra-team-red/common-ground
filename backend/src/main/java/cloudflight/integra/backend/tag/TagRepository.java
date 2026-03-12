@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Long> {
-    Page<Tag> findByNormalizedLabel(String normalizedLabel, Pageable pageable);
+    Page<Tag> findByNormalizedLabelContainingIgnoreCase(String value, Pageable pageable);
 }

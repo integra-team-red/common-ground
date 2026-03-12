@@ -22,9 +22,10 @@ public class TagService {
     @Transactional(readOnly = true)
     public Tag getById(Long id) { return this.repository.findById(id).orElseThrow(); }
 
+
     @Transactional(readOnly = true)
-    public Page<Tag> getByNormalizedLabel(String normalizedLabel, Pageable pageable) {
-        return this.repository.findByNormalizedLabel(normalizedLabel, pageable);
+    public Page<Tag> filterNormalizedLabel(String value, Pageable pageable) {
+        return this.repository.findByNormalizedLabelContainingIgnoreCase(value, pageable);
     }
 
     public List<Long> getIdsFromTags(List<Tag> tags) {
