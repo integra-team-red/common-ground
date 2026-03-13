@@ -1,7 +1,10 @@
 package cloudflight.integra.backend.hobbyGroup.model;
 
+import cloudflight.integra.backend.user.model.User;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -13,11 +16,24 @@ public class HobbyGroup {
     private String description;
     private double radiusKm;
 
-    public HobbyGroup(UUID id, String name, String description, double radiusKm) {
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
+    @ManyToMany
+    @JoinTable(
+        name = "group_members",
+        joinColumns = @JoinColumn(name = "hobby_group_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private final Set<User> members = new HashSet<>();
+
+    public HobbyGroup(UUID id, String name, String description, double radiusKm, User owner) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.radiusKm = radiusKm;
+        this.owner = owner;
     }
 
     public HobbyGroup() {
@@ -55,4 +71,14 @@ public class HobbyGroup {
     public void setRadiusKm(double radiusKm) {
         this.radiusKm = radiusKm;
     }
+
+    public Set<User> getMembers() {
+        return members;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+
 }

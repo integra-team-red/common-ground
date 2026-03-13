@@ -32,4 +32,9 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return new CustomUserDetails(userRepository.findByUsername(username));
     }
+
+    public User getByUsername(String username)
+    {
+        return userRepository.findByUsername(username);
+    }
 }
