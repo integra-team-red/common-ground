@@ -13,8 +13,10 @@ import {UserDetailsService} from "../../../services/UserDetailsService/user-deta
 })
 export class Sidebar {
     private router = inject(Router);
-    userDetailsService = inject(UserDetailsService);
+    private userDetailsService = inject(UserDetailsService);
     visible: boolean = false;
+
+    user = this.userDetailsService.getCurrentUser;
 
     public navRoutes = this.router.config
         .filter(route => route.path !== '**' && route.title)
@@ -23,12 +25,13 @@ export class Sidebar {
             title: route.title,
             icon: route.data?.["icon"],
             isAdmin: route.data?.["isAdmin"] === true,
+            isProfile: route.data?.["isProfile"] === true,
         }));
     public generalRoutes = this.navRoutes
-        .filter(r => !r.isAdmin);
+        .filter(r => !r.isAdmin && !r.isProfile);
     public adminRoutes = computed(() => {
         return this.userDetailsService.isAdmin()
-            ? this.navRoutes.filter(r => r.isAdmin)
+            ? this.navRoutes.filter(r => r.isAdmin && !r.isProfile)
             : [];
     });
 }
