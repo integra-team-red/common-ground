@@ -15,7 +15,7 @@ public class EventMapper {
             event.getStartTime(),
             event.getEndTime(),
             event.getLocation().getId(),
-            event.getHobbyGroup().getId());
+            event.getLocation().getId());
     }
 
     public Event toEntity(EventDto dto, Location location, HobbyGroup hobbyGroup) {

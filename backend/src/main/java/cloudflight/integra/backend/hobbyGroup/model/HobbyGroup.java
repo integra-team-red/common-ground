@@ -1,9 +1,10 @@
 package cloudflight.integra.backend.hobbyGroup.model;
 
-import cloudflight.integra.backend.tag.model.Tag;
+import cloudflight.integra.backend.user.model.User;
 import jakarta.persistence.*;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -15,20 +16,24 @@ public class HobbyGroup {
     private String description;
     private double radiusKm;
 
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
     @ManyToMany
     @JoinTable(
-        name = "Group_Tags",
-        joinColumns = { @JoinColumn(name = "hobby_group_id") },
-        inverseJoinColumns = { @JoinColumn(name = "tag_id") }
+        name = "group_members",
+        joinColumns = @JoinColumn(name = "hobby_group_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<Tag> tags;
+    private final Set<User> members = new HashSet<>();
 
-    public HobbyGroup(UUID id, String name, String description, double radiusKm, List<Tag> tags) {
+    public HobbyGroup(UUID id, String name, String description, double radiusKm, User owner) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.radiusKm = radiusKm;
-        this.tags = tags;
+        this.owner = owner;
     }
 
     public HobbyGroup() {
@@ -51,10 +56,6 @@ public class HobbyGroup {
         return radiusKm;
     }
 
-    public List<Tag> getTags() {
-        return tags;
-    }
-
     public void setId(UUID id) {
         this.id = id;
     }
@@ -71,7 +72,13 @@ public class HobbyGroup {
         this.radiusKm = radiusKm;
     }
 
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
+    public Set<User> getMembers() {
+        return members;
     }
+
+    public User getOwner() {
+        return owner;
+    }
+
+
 }

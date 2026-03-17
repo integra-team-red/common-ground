@@ -68,12 +68,4 @@ public class EventService {
         }
         return events;
     }
-    @Transactional(readOnly = true)
-    public Page<Event> getByEventTitle(String eventTitle, Pageable pageable) {
-        Page<Event> events = repository.findAllByTitleContainingIgnoreCase(eventTitle, pageable);
-        if (events.isEmpty()) {
-            throw new NoSuchElementException("There is not Event found at this title.");
-        }
-        return events;
-    }
 }

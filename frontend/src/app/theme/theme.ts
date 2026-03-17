@@ -31,11 +31,6 @@ export const CommonGroundTheme = definePreset(Aura, {
             root: {
                 background: '{sand.50}'
             }
-        },
-        datepicker: {
-            panel: {
-                background: '{surface.50}'
-            }
         }
     }
 });

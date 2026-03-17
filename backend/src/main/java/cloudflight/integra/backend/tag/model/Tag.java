@@ -18,13 +18,11 @@ public class Tag {
         this.normalizedLabel = normalizedLabel;
     }
 
-    public Tag() {
-    }
+    public Tag() { }
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -32,7 +30,6 @@ public class Tag {
     public String getLabel() {
         return label;
     }
-
     public void setLabel(String label) {
         this.label = label;
     }
@@ -40,7 +37,6 @@ public class Tag {
     public String getNormalizedLabel() {
         return normalizedLabel;
     }
-
     public void setNormalizedLabel(String normalizedLabel) {
         this.normalizedLabel = normalizedLabel;
     }

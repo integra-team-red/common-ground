@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Service
 public class TagService {
@@ -27,14 +26,6 @@ public class TagService {
         return this.repository.findByNormalizedLabel(normalizedLabel, pageable);
     }
 
-    public List<Long> getIdsFromTags(List<Tag> tags) {
-        return tags.stream().map(Tag::getId).toList();
-    }
-
-    public List<Tag> getTagsFromIds(List<Long> tagIds) {
-        return tagIds.stream().map(repository::getReferenceById).toList();
-    }
-
     private String generateNormalizedLabel(String label) {
         return label.trim().toLowerCase();
     }
@@ -50,7 +41,7 @@ public class TagService {
         Tag oldTag = repository.findById(id).orElseThrow();
 
         oldTag.setLabel(newTag.getLabel());
-        oldTag.setNormalizedLabel(this.generateNormalizedLabel(newTag.getLabel()));
+        oldTag.setNormalizedLabel(newTag.getNormalizedLabel());
         return oldTag;
     }
 
