@@ -1,12 +1,12 @@
-<div class="lg:hidden p-4 ">
-    <p-button icon="pi pi-bars" (click)="visible = true" severity="secondary" [text]="true"/>
+<div class="lg:hidden p-4">
+    <p-button icon="pi pi-bars" (click)="visible = true" severity="secondary" [text]="true" />
 </div>
 
 <aside class="hidden lg:block h-full w-72">
     <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
 </aside>
 
-<p-drawer [(visible)]="visible" [style]="{'background': '#F06D58', 'border': 'none', 'width': '300px'}">
+<p-drawer [(visible)]="visible" [style]="{ background: '#F06D58', border: 'none', width: '300px' }">
     <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
 </p-drawer>
 
@@ -17,12 +17,13 @@
 
             <div class="flex flex-col w-full text-2xl gap-2">
                 @for (route of navRoutes; track route.path) {
-                    <a (click)="visible = false"
-                       [routerLinkActiveOptions]="{ exact: true }"
-                       [routerLink]="route.path"
-                       class="p-3 rounded transition-all
-                        duration-300 hover:bg-primary-400 hover:pl-6 no-underline text-white"
-                       routerLinkActive="font-bold"
+                    <a
+                        (click)="visible = false"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        [routerLink]="route.path"
+                        class="p-3
+                        rounded transition-all duration-300 hover:bg-primary-400 hover:pl-6 no-underline text-white"
+                        routerLinkActive="font-bold"
                     >
                         <span class="flex items-center gap-3">
                             <i [class]="'pi ' + route.icon"></i>

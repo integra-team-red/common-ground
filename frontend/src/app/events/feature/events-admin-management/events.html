@@ -6,10 +6,15 @@
         <div class="flex flex-row grow justify-end gap-2">
             <div class="grow max-w-md">
                 <p-iconfield class="w-full">
-                    <p-inputicon class="pi pi-search"/>
-                    <input type="text" pInputText placeholder="Search Events..." class="w-full"
-                           [ngModel]="searchQuery()"
-                           (ngModelChange)="searchQuery.set($event); onSearch()"/>
+                    <p-inputicon class="pi pi-search" />
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Search Events..."
+                        class="w-full"
+                        [ngModel]="searchQuery()"
+                        (ngModelChange)="searchQuery.set($event); onSearch()"
+                    />
                 </p-iconfield>
             </div>
             <div>
@@ -19,10 +24,12 @@
     </div>
     <div class="w-full overflow-x-auto">
         <app-events-table
-                [events]="events()"
-                [rows]="rows()"
-                [totalRecords]="totalRecords()"
-                (refresh)="getEvents()" (lazyEvent)="loadEventsLazy($event)">
+            [events]="events()"
+            [rows]="rows()"
+            [totalRecords]="totalRecords()"
+            (refresh)="getEvents()"
+            (lazyEvent)="loadEventsLazy($event)"
+        >
         </app-events-table>
     </div>
 </div>

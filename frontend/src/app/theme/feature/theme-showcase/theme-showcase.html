@@ -1,11 +1,11 @@
 <div class="surface-ground p-4 min-h-screen">
     <div class="container mx-auto">
-
         <!-- Header -->
         <div class="mb-6">
             <h1 class="text-4xl font-bold mb-2 text-color">Theme Showcase</h1>
-            <p class="text-lg text-color-secondary">Testing your custom PrimeNG theme with Coral, Sky, Electric,
-                and Coffee colors</p>
+            <p class="text-lg text-color-secondary">
+                Testing your custom PrimeNG theme with Coral, Sky, Electric, and Coffee colors
+            </p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-8">
@@ -17,7 +17,6 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
             <!-- Left Column -->
             <div>
                 <!-- Buttons -->
@@ -47,11 +46,16 @@
                         <!-- Input Fields -->
                         <div>
                             <label for="username" class="block mb-2 text-color">Username</label>
-                            <input pInputText id="username" class="w-full mb-4" placeholder="Enter username"/>
+                            <input pInputText id="username" class="w-full mb-4" placeholder="Enter username" />
 
                             <label for="password" class="block mb-2 text-color">Password</label>
-                            <input pInputText id="password" type="password" class="w-full"
-                                   placeholder="Enter password"/>
+                            <input
+                                pInputText
+                                id="password"
+                                type="password"
+                                class="w-full"
+                                placeholder="Enter password"
+                            />
                         </div>
 
                         <!-- Checkboxes & Radio -->
@@ -62,14 +66,20 @@
                             </div>
 
                             <div class="field-radiobutton mb-3">
-                                <p-radioButton [(ngModel)]="radioValue" value="option1"
-                                               inputId="option1"></p-radioButton>
+                                <p-radioButton
+                                    [(ngModel)]="radioValue"
+                                    value="option1"
+                                    inputId="option1"
+                                ></p-radioButton>
                                 <label for="option1" class="ml-2 text-color">Option 1</label>
                             </div>
 
                             <div class="field-radiobutton">
-                                <p-radioButton [(ngModel)]="radioValue" value="option2"
-                                               inputId="option2"></p-radioButton>
+                                <p-radioButton
+                                    [(ngModel)]="radioValue"
+                                    value="option2"
+                                    inputId="option2"
+                                ></p-radioButton>
                                 <label for="option2" class="ml-2 text-color">Option 2</label>
                             </div>
                         </div>
@@ -78,8 +88,13 @@
                     <!-- Dropdown -->
                     <div class="mt-4">
                         <label for="city" class="block mb-2 text-color">Select City</label>
-                        <p-select [options]="cities" [(ngModel)]="selectedCity" placeholder="Select a City"
-                                  optionLabel="name" class="w-full"></p-select>
+                        <p-select
+                            [options]="cities"
+                            [(ngModel)]="selectedCity"
+                            placeholder="Select a City"
+                            optionLabel="name"
+                            class="w-full"
+                        ></p-select>
                     </div>
 
                     <!-- Slider -->
@@ -93,21 +108,19 @@
             <!-- Right Column -->
             <div>
                 <div class="p-6 min-h-screen">
-
                     <h1 class="text-primary mb-4">Theme Validation</h1>
 
                     <div class="grid gap-y-4">
                         <div class="col-12">
                             <p-card header="Standard Surface Card" subheader="Mapped to Surface 0">
                                 <p>
-                                    If this card is light and the text is dark coffee,
-                                    your <b>surface.0</b> and <b>root.color</b> mapping is successful.
+                                    If this card is light and the text is dark coffee, your <b>surface.0</b> and
+                                    <b>root.color</b> mapping is successful.
                                 </p>
                                 <ng-template pTemplate="footer">
                                     <div class="flex gap-4 mt-1">
                                         <p-button label="Primary Button" icon="pi pi-check"></p-button>
-                                        <p-button label="Secondary" severity="secondary"
-                                                  variant="outlined"></p-button>
+                                        <p-button label="Secondary" severity="secondary" variant="outlined"></p-button>
                                     </div>
                                 </ng-template>
                             </p-card>
@@ -115,23 +128,29 @@
                         <div class="col-12">
                             <p-card class="overflow-hidden">
                                 <ng-template #header>
-                                    <img alt="Card" class="w-full"
-                                         src="https://primefaces.org/cdn/primeng/images/card-ng.jpg"/>
+                                    <img
+                                        alt="Card"
+                                        class="w-full"
+                                        src="https://primefaces.org/cdn/primeng/images/card-ng.jpg"
+                                    />
                                 </ng-template>
                                 <ng-template #title> Advanced Card</ng-template>
                                 <ng-template #subtitle> Card subtitle</ng-template>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed
-                                    consequuntur error repudiandae numquam deserunt quisquam repellat libero
-                                    asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate
-                                    neque
-                                    quas!
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur
+                                    error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam
+                                    nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
                                 </p>
                                 <ng-template #footer>
                                     <div class="flex gap-4 mt-1">
-                                        <p-button label="Cancel" severity="secondary" class="w-full"
-                                                  [outlined]="true" styleClass="w-full"/>
-                                        <p-button label="Save" class="w-full" styleClass="w-full"/>
+                                        <p-button
+                                            label="Cancel"
+                                            severity="secondary"
+                                            class="w-full"
+                                            [outlined]="true"
+                                            styleClass="w-full"
+                                        />
+                                        <p-button label="Save" class="w-full" styleClass="w-full" />
                                     </div>
                                 </ng-template>
                             </p-card>
@@ -155,32 +174,30 @@
                         <p-tabpanel value="0">
                             <p class="m-0">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                                sunt in culpa qui officia deserunt mollit anim id est
-                                laborum.
+                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                                mollit anim id est laborum.
                             </p>
                         </p-tabpanel>
                         <p-tabpanel value="1">
                             <p class="m-0">
-                                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                                veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo
-                                enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-                                Consectetur, adipisci velit, sed quia non numquam eius modi.
+                                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                                laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+                                architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas
+                                sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
+                                voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
                             </p>
                         </p-tabpanel>
                         <p-tabpanel value="2">
                             <p class="m-0">
-                                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-                                praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
-                                excepturi sint occaecati cupiditate non provident, similique sunt in
-                                culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et
-                                harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum
-                                soluta nobis est eligendi optio cumque nihil impedit quo minus.
+                                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                                voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint
+                                occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt
+                                mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et
+                                expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque
+                                nihil impedit quo minus.
                             </p>
                         </p-tabpanel>
                     </p-tabpanels>
@@ -197,8 +214,9 @@
                         <i class="pi pi-info-circle text-primary-500 mr-3 text-xl"></i>
                         <div>
                             <h4 class="font-bold text-color">Info Message</h4>
-                            <p class="text-sm text-color-secondary mt-1">This is an informational message using
-                                primary colors.</p>
+                            <p class="text-sm text-color-secondary mt-1">
+                                This is an informational message using primary colors.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -219,12 +237,14 @@
         <div class="flex justify-center mt-8">
             <div class="flex items-center gap-4 p-4 border-round surface-card">
                 <span class="text-color">Theme Mode:</span>
-                <p-toggleButton [(ngModel)]="darkMode"
-                                onLabel="Dark"
-                                offLabel="Light"
-                                onIcon="pi pi-moon"
-                                offIcon="pi pi-sun"
-                                (onChange)="toggleTheme()"></p-toggleButton>
+                <p-toggleButton
+                    [(ngModel)]="darkMode"
+                    onLabel="Dark"
+                    offLabel="Light"
+                    onIcon="pi pi-moon"
+                    offIcon="pi pi-sun"
+                    (onChange)="toggleTheme()"
+                ></p-toggleButton>
             </div>
         </div>
 
@@ -232,7 +252,5 @@
             <h3 class="text-xl font-bold mb-2 text-color">Debug Info</h3>
             <pre class="text-sm overflow-auto p-2 surface-100 border-round">{{ debugInfo }}</pre>
         </div>
-
-
     </div>
 </div>

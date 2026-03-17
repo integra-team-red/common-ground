@@ -1,6 +1,14 @@
-<p-table [value]="events()" [tableStyle]="{ 'min-width': '50rem' }" [scrollable]="true" [lazy]="true"
-         (onLazyLoad)="loadEventsLazy($event)" [paginator]="true" [rows]="rows()" [totalRecords]="totalRecords()"
-         [showCurrentPageReport]="true">
+<p-table
+    [value]="events()"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [scrollable]="true"
+    [lazy]="true"
+    (onLazyLoad)="loadEventsLazy($event)"
+    [paginator]="true"
+    [rows]="rows()"
+    [totalRecords]="totalRecords()"
+    [showCurrentPageReport]="true"
+>
     <ng-template pTemplate="header">
         <tr>
             <th>Id</th>
@@ -29,5 +37,3 @@
         </tr>
     </ng-template>
 </p-table>
-
-

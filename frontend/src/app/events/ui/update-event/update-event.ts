@@ -1,24 +1,17 @@
-import {Component, inject, input, output, signal} from '@angular/core';
-import {EventControllerService} from "@app/api/api/eventController.service";
-import {MessageService} from "primeng/api";
-import {EventDto} from "@app/api/model/eventDto";
-import {FormsModule, NgForm} from "@angular/forms";
-import {Dialog} from "primeng/dialog";
-import {Button} from "primeng/button";
-import {Message} from "primeng/message";
-import {DatePicker} from "primeng/datepicker";
-import {InputText} from "primeng/inputtext";
+import { Component, inject, input, output, signal } from '@angular/core';
+import { EventControllerService } from '@app/api/api/eventController.service';
+import { MessageService } from 'primeng/api';
+import { EventDto } from '@app/api/model/eventDto';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Dialog } from 'primeng/dialog';
+import { Button } from 'primeng/button';
+import { Message } from 'primeng/message';
+import { DatePicker } from 'primeng/datepicker';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
     selector: 'app-update-event',
-    imports: [
-        Dialog,
-        FormsModule,
-        Button,
-        Message,
-        DatePicker,
-        InputText
-    ],
+    imports: [Dialog, FormsModule, Button, Message, DatePicker, InputText],
     templateUrl: './update-event.html',
     styleUrl: './update-event.css',
 })
@@ -29,7 +22,7 @@ export class UpdateEvent {
     refreshTable = output<void>();
 
     eventData = input.required<EventDto>();
-    editEvent: EventDto = {title: "", startTime: "", endTime: "", locationId: "", hobbyGroupId: ""};
+    editEvent: EventDto = { title: '', startTime: '', endTime: '', locationId: '', hobbyGroupId: '' };
 
     openDialog() {
         this.editEvent = { ...this.eventData() };
@@ -54,13 +47,13 @@ export class UpdateEvent {
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Success',
-                        detail: 'Event successfully created!'
+                        detail: 'Event successfully created!',
                     });
                 },
                 error: (err) => {
                     console.error('Error creating event', err);
-                    this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to update event.'});
-                }
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update event.' });
+                },
             });
         }
     }
