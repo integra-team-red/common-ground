@@ -33,11 +33,11 @@ export const appConfig: ApplicationConfig = {
             }
         }),
         MessageService,
+        provideHttpClient(withInterceptors([authInterceptor])),
         provideAppInitializer(() => {
             const userDetailsService = inject(UserDetailsService);
             return userDetailsService.loadCurrentUser();
         }),
-        MessageService,
-        provideHttpClient(withInterceptors([authInterceptor])),
+
     ]
 };

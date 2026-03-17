@@ -1,0 +1,8 @@
+<p-card [header]="user.username">
+    <p class="m-0">
+        Email: <span class="italic">{{ user.email }}</span>
+    </p>
+    <p class="m-0">
+        Joined at <span class="italic">{{ user.joinedDate | date: 'longDate'}}</span>
+    </p>
+</p-card>

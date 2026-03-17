@@ -79,6 +79,7 @@ public class DatabaseSeedService {
         admin.setEmail("leo@commonground.com");
         admin.setPassword(password);
         admin.setRole(Role.ADMIN);
+        admin.setJoinedDate(LocalDateTime.of(2026, 4, 1, 12, 0));
         userRepository.save(admin);
 
         int i = 3;
@@ -88,6 +89,7 @@ public class DatabaseSeedService {
             user.setEmail(faker.internet().safeEmailAddress());
             user.setPassword(password);
             user.setRole(Role.USER);
+            user.setJoinedDate(LocalDateTime.of(2026, 4, faker.number().numberBetween(1, 30), 12, 0));
             userRepository.save(user);
             i--;
         }

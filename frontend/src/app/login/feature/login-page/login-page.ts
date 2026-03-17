@@ -5,6 +5,7 @@ import {AuthControllerService} from "@app/api/api/authController.service";
 import {LoginRequest} from "@app/api/model/loginRequest";
 import {Router} from "@angular/router";
 import {ToastService} from "../../../toast-service/toast-service";
+import {UserDetailsService} from "../../../services/UserDetailsService/user-details-service";
 
 @Component({
     selector: 'app-login-page',
@@ -15,6 +16,7 @@ import {ToastService} from "../../../toast-service/toast-service";
     templateUrl: './login-page.html',
 })
 export class LoginPage {
+    userDetailsService = inject(UserDetailsService);
     authService = inject(AuthControllerService);
     toastService = inject(ToastService);
     router = inject(Router);
@@ -23,6 +25,7 @@ export class LoginPage {
         this.authService.loginUser(request).subscribe({
             next: () => {
                 this.toastService.showSuccess("Logged in successfully!");
+                this.userDetailsService.loadCurrentUser();
 
                 setTimeout(() => {
                     this.router.navigate(['/']).then(() => {});
