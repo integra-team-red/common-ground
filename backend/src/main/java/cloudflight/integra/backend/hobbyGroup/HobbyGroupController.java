@@ -2,15 +2,18 @@ package cloudflight.integra.backend.hobbyGroup;
 
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroupDto;
+import cloudflight.integra.backend.tag.TagService;
+import cloudflight.integra.backend.user.UserService;
+import cloudflight.integra.backend.user.model.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import cloudflight.integra.backend.tag.TagService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.UUID;
 
@@ -21,11 +24,18 @@ public class HobbyGroupController {
     private final HobbyGroupService hobbyGroupService;
     private final TagService tagService;
     private final HobbyGroupMapper mapper;
+    private final UserService userService;
 
-    public HobbyGroupController(HobbyGroupService service, TagService tagService, HobbyGroupMapper mapper) {
+    public HobbyGroupController(
+        HobbyGroupService service,
+        TagService tagService,
+        HobbyGroupMapper mapper,
+        UserService userService
+    ) {
         this.hobbyGroupService = service;
         this.tagService = tagService;
         this.mapper = mapper;
+        this.userService = userService;
     }
 
     @Operation(
@@ -94,33 +104,42 @@ public class HobbyGroupController {
                     mediaType = "application/json",
                     schema = @Schema(implementation = HobbyGroupDto.class))),
         })
-    public HobbyGroupDto create(@RequestBody HobbyGroupDto groupDto) {
+    public HobbyGroupDto create(
+        @RequestBody HobbyGroupDto groupDto,
+        @AuthenticationPrincipal UserDetails currentUser
+    ) {
+        User owner = userService.getByUsername(currentUser.getUsername());
         HobbyGroup createHobbyGroup = hobbyGroupService.create(mapper.toEntity(
             groupDto,
-            tagService.getTagsFromIds(groupDto.tagIds())));
-
+            tagService.getTagsFromIds(groupDto.tagIds()),
+            owner)
+        );
         return mapper.toDto(createHobbyGroup, groupDto.tagIds());
     }
 
     @PutMapping("/{id}")
     @Operation(
-        summary = "Update an existing Hobby Group",
-        operationId = "updateHobbyGroup",
+        summary = "Add an hobbyGroup to the repository",
+        operationId = "createNewHobbyGroup",
         responses = {
-            @ApiResponse(responseCode = "200",
-                description = "Group updated successfully",
+            @ApiResponse(
+                responseCode = "200",
+                description = "HobbyGroup added successfully; returns the added hobbyGroup",
                 content =
                 @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = HobbyGroupDto.class))),
-            @ApiResponse(responseCode = "404",
-                description = "Group not found")
         })
-
-    public HobbyGroupDto update(@PathVariable UUID id, @RequestBody HobbyGroupDto groupDto) {
+    public HobbyGroupDto update(
+        @PathVariable UUID id,
+        @RequestBody HobbyGroupDto groupDto,
+        @AuthenticationPrincipal UserDetails currentUser
+    ) {
+        User owner = userService.getByUsername(currentUser.getUsername());
         HobbyGroup updateHobbyGroup = hobbyGroupService.update(id, mapper.toEntity(
             groupDto,
-            tagService.getTagsFromIds(groupDto.tagIds())));
+            tagService.getTagsFromIds(groupDto.tagIds()),
+            owner));
 
         return mapper.toDto(updateHobbyGroup, groupDto.tagIds());
     }

@@ -42,4 +42,8 @@ public class UserService implements UserDetailsService {
         user.getTags().addAll(tags);
         userRepository.save(user);
     }
+
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
