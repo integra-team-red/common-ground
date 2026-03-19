@@ -1,9 +1,12 @@
 package cloudflight.integra.backend.hobbyGroup.model;
 
 import cloudflight.integra.backend.tag.model.Tag;
+import cloudflight.integra.backend.user.model.User;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -18,17 +21,38 @@ public class HobbyGroup {
     @ManyToMany
     @JoinTable(
         name = "Group_Tags",
-        joinColumns = { @JoinColumn(name = "hobby_group_id") },
-        inverseJoinColumns = { @JoinColumn(name = "tag_id") }
+        joinColumns = {@JoinColumn(name = "hobby_group_id")},
+        inverseJoinColumns = {@JoinColumn(name = "tag_id")}
     )
     private List<Tag> tags;
 
-    public HobbyGroup(UUID id, String name, String description, double radiusKm, List<Tag> tags) {
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
+    @ManyToMany
+    @JoinTable(
+        name = "group_members",
+        joinColumns = @JoinColumn(name = "hobby_group_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private final Set<User> members = new HashSet<>();
+
+
+    public HobbyGroup(
+        UUID id,
+        String name,
+        String description,
+        double radiusKm,
+        List<Tag> tags,
+        User owner
+    ) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.radiusKm = radiusKm;
         this.tags = tags;
+        this.owner = owner;
     }
 
     public HobbyGroup() {
@@ -53,6 +77,14 @@ public class HobbyGroup {
 
     public List<Tag> getTags() {
         return tags;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public Set<User> getMembers() {
+        return members;
     }
 
     public void setId(UUID id) {
