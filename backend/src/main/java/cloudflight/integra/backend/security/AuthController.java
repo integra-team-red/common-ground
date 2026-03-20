@@ -2,6 +2,9 @@ package cloudflight.integra.backend.security;
 
 import cloudflight.integra.backend.user.CustomUserDetails;
 import cloudflight.integra.backend.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +26,7 @@ public class AuthController {
         UserService userService,
         JwtService jwtService,
         AuthenticationManager authenticationManager
-    )
-    {
+    ) {
         this.userService = userService;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
@@ -32,7 +34,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<HttpStatus> login(@RequestBody LoginRequest loginRequest) {
-        try{
+        try {
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));
 
@@ -46,8 +48,19 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<HttpStatus> register(@RequestBody LoginRequest loginRequest) {
-        userService.register(loginRequest);
+    @Operation(
+        summary = "Register a New User",
+        operationId = "registerNewUser",
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                content =
+                @Content(
+                    mediaType = "application/json")),
+        }
+    )
+    public ResponseEntity<HttpStatus> register(@RequestBody RegisterRequest registerRequest) {
+        userService.register(registerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

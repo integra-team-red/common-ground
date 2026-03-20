@@ -15,6 +15,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String username;
+    private String email;
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -30,9 +31,10 @@ public class User {
 
     public User() {}
 
-    public User(UUID id, String username, String password, Role role, List<Tag> tags) {
+    public User(UUID id, String username, String email, String password, Role role, List<Tag> tags) {
         this.id = id;
         this.username = username;
+        this.email = email;
         this.password = password;
         this.role = role;
         this.tags = tags;
@@ -54,6 +56,10 @@ public class User {
         this.password = password;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Role getRole() {
         return role;
     }
@@ -65,6 +71,8 @@ public class User {
     public String getUsername() {
         return username;
     }
+
+    public String getEmail() { return email; }
 
     public String getPassword() {
         return password;

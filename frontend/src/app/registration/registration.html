@@ -1,0 +1,120 @@
+<p-toast></p-toast>
+<div class="px-6 py-20">
+    <div class="bg-surface-50 p-8 md:p-12 shadow-sm rounded-2xl w-full max-w-sm mx-auto flex flex-col gap-8">
+        <div class="flex flex-col items-center gap-4">
+            <div class="flex items-center gap-4">
+            </div>
+            <div class="flex flex-col items-center gap-2 w-full">
+                <div class="text-surface-900 dark:text-surface-0 text-2xl font-semibold leading-tight
+                text-center w-full">
+                    Register Here
+                </div>
+                <div class="text-center w-full">
+                    <span class="text-surface-700 dark:text-surface-200 leading-normal">Already have an account?</span>
+                    <a class="text-primary font-medium ml-1 cursor-pointer hover:text-primary-emphasis">Log in!</a>
+                </div>
+            </div>
+        </div>
+        <div class="card flex justify-center">
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 sm:w-56">
+                <div class="flex flex-col gap-6 w-full">
+                    <div class="flex flex-col gap-2 w-full">
+                        <label class="text-surface-900 dark:text-surface-0 font-medium leading-normal">Username</label>
+                        <input pInputText formControlName="username" placeholder="Username"
+                               class="w-full px-3 py-2 shadow-sm rounded-lg"/>
+                        @if (registerForm.get('username')?.invalid &&
+                        registerForm.get('username')?.touched) {
+
+                            @if (registerForm.get('username')?.hasError('required')) {
+                                <p-message severity="error" size="small" variant="simple">
+                                    Username is required.
+                                </p-message>
+                            }
+
+                            @if (registerForm.get('username')?.hasError('usernameTaken')) {
+                                <p-message severity="error" size="small" variant="simple">
+                                    This username is already taken! Please choose another.
+                                </p-message>
+                            }
+                        }
+                    </div>
+                    <div class="flex flex-col gap-2 w-full">
+                        <label class="text-surface-900 dark:text-surface-0 font-medium leading-normal">Email
+                            Address</label>
+                        <input pInputText formControlName="email" placeholder="Email address"
+                               class="w-full px-3 py-2 shadow-sm rounded-lg"/>
+                        @if (registerForm.get('email')?.invalid && (registerForm.get('email')?.touched)) {
+                            <p-message severity="error" size="small" variant="simple">
+                                Email is required.
+                            </p-message>
+                        }
+                    </div>
+                    <div class="flex flex-col gap-2 w-full">
+                        <label class="text-surface-900 dark:text-surface-0 font-medium leading-normal">Password</label>
+                        <p-password
+                                formControlName="password"
+                                variant="filled"
+                                placeholder="Password"
+                                class="w-full"
+                                inputStyleClass="w-full px-3 py-2 shadow-sm rounded-lg"
+                                [feedback]="false"
+                                [toggleMask]="true">
+                        </p-password>
+                        @if (registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty
+                                || registerForm.get('password')?.touched)) {
+
+                            @if (registerForm.get('password')?.hasError('required')) {
+                                <p-message severity="error" size="small" variant="simple">
+                                    Password is required.
+                                </p-message>
+                            }
+
+                            @if (registerForm.get('password')?.hasError('minlength')
+                            || registerForm.get('password')?.hasError('pattern')) {
+                                <p-message severity="error" size="small" variant="simple">
+                                    Password must be at least 8 characters long, include an uppercase letter, a number,
+                                    and a special symbol.
+                                </p-message>
+                            }
+                        }
+
+                    </div>
+                    <div class="flex flex-col gap-2 w-full">
+                        <label class="text-surface-900 dark:text-surface-0 font-medium leading-normal">Confirm
+                            Password</label>
+                        <p-password
+                                formControlName="confirmPassword"
+                                variant="filled"
+                                placeholder="Confirm Password"
+                                class="w-full"
+                                inputStyleClass="w-full px-3 py-2 shadow-sm rounded-lg"
+                                [feedback]="false"
+                                [toggleMask]="true">
+                        </p-password>
+                        @if (registerForm.get('confirmPassword')?.dirty ||
+                        registerForm.get('confirmPassword')?.touched) {
+
+                            @if (registerForm.get('confirmPassword')?.hasError('required')) {
+                                <p-message severity="error" size="small" variant="simple">
+                                    Please enter your password again for confirmation.
+                                </p-message>
+
+                            } @else if (registerForm.hasError('passwordMismatch')) {
+                                <p-message severity="error" size="small" variant="simple">
+                                    The Passwords do not match.
+                                </p-message>
+                            }
+                        }
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-start
+                    sm:items-center justify-between w-full gap-3 sm:gap-0">
+                    </div>
+                    <button pButton class="w-full py-2 rounded-lg flex justify-center items-center gap-2">
+                        <i pButtonIcon class="pi pi-user text-base! leading-normal!"></i>
+                        <span pButtonLabel>Register me</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

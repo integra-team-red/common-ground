@@ -1,7 +1,7 @@
 package cloudflight.integra.backend.user;
 
+import cloudflight.integra.backend.security.RegisterRequest;
 import cloudflight.integra.backend.tag.model.Tag;
-import cloudflight.integra.backend.security.LoginRequest;
 import cloudflight.integra.backend.user.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,13 +21,16 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User register(LoginRequest loginRequest) {
-        if (userRepository.findByUsername(loginRequest.username()) != null)
+    public User register(RegisterRequest registerRequest) {
+        if (userRepository.findByUsername(registerRequest.username()) != null)
             throw new IllegalArgumentException("Username already exists");
+        if (userRepository.findByEmail(registerRequest.email()) != null)
+            throw new IllegalArgumentException("Email already exists");
         User user = new User();
-        user.setUsername(loginRequest.username());
+        user.setUsername(registerRequest.username());
+        user.setEmail(registerRequest.email());
         user.setRole(Role.USER);
-        user.setPassword(passwordEncoder.encode(loginRequest.password()));
+        user.setPassword(passwordEncoder.encode(registerRequest.password()));
         return userRepository.save(user);
     }
 
