@@ -21,10 +21,14 @@ public class SystemFeedbackService {
     }
 
     @Transactional(readOnly = true)
-    public Page<SystemFeedback> getAllPaginated(Pageable pageable) {
-        return repository.findAll(pageable);
+    public Page<SystemFeedback> getAllPaginated(String search, Pageable pageable) {
+        if (search == null || search.isEmpty()) {
+            return repository.findAll(pageable);
+        }
+        return repository.findByEmailContainingIgnoreCase(
+            search, pageable
+        );
     }
-
     @Transactional(readOnly = true)
     public List<SystemFeedback> getAll() {
         return repository.findAll();
