@@ -22,7 +22,6 @@ To learn more about Angular compiler options: https://angular.dev/reference/conf
     }
   },
   "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true

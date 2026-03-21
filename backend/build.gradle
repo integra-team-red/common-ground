@@ -4,6 +4,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
     id "org.openapi.generator" version "7.15.0"
     id 'java-library'
+    id "com.github.node-gradle.node" version "7.1.0"
 }
 
 def frontendPath = "$projectDir/../frontend"
@@ -18,6 +19,13 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(24)
     }
+}
+
+node {
+    version = '22.17.1'
+    npmVersion = '10.9.2'
+    download = true
+    nodeProjectDir = file(frontendPath)
 }
 
 repositories {
@@ -92,6 +100,110 @@ tasks.register('generateOpenApiDocs', Test) {
 tasks.named('openApiGenerate') {
     dependsOn tasks.named('generateOpenApiDocs')
 }
+
+tasks.named('npmInstall') {
+    doFirst {
+        println "========================================"
+        println "NPM: Installing dependencies"
+        println "========================================"
+        println "  Working dir: $frontendPath"
+        println "  Node version: ${node.version.get()}"
+        println "  NPM version: ${node.npmVersion.get()}"
+    }
+
+    doLast {
+        println "NPM: Dependencies installed"
+        println "========================================\n"
+    }
+}
+
+tasks.register('buildFrontend', NpmTask) {
+    dependsOn npmInstall
+    dependsOn tasks.named('openApiGenerate')
+    workingDir = file(frontendPath)
+    args = ['run', 'build']
+
+    doFirst {
+        println "========================================"
+        println "FRONTEND: Building frontend"
+        println "========================================"
+        println "  Working dir: $frontendPath"
+        println "  Command: npm run build"
+    }
+
+    doLast {
+        println "FRONTEND: Build completed"
+        println "========================================"
+
+        def distDir = file(frontendDistPath)
+        if (!distDir.exists()) {
+            throw new GradleException("Frontend dist directory does not exist: $frontendDistPath")
+        }
+
+        println "FRONTEND: dist directory contents:"
+        distDir.eachFileRecurse { f ->
+            if (f.isFile()) {
+                println "  - ${f.path.substring(distDir.path.length())} (${f.length()} bytes)"
+            }
+        }
+        println "========================================\n"
+
+        println "========================================"
+        println "FRONTEND: Copying to build output directory"
+        println "========================================"
+
+        def buildStaticPath = "${buildDir}/resources/main/static"
+        println "  From: $frontendDistPath"
+        println "  To: $buildStaticPath"
+
+        project.copy {
+            from frontendDistPath
+            into buildStaticPath
+        }
+
+        println "FRONTEND: Copy complete. Build static directory contents:"
+        def staticDir = file(buildStaticPath)
+        staticDir.eachFileRecurse { f ->
+            if (f.isFile()) {
+                println "  - ${f.path.substring(staticDir.path.length())} (${f.length()} bytes)"
+            }
+        }
+        println "========================================\n"
+    }
+}
+
+bootJar {
+    dependsOn buildFrontend
+    mustRunAfter processResources
+
+    doFirst {
+        println "========================================"
+        println "BOOTJAR: Building Spring Boot JAR"
+        println "========================================"
+        println "  Archive name: ${archiveFileName.get()}"
+
+        def buildStaticDir = file("${buildDir}/resources/main/static")
+        if (buildStaticDir.exists() && buildStaticDir.isDirectory()) {
+            println "BOOTJAR: Recursively listing all static files from build:"
+            buildStaticDir.eachFileRecurse { f ->
+                if (f.isFile()) {
+                    def relativePath = f.path.substring(buildStaticDir.path.length())
+                    println "  - ${relativePath} (${f.length()} bytes)"
+                }
+            }
+        } else {
+            println "WARNING: No static files found in build output"
+        }
+    }
+
+    doLast {
+        println "BOOTJAR: Completed successfully"
+        println "  Output: ${archiveFile.get().asFile}"
+        println "  Size: ${archiveFile.get().asFile.length()} bytes"
+        println "========================================\n"
+    }
+}
+
 
 test {
     useJUnitPlatform {
