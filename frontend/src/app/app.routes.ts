@@ -5,6 +5,7 @@ import {TagPageComponent} from "./tag/feature/tag-page.component";
 import {LocationsPage} from "./admin-locations/feature/locations-page/locations-page";
 import {Registration} from "./registration/registration";
 import {Events} from "./events/feature/events-admin-management/events";
+import {FeedbackPage} from "./feedback/feature/feedbacks-admin-management/feedback-page";
 
 export const routes: Routes = [
     {
@@ -16,6 +17,11 @@ export const routes: Routes = [
         path: 'theme',
         title: "Theme",
         component: ThemeShowcaseComponent,
+    },
+    {
+        path:'feedback',
+        title:"Feedback",
+        component:FeedbackPage
     },
     {
         path: 'registration',
@@ -36,5 +42,5 @@ export const routes: Routes = [
         path: 'tag',
         title: "Tag",
         component: TagPageComponent
-    },
+    }
 ];

@@ -1,0 +1,28 @@
+<p-toast></p-toast>
+
+<div class="mt-4 flex flex-col gap-6 p-6">
+    <div class="flex flex-row items-center w-full gap-4">
+        <h2 class="text-3xl whitespace-nowrap font-bold ">Admin: Feedback Management</h2>
+
+        <div class="flex flex-row grow justify-end gap-3">
+            <div class="grow max-w-md">
+                <p-iconfield class="w-full">
+                    <p-inputicon class="pi pi-search"/>
+                    <input type="text" pInputText placeholder="Search Feedbacks..." class="w-full"
+                           [(ngModel)]="searchQuery"/>
+                </p-iconfield>
+            </div>
+
+            <app-create-feedback (refreshTable)="getFeedbacks()"></app-create-feedback>
+        </div>
+    </div>
+    <div class="w-full overflow-x-auto">
+        <app-feedback-table
+                [feedbacks]="filteredFeedbacks()"
+                [rows]="rows()"
+                [totalRecords]="totalRecords()"
+                (refresh)="getFeedbacks()"
+                (lazyEvent)="loadFeedbacksLazy($event)">
+        </app-feedback-table>
+    </div>
+</div>
