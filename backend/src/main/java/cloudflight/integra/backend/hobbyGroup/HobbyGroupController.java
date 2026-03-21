@@ -120,7 +120,7 @@ public class HobbyGroupController {
     @PutMapping("/{id}")
     @Operation(
         summary = "Add an hobbyGroup to the repository",
-        operationId = "createNewHobbyGroup",
+        operationId = "updateHobbyGroup",
         responses = {
             @ApiResponse(
                 responseCode = "200",
