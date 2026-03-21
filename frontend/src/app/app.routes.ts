@@ -6,6 +6,7 @@ import {LocationsPage} from "./admin-locations/feature/locations-page/locations-
 import {Registration} from "./registration/registration";
 import {Events} from "./events/feature/events-admin-management/events";
 import {LoginPage} from "./login/feature/login-page/login-page";
+import {FeedbackPage} from "./feedback/feature/feedbacks-admin-management/feedback-page";
 
 export const routes: Routes = [
     {
@@ -28,6 +29,11 @@ export const routes: Routes = [
         data: { isAdmin: true }
     },
     {
+        path:'feedback',
+        title:"Feedback",
+        component:FeedbackPage
+    },
+    {
         path: 'registration',
         title: 'User Registration',
         component: Registration,
@@ -37,7 +43,6 @@ export const routes: Routes = [
         path: 'login',
         title: "Login",
         component: LoginPage,
-        data: { isAdmin: true }
     },
     {
         path: 'locations',
