@@ -14,7 +14,6 @@ import {toObservable, toSignal} from "@angular/core/rxjs-interop";
         Avatar,
         Chip,
         Button,
-
     ],
     templateUrl: './hobby-group-card.html'
 })

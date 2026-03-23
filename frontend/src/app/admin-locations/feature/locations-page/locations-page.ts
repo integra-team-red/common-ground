@@ -8,13 +8,11 @@ import {LocationControllerService} from "@app/api/api/locationController.service
 import {Pageable} from "@app/api/model/pageable";
 import {LocationDto} from "@app/api/model/locationDto";
 import {PageLocationDto} from "@app/api/model/pageLocationDto";
-import {MessageService} from "primeng/api";
-import {Toast} from "primeng/toast";
-
+import {ToastService} from "../../../toast-service/toast-service";
 
 @Component({
     selector: 'app-admin-locations',
-    imports: [Button, SearchBar, LocationsTable, CreateEditLocationDialog, DeleteLocationDialog, Toast],
+    imports: [Button, SearchBar, LocationsTable, CreateEditLocationDialog, DeleteLocationDialog],
     templateUrl: './locations-page.html',
     styleUrl: './locations-page.css',
     standalone: true,
@@ -27,7 +25,7 @@ export class LocationsPage implements OnInit {
     currentPage = signal(0);
 
     locationService = inject(LocationControllerService)
-    messageService = inject(MessageService)
+    toastService = inject(ToastService)
 
     selectedLocation = signal<LocationDto>({});
     openCreateDialogVisible = false;
@@ -48,11 +46,7 @@ export class LocationsPage implements OnInit {
             },
             error: (err) => {
                 console.error('Error getting locations:', err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: 'Failed to load locations',
-                });
+                this.toastService.showError('Failed to load locations.');
             }
         });
     }
@@ -70,11 +64,7 @@ export class LocationsPage implements OnInit {
             },
             error: (err) => {
                 console.error('Error searching locations:', err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: 'Search failed',
-                });
+                this.toastService.showError('Search failed.');
             }
         });
     }
@@ -98,19 +88,11 @@ export class LocationsPage implements OnInit {
         this.locationService.createLocation(locationDto).subscribe({
             next: () => {
                 this.getLocations();
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: 'Location successfully created',
-                });
+                this.toastService.showSuccess('Location created successfully.');
             },
             error: (err) => {
                 console.error('Error creating location:', err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: 'Failed to create location',
-                });
+                this.toastService.showError('Could not create location.');
             }
         });
     }
@@ -119,19 +101,10 @@ export class LocationsPage implements OnInit {
         this.locationService.deleteLocation(id).subscribe({
             next: () => {
                 this.getLocations();
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: 'Location successfully deleted',
-                });
+                this.toastService.showSuccess('Location deleted successfully.');
             },
-            error: (err) => {
-                console.error('Error deleting location:', err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: 'Failed to delete location',
-                });
+            error: () => {
+                this.toastService.showError("Could not delete location.");
             }
         });
     }

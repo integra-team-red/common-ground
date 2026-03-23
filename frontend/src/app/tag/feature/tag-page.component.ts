@@ -11,8 +11,7 @@ import {UpdateTag} from "../ui/update-tag/update-tag";
 import {TableLazyLoadEvent} from "primeng/table";
 import {IconField} from "primeng/iconfield";
 import {InputIcon} from "primeng/inputicon";
-import {MessageService} from "primeng/api";
-import {Toast} from "primeng/toast";
+import {ToastService} from "../../toast-service/toast-service";
 
 @Component({
     selector: 'app-tag-page.component',
@@ -25,9 +24,7 @@ import {Toast} from "primeng/toast";
         UpdateTag,
         IconField,
         InputIcon,
-        Toast,
     ],
-    providers: [MessageService],
     templateUrl: './tag-page.component.html',
     styleUrl: './tag-page.component.css',
     standalone: true
@@ -35,7 +32,7 @@ import {Toast} from "primeng/toast";
 
 export class TagPageComponent implements OnInit {
     tagService: TagControllerService = inject(TagControllerService);
-    messageService: MessageService = inject(MessageService);
+    toastService: ToastService = inject(ToastService);
 
     tags = signal<TagDto[]>([]);
     searchValue = "";
@@ -86,12 +83,11 @@ export class TagPageComponent implements OnInit {
             next: () => {
                 this.getTags();
                 this.visibleAddForm.set(false);
-
-                this.messageService.add({severity: "success", summary: "Success", detail: "Tag created successfully."});
+                this.toastService.showSuccess("Tag was created successfully.");
             },
             error: (err) => {
                 console.error("Error creating tag", err);
-                this.messageService.add({severity: "error", summary: "Error", detail: "Label already exists."});
+                this.toastService.showError(err);
             }
         });
     }
@@ -102,11 +98,10 @@ export class TagPageComponent implements OnInit {
                 this.getTags();
                 this.visibleUpdateForm.set(false);
 
-                this.messageService.add({severity: "success", summary: "Success", detail: "Tag updated successfully."});
+                this.toastService.showSuccess("Tag was updated successfully.");
             },
-            error: (err) => {
-                console.error("Error updating tag", err);
-                this.messageService.add({severity: "error", summary: "Error", detail: "Label already exists."});
+            error: () => {
+                this.toastService.showError("Could not update tag.");
             }
         })
     }
@@ -116,11 +111,10 @@ export class TagPageComponent implements OnInit {
             next: () => {
                 this.getTags();
 
-                this.messageService.add({severity: "success", summary: "Success", detail: "Tag deleted successfully."});
+                this.toastService.showSuccess("Tag was deleted successfully.");
             },
-            error: (err) => {
-                console.error("Error deleting tag", err);
-                this.messageService.add({severity: "error", summary: "Error", detail: "Failed to delete tag."});
+            error: () => {
+                this.toastService.showError("Could not delete tag");
             }
         })
     }
