@@ -16,7 +16,7 @@ import {Password} from "primeng/password";
 import {Message} from "primeng/message";
 import {RegisterRequest} from "@app/api/model/registerRequest";
 import {AuthControllerService} from "@app/api/api/authController.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {ToastService} from "../toast-service/toast-service";
 
 const passwordValidators = [
@@ -37,6 +37,7 @@ const passwordValidators = [
         Password,
         ReactiveFormsModule,
         Message,
+        RouterLink,
     ],
 })
 

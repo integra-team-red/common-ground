@@ -6,12 +6,15 @@ import {providePrimeNG} from 'primeng/config';
 import {CommonGroundTheme} from "./theme/theme";
 import {ApiModule, Configuration} from '../../typescript-client';
 import {MessageService} from "primeng/api";
+import {provideHttpClient, withInterceptors} from "@angular/common/http";
+import {authInterceptor} from "./auth/auth-interceptor";
 
 export const appConfig: ApplicationConfig = {
     providers: [
         importProvidersFrom(
             ApiModule.forRoot(() => new Configuration({
-                basePath: ''
+                basePath: '',
+                withCredentials: true
             }))
         ),
         provideBrowserGlobalErrorListeners(),
@@ -24,6 +27,7 @@ export const appConfig: ApplicationConfig = {
                 }
             }
         }),
-        MessageService
+        MessageService,
+        provideHttpClient(withInterceptors([authInterceptor])),
     ]
 };
