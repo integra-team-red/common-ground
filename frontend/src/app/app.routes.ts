@@ -5,6 +5,7 @@ import {TagPageComponent} from "./tag/feature/tag-page.component";
 import {LocationsPage} from "./admin-locations/feature/locations-page/locations-page";
 import {Registration} from "./registration/registration";
 import {Events} from "./events/feature/events-admin-management/events";
+import {LoginPage} from "./login/feature/login-page/login-page";
 
 export const routes: Routes = [
     {
@@ -21,6 +22,11 @@ export const routes: Routes = [
         path: 'registration',
         title: 'User Registration',
         component: Registration,
+    },
+    {
+        path: 'login',
+        title: "Login",
+        component: LoginPage,
     },
     {
         path: 'locations',
