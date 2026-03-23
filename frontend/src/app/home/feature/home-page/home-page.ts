@@ -4,8 +4,6 @@ import {HobbyGroupControllerService} from "@app/api/api/hobbyGroupController.ser
 import {HobbyGroupDto} from "@app/api/model/hobbyGroupDto";
 import {FormsModule} from "@angular/forms";
 import {InputText} from "primeng/inputtext";
-import {MessageService} from "primeng/api";
-import {Toast} from "primeng/toast";
 import {IconField} from "primeng/iconfield";
 import {InputIcon} from "primeng/inputicon";
 import {CreateHobbyGroup} from "../../ui/create-hobby-group/create-hobby-group";
@@ -13,18 +11,13 @@ import {CreateHobbyGroup} from "../../ui/create-hobby-group/create-hobby-group";
 
 @Component({
     selector: 'app-home-page',
-    providers: [MessageService],
     imports: [
-
         HobbyGroupCard,
         FormsModule,
         InputText,
-        Toast,
         IconField,
         InputIcon,
         CreateHobbyGroup,
-
-
     ],
     templateUrl: './home-page.html',
     standalone: true,

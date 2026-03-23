@@ -1,9 +1,9 @@
 import {Component, inject, input, output, signal} from '@angular/core';
 import {Button} from "primeng/button";
 import {EventControllerService} from "@app/api/api/eventController.service";
-import {MessageService} from "primeng/api";
 import {EventDto} from "@app/api/model/eventDto";
 import {Dialog} from "primeng/dialog";
+import {ToastService} from "../../../toast-service/toast-service";
 
 @Component({
     selector: 'app-delete-event',
@@ -16,7 +16,7 @@ import {Dialog} from "primeng/dialog";
 })
 export class DeleteEvent {
     eventService = inject(EventControllerService);
-    messageService = inject(MessageService);
+    toastService = inject(ToastService);
     eventData = input.required<EventDto>();
     refreshTable = output<void>();
     visible = signal<boolean>(false);
@@ -32,12 +32,12 @@ export class DeleteEvent {
                 next: () => {
                     this.visible.set(false);
                     this.refreshTable.emit();
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Deleted',
-                        detail: 'Event deleted!'
-                    });
+                    this.toastService.showSuccess("Event was successfully deleted.");
+                },
+                error: () => {
+                    this.toastService.showError("Could not delete event.");
                 }
+
             });
         }
     }

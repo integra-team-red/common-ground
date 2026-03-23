@@ -7,7 +7,7 @@ import {EventControllerService} from "@app/api/api/eventController.service";
 import {EventDto} from "@app/api/model/eventDto";
 import {Dialog} from "primeng/dialog";
 import {Button} from "primeng/button";
-import {MessageService} from "primeng/api";
+import {ToastService} from "../../../toast-service/toast-service";
 
 @Component({
     selector: 'app-create-event',
@@ -25,7 +25,7 @@ import {MessageService} from "primeng/api";
 export class CreateEvent {
     eventService = inject(EventControllerService);
     visible = signal<boolean>(false);
-    messageService = inject(MessageService);
+    toastService = inject(ToastService);
     refreshTable = output<void>();
 
     newEvent: EventDto = {
@@ -44,15 +44,10 @@ export class CreateEvent {
                     this.refreshTable.emit();
                     form.resetForm();
 
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: 'Event successfully created!'
-                    });
+                    this.toastService.showSuccess("Event created");
                 },
-                error: (err) => {
-                    console.error('Error creating event', err);
-                    this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to create event.'});
+                error: () => {
+                    this.toastService.showError("Could not create event.");
                 }
             });
         }

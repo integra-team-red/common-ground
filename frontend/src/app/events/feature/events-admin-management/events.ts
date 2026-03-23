@@ -9,8 +9,6 @@ import {PageEventDto} from "@app/api/model/pageEventDto";
 import {EventsTable} from "../../ui/events-table/events-table";
 import {CreateEvent} from "../../ui/create-event/create-event";
 import {FormsModule} from "@angular/forms";
-import {ToastModule} from "primeng/toast";
-import {MessageService} from "primeng/api";
 
 @Component({
     selector: 'app-events',
@@ -22,9 +20,8 @@ import {MessageService} from "primeng/api";
         EventsTable,
         CreateEvent,
         FormsModule,
-        ToastModule,
     ],
-    providers: [EventControllerService, MessageService],
+    providers: [EventControllerService],
     templateUrl: './events.html',
     styleUrl: './events.css',
 })

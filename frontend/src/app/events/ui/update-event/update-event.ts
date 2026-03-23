@@ -1,6 +1,5 @@
 import {Component, inject, input, output, signal} from '@angular/core';
 import {EventControllerService} from "@app/api/api/eventController.service";
-import {MessageService} from "primeng/api";
 import {EventDto} from "@app/api/model/eventDto";
 import {FormsModule, NgForm} from "@angular/forms";
 import {Dialog} from "primeng/dialog";
@@ -8,6 +7,7 @@ import {Button} from "primeng/button";
 import {Message} from "primeng/message";
 import {DatePicker} from "primeng/datepicker";
 import {InputText} from "primeng/inputtext";
+import {ToastService} from "../../../toast-service/toast-service";
 
 @Component({
     selector: 'app-update-event',
@@ -25,7 +25,7 @@ import {InputText} from "primeng/inputtext";
 export class UpdateEvent {
     eventService = inject(EventControllerService);
     visible = signal<boolean>(false);
-    messageService = inject(MessageService);
+    toastService = inject(ToastService);
     refreshTable = output<void>();
 
     eventData = input.required<EventDto>();
@@ -51,15 +51,10 @@ export class UpdateEvent {
                     this.visible.set(false);
                     this.refreshTable.emit();
 
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: 'Event successfully created!'
-                    });
+                    this.toastService.showSuccess("Event was updated successfully!");
                 },
-                error: (err) => {
-                    console.error('Error creating event', err);
-                    this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to update event.'});
+                error: () => {
+                    this.toastService.showError("Could not update event.");
                 }
             });
         }

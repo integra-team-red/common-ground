@@ -14,11 +14,10 @@ import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {Password} from "primeng/password";
 import {Message} from "primeng/message";
-import {MessageService} from "primeng/api";
 import {RegisterRequest} from "@app/api/model/registerRequest";
 import {AuthControllerService} from "@app/api/api/authController.service";
 import {Router} from "@angular/router";
-import {Toast} from "primeng/toast";
+import {ToastService} from "../toast-service/toast-service";
 
 const passwordValidators = [
     Validators.required,
@@ -38,14 +37,11 @@ const passwordValidators = [
         Password,
         ReactiveFormsModule,
         Message,
-        Toast
     ],
-    providers: [MessageService],
 })
 
-
 export class Registration {
-    messageService = inject(MessageService);
+    toastService = inject(ToastService);
     authService = inject(AuthControllerService);
     router = inject(Router);
 
@@ -78,11 +74,7 @@ export class Registration {
             };
             this.authService.registerNewUser(requestPayload).subscribe({
                 next: () => {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: 'User Successfully Registered!'
-                    });
+                    this.toastService.showSuccess("User registered successfully!");
                     this.registerForm.reset();
                     setTimeout(() => {
                         this.router.navigate(['/login']).then(() => {});
@@ -93,16 +85,8 @@ export class Registration {
                     if (backendError.toLowerCase().includes('username') ||
                         backendError.toLowerCase().includes('exists')) {
                         this.registerForm.get('username')?.setErrors({usernameTaken: true});
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: 'Registration Failed',
-                            detail: 'Username is already taken.'
-                        });
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: 'Error',
-                            detail: 'Failed to create user.'
-                        });
+                        this.toastService.showError("Username already exists!");
+                        this.toastService.showError("Could not register user!");
                     }
                 }
             })

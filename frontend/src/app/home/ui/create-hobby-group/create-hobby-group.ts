@@ -1,6 +1,5 @@
 import {Component, inject, output, signal} from "@angular/core";
 import {HobbyGroupControllerService} from "@app/api/api/hobbyGroupController.service";
-import {MessageService} from "primeng/api";
 import {HobbyGroupDto} from "@app/api/model/hobbyGroupDto";
 import {TagDto} from "@app/api/model/tagDto";
 import {PageTagDto} from "@app/api/model/pageTagDto";
@@ -11,6 +10,7 @@ import {InputText} from "primeng/inputtext";
 import {Message} from "primeng/message";
 import {MultiSelect} from "primeng/multiselect";
 import {Button} from "primeng/button";
+import {ToastService} from "../../../toast-service/toast-service";
 
 @Component({
     selector: 'app-create-hobby-group',
@@ -28,7 +28,7 @@ import {Button} from "primeng/button";
 export class CreateHobbyGroup {
     hobbyGroupService = inject(HobbyGroupControllerService);
     visible = signal<boolean>(false);
-    messageService = inject(MessageService);
+    toastService = inject(ToastService);
 
     refreshHobbyGroup = output<void>()
 
@@ -61,11 +61,7 @@ export class CreateHobbyGroup {
                     this.refreshHobbyGroup.emit();
                     form.resetForm();
 
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: 'Hobby Group created successfully!'
-                    });
+                    this.toastService.showSuccess("New Hobby Group created successfully.");
                     this.newHobbyGroup = {
                         name: "",
                         description: "",
@@ -74,11 +70,7 @@ export class CreateHobbyGroup {
                     };
                 },
                 error: (err) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: 'Failed to create group'
-                    });
+                    this.toastService.showError("Failed to create Hobby Group.");
                 }
             });
         }
