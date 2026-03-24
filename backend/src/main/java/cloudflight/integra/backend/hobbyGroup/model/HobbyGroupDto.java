@@ -1,7 +1,6 @@
 package cloudflight.integra.backend.hobbyGroup.model;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 public record HobbyGroupDto(
@@ -11,6 +10,6 @@ public record HobbyGroupDto(
     double radiusKm,
     List<Long> tagIds,
     UUID ownerID,
-    Set<UUID> memberIds
+    List<UUID> memberIds
 ) {
 }

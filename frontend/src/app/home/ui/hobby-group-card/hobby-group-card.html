@@ -1,8 +1,8 @@
 <p-card>
     <ng-template #title>
-        <h3>{{ cardTitle() }}</h3></ng-template>
+        <h3>{{ hobbyGroupDto().name}}</h3></ng-template>
     <p>
-        {{ cardDescription() }}
+        {{ hobbyGroupDto().description }}
     </p>
     <ng-template #footer>
         <div class="flex flex-row justify-between items-center">
@@ -18,7 +18,18 @@
             </div>
         </div>
         <div class="flex gap-4 mt-2 -mb-4">
-            <p-button label="Join" icon="pi pi-users" variant="text"/>
+
+            @if(!isOwner()){
+                @if(!isMember()){
+                    <p-button label="Join" icon="pi pi-plus-circle" variant="text" (click)="join()"/>
+                } @else {
+                    <p-button label="Leave" icon="pi pi-minus-circle" variant="text" (click)="leave()"/>
+                }
+            }
+            @else{
+                <app-delete-hobby-group [hobbyGroupDto]="hobbyGroupDto()" (groupDeleted)="groupDeleted.emit()">
+                </app-delete-hobby-group>
+                }
         </div>
     </ng-template>
 

@@ -4,10 +4,7 @@ import cloudflight.integra.backend.tag.model.Tag;
 import cloudflight.integra.backend.user.model.User;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 public class HobbyGroup {
@@ -36,7 +33,7 @@ public class HobbyGroup {
         joinColumns = @JoinColumn(name = "hobby_group_id"),
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private final Set<User> members = new HashSet<>();
+    private final List<User> members = new LinkedList<>();
 
 
     public HobbyGroup(
@@ -53,6 +50,7 @@ public class HobbyGroup {
         this.radiusKm = radiusKm;
         this.tags = tags;
         this.owner = owner;
+        this.members.add(owner);
     }
 
     public HobbyGroup() {
@@ -83,7 +81,7 @@ public class HobbyGroup {
         return owner;
     }
 
-    public Set<User> getMembers() {
+    public List<User> getMembers() {
         return members;
     }
 

@@ -5,6 +5,7 @@ import cloudflight.integra.backend.user.Role;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -84,5 +85,17 @@ public class User {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

@@ -157,4 +157,43 @@ public class HobbyGroupController {
         hobbyGroupService.delete(id);
     }
 
+    @PostMapping("/{id}/join")
+    @Operation(
+        summary = "Add the current user to the hobbyGroup",
+        operationId = "joinHobbyGroup",
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                description = "HobbyGroup was joined successfully;",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = HobbyGroupDto.class))),
+            @ApiResponse(
+                responseCode = "409",
+                description = "User is already a member")
+        })
+    public HobbyGroupDto joinHobbyGroup(@PathVariable UUID id, @AuthenticationPrincipal UserDetails userDetails) {
+        User newMember = userService.getByUsername(userDetails.getUsername());
+        HobbyGroup updatedHobbyGroup = hobbyGroupService.addNewMemberToHobbyGroup(newMember, id);
+        return mapper.toDto(updatedHobbyGroup, tagService.getIdsFromTags(updatedHobbyGroup.getTags()));
+    }
+
+    @DeleteMapping("/{id}/leave")
+    @Operation(
+        summary = "Leave  Hobby Group",
+        operationId = "leaveHobbyGroup",
+        responses = {
+            @ApiResponse(
+                responseCode = "409",
+                description = "User was not a member",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = HobbyGroupDto.class)))
+        }
+    )
+    public HobbyGroupDto leaveHobbyGroup(@PathVariable UUID id, @AuthenticationPrincipal UserDetails userDetails) {
+        User oldMember = userService.getByUsername(userDetails.getUsername());
+        HobbyGroup updatedHobbyGroup = hobbyGroupService.deleteMemberFromHobbyGroup(oldMember, id);
+        return mapper.toDto(updatedHobbyGroup, tagService.getIdsFromTags(updatedHobbyGroup.getTags()));
+    }
 }

@@ -1,7 +1,10 @@
 package cloudflight.integra.backend.hobbyGroup;
 
 
+import cloudflight.integra.backend.exceptions.AlreadyMemberOfThisHobbyGroupException;
+import cloudflight.integra.backend.exceptions.NotMemberOfHobbyGroupException;
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
+import cloudflight.integra.backend.user.model.User;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -60,4 +63,23 @@ public class HobbyGroupService {
         return repository.findByNameContainingIgnoreCase(containedString, pageable);
     }
 
+    @Transactional
+    public HobbyGroup addNewMemberToHobbyGroup(User newMember, UUID hobbyGroupId){
+        HobbyGroup hobbyGroup = repository.findById(hobbyGroupId).orElseThrow();
+        if (hobbyGroup.getMembers().contains(newMember))
+            throw new AlreadyMemberOfThisHobbyGroupException("The user is already part of this group");
+        hobbyGroup.getMembers().add(newMember);
+        repository.save(hobbyGroup);
+        return hobbyGroup;
+    }
+
+    @Transactional
+    public HobbyGroup deleteMemberFromHobbyGroup(User oldMember, UUID hobbyGroupId ){
+        HobbyGroup hobbyGroup = repository.findById(hobbyGroupId).orElseThrow();
+        if (!hobbyGroup.getMembers().contains(oldMember))
+            throw new NotMemberOfHobbyGroupException("The user is not part of this group");
+        hobbyGroup.getMembers().remove(oldMember);
+        repository.save(hobbyGroup);
+        return hobbyGroup;
+    }
 }
