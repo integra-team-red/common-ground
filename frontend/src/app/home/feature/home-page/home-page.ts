@@ -8,7 +8,6 @@ import {IconField} from "primeng/iconfield";
 import {InputIcon} from "primeng/inputicon";
 import {CreateHobbyGroup} from "../../ui/create-hobby-group/create-hobby-group";
 
-
 @Component({
     selector: 'app-home-page',
     imports: [
@@ -80,9 +79,9 @@ export class HomePage implements OnInit {
             });
     }
 
-    getFilteredHobbyGroups(page: number){
+    getFilteredHobbyGroups(page: number) {
         this.loading.set(true);
-        this.hobbyGroupService.filterAllHobbyGroupsByName(this.searchQuery().trim(), {size:5, page:page})
+        this.hobbyGroupService.filterAllHobbyGroupsByName(this.searchQuery().trim(), {size: 5, page: page})
             .subscribe({
                 next: (response) => {
                     const newItems = response.content ?? [];
@@ -113,6 +112,23 @@ export class HomePage implements OnInit {
         const atBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + threshold;
         if (atBottom && !this.loading() && this.filteredHobbyGroups().length < this.totalRecords()) {
             this.loadMore();
+        }
+    }
+
+    onGroupUpdated() {
+        this.refreshGroups();
+    }
+
+    onGroupDeleted() {
+        this.refreshGroups();
+    }
+
+    refreshGroups() {
+        this.currentPage.set(0);
+        if (this.searchQuery().trim()) {
+            this.getFilteredHobbyGroups(0);
+        } else {
+            this.getHobbyGroups(0);
         }
     }
 }

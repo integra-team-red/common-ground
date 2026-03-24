@@ -3,9 +3,10 @@ package cloudflight.integra.backend.user.model;
 import cloudflight.integra.backend.user.Role;
 
 import java.util.List;
+import java.util.UUID;
 
-public record UserDto(String username, String email, String password, Role role, List<Long> tagIds) {
-    public UserDto(String username, String email, String password) {
-        this(username, email, password, null, null);
+public record UserDto(UUID id, String username, String email, Role role, List<Long> tagIds) {
+    public UserDto(UUID id ,String username, String email) {
+        this(id, username, email,  null, null);
     }
 }
