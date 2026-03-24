@@ -5,10 +5,9 @@
 
         <div class="flex flex-col gap-6">
             @for (group of filteredHobbyGroups(); track group.id) {
-                <app-hobby-group-card
-                        [cardTitle]="group.name ?? ''"
-                        [cardDescription]="group.description ?? ''"
-                        [cardTagsIds]="group.tagIds"/>
+                <app-hobby-group-card [hobbyGroupDto]="group"
+                (groupUpdated)="onGroupUpdated($event)"
+                 (groupDeleted)="onGroupDeleted($event)"/>
             }
 
             <div #scrollAnchor class="h-20 w-full flex justify-center items-center">

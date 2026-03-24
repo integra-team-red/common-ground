@@ -19,7 +19,7 @@ public class HobbyGroupMapper {
             group.getRadiusKm(),
             tagIds,
             group.getOwner().getId(),
-            group.getMembers().stream().map(User::getId).collect(Collectors.toSet()));
+            group.getMembers().stream().map(User::getId).collect(Collectors.toList()));
     }
 
     public HobbyGroup toEntity(HobbyGroupDto groupDto, List<Tag> tags, User owner) {

@@ -8,7 +8,6 @@ import {IconField} from "primeng/iconfield";
 import {InputIcon} from "primeng/inputicon";
 import {CreateHobbyGroup} from "../../ui/create-hobby-group/create-hobby-group";
 
-
 @Component({
     selector: 'app-home-page',
     imports: [
@@ -114,5 +113,22 @@ export class HomePage implements OnInit {
         if (atBottom && !this.loading() && this.filteredHobbyGroups().length < this.totalRecords()) {
             this.loadMore();
         }
+    }
+
+    onGroupUpdated(updatedGroup: HobbyGroupDto) {
+        this.filteredHobbyGroups.update(groups =>
+            groups.map(group => group.id === updatedGroup.id ? updatedGroup : group)
+        );
+        this.hobbyGroups.update(groups =>
+            groups.map(group => group.id === updatedGroup.id ? updatedGroup : group)
+        );
+    }
+    onGroupDeleted(deletedId: string) {
+        this.filteredHobbyGroups.update(groups =>
+            groups.filter(group => group.id !== deletedId)
+        );
+        this.hobbyGroups.update(groups =>
+            groups.filter(group => group.id !== deletedId)
+        );
     }
 }
