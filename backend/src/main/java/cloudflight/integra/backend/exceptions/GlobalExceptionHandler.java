@@ -13,4 +13,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException elementException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(elementException.getMessage());
     }
+    @ExceptionHandler(AlreadyMemberOfThisHobbyGroupException.class)
+    public ResponseEntity<String> handleAlreadyMemberOfThisHobbyGroupException(
+        AlreadyMemberOfThisHobbyGroupException alreadyMemberOfThisHobbyGroupException)
+    { return ResponseEntity.status(HttpStatus.CONFLICT).body(alreadyMemberOfThisHobbyGroupException.getMessage());}
+
+    @ExceptionHandler(NotMemberOfHobbyGroupException.class)
+    public ResponseEntity<String> handleNotMemberOfHobbyGroupException(
+        NotMemberOfHobbyGroupException notMemberOfHobbyGroupException)
+    { return ResponseEntity.status(HttpStatus.CONFLICT).body(notMemberOfHobbyGroupException.getMessage());}
+
 }

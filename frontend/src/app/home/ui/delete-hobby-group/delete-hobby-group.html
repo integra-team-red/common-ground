@@ -1,0 +1,17 @@
+<p-button label="Delete Hobby Group" icon="pi pi-trash" variant="text" (click)="openDialog()"></p-button>
+
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }" appendTo="body" header="Delete Hobby Group">
+
+    <p class="m-0 mb-6">
+        Do you want to delete <strong>{{ hobbyGroupDto().name || 'this hobby group' }}</strong>?<br>
+        Changes will be irreversible.
+    </p>
+
+    <div class="flex gap-4 mt-1 w-full">
+        <p-button label="Cancel" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full"
+                  (click)="visible.set(false)"></p-button>
+        <p-button label="Delete" severity="primary" class="w-full" styleClass="w-full"
+                  (click)="confirmDelete()"></p-button>
+    </div>
+
+</p-dialog>
