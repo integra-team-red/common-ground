@@ -11,36 +11,45 @@ export const routes: Routes = [
     {
         path: '',
         title: "Home",
-        component: HomePage
+        component: HomePage,
     },
+
+    {
+        path: 'events',
+        title: "Events",
+        component: Events,
+
+    },
+
     {
         path: 'theme',
         title: "Theme",
         component: ThemeShowcaseComponent,
+        data: { isAdmin: true }
     },
     {
         path: 'registration',
         title: 'User Registration',
         component: Registration,
+        data: { isAdmin: true }
     },
     {
         path: 'login',
         title: "Login",
         component: LoginPage,
+        data: { isAdmin: true }
     },
     {
         path: 'locations',
         title: "Locations",
-        component: LocationsPage
+        component: LocationsPage,
+        data: { isAdmin: true }
     },
-    {
-        path: 'events',
-        title: "Event",
-        component: Events,
-    },
+
     {
         path: 'tag',
         title: "Tag",
-        component: TagPageComponent
+        component: TagPageComponent,
+        data: { isAdmin: true }
     },
 ];

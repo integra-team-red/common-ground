@@ -15,9 +15,15 @@ export class Sidebar {
     visible: boolean = false;
 
     public navRoutes = this.router.config
+        .filter(route => route.path !== '**' && route.title)
         .map(route => ({
             path: `/${route.path}`,
             title: route.title,
-            icon: route.data?.["icon"]
+            icon: route.data?.["icon"],
+            isAdmin: route.data?.["isAdmin"] === true,
         }));
+    public generalRoutes = this.navRoutes
+        .filter(r => !r.isAdmin);
+    public adminRoutes = this.navRoutes
+        .filter(r => r.isAdmin);
 }
