@@ -6,8 +6,8 @@ spring:
   config:
     import: "optional:file:env.properties"
   datasource:
-    url: ${DATABASE_URL}
-    username: ${POSTGRES_USER}
+    url: ${DATABASE_URL:jdbc:postgresql://host.docker.internal:5400/commonground}
+    username: ${POSTGRES_USER:commonGroundUser}
     password: ${POSTGRES_PASSWORD}
   jpa:
     show-sql: true
