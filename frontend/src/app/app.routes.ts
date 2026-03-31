@@ -31,7 +31,7 @@ export const routes: Routes = [
     {
         path:'feedback',
         title:"Feedback",
-        component:FeedbackPage
+        component:FeedbackPage,
     },
     {
         path: 'registration',
