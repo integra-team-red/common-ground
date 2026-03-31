@@ -11,7 +11,7 @@ ij_visual_guides = 120
 [*.{js,ts,vue,css,json}]
 indent_size = 4
 
-[*.{html,xml}]
+[*.{html,xml,md}]
 indent_size = unset
 
 [*.json]
