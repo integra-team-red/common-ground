@@ -85,23 +85,33 @@ public class HobbyGroup {
         return members;
     }
 
-    public void setId(UUID id) {
+    public HobbyGroup setId(UUID id) {
         this.id = id;
+        return this;
     }
 
-    public void setName(String name) {
+    public HobbyGroup setName(String name) {
         this.name = name;
+        return this;
     }
 
-    public void setDescription(String description) {
+    public HobbyGroup setDescription(String description) {
         this.description = description;
+        return this;
     }
 
-    public void setRadiusKm(double radiusKm) {
+    public HobbyGroup setRadiusKm(double radiusKm) {
         this.radiusKm = radiusKm;
+        return this;
     }
 
-    public void setTags(List<Tag> tags) {
+    public HobbyGroup setTags(List<Tag> tags) {
         this.tags = tags;
+        return this;
+    }
+
+    public HobbyGroup setOwner(User owner) {
+        this.owner = owner;
+        return this;
     }
 }
