@@ -1,42 +1,44 @@
-<p-button class="w-full" label="Create Hobby group" (click)="visible.set(true)" fluid/>
-<p-dialog header="New Hobby Group" [modal]="true" [(visible)]="visible" [style]="{width:'30rem'}" dismissableMask
-          class="overflow-visible">
-    <span class="p-text-secondary block mb-8">Create a new Hobby Group</span>
+<p-button (click)="visible.set(true)" class="w-full" fluid label="Create Hobby group"/>
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{width:'30rem'}" class="overflow-visible" dismissableMask
+  header="New Hobby Group">
+  <span class="p-text-secondary block mb-8">Create a new Hobby Group</span>
 
-    <form #hobbyGroupForm="ngForm" (ngSubmit)="onSubmit(hobbyGroupForm)" class="flex flex-col gap-3 w-full">
-        <div class="flex flex-col items-center gap-3">
-            <div class="flex flex-col gap-1 w-full">
-                <input pInputText type="text" id="name" placeholder="Name" name="name"
-                       [(ngModel)]="newHobbyGroup.name"
-                       #name="ngModel" [invalid]="name.invalid &&
-                           (name.touched || hobbyGroupForm.submitted)" required/>
-                @if (name.invalid && (name.touched || hobbyGroupForm.submitted)) {
-                    <p-message severity="error" size="small" variant="simple">Name is required.</p-message>
-                }
-            </div>
-            <div class="flex flex-col gap-1 w-full ">
-                <input pInputText type="text" id="description" placeholder="Description" name="description"
-                       [(ngModel)]="newHobbyGroup.description"
-                       #description="ngModel"
-                       [invalid]="description.invalid && (description.touched || hobbyGroupForm.submitted)" required
-                />
-                @if (description.invalid && (description.touched || hobbyGroupForm.submitted)) {
-                    <p-message severity="error" size="small" variant="simple">Description is required.</p-message>
-                }
-            </div>
-            <div class="flex flex-col gap-1 w-full">
-                <p-multi-select [options]="tags()" [(ngModel)]="newHobbyGroup.tagIds" name="tagIds"
-                                #tagIds=ngModel
-                                placeholder="Select Tags"
-                                optionLabel="label" optionValue="id" display="chip"
-                                class="w-full" appendTo="body"
-                                [fluid]="true"
-                ></p-multi-select>
-            </div>
-        </div>
-        <div class="justify-center">
-            <p-button label="Submit" severity="secondary" type="submit"/>
-        </div>
+  <form #hobbyGroupForm="ngForm" (ngSubmit)="onSubmit(hobbyGroupForm)" class="flex flex-col gap-3 w-full">
+    <div class="flex flex-col items-center gap-3">
+      <div class="flex flex-col gap-1 w-full">
+        <input #name="ngModel" [(ngModel)]="newHobbyGroup.name" [invalid]="name.invalid &&
+                          (name.touched || hobbyGroupForm.submitted)" id="name" name="name"
+          pInputText
+          placeholder="Name" required type="text"/>
+        @if (name.invalid && (name.touched || hobbyGroupForm.submitted)) {
+          <p-message severity="error" size="small" variant="simple">Name is required.</p-message>
+        }
+      </div>
+      <div class="flex flex-col gap-1 w-full ">
+        <input #description="ngModel" [(ngModel)]="newHobbyGroup.description"
+          [invalid]="description.invalid && (description.touched || hobbyGroupForm.submitted)" id="description"
+          name="description"
+          pInputText
+          placeholder="Description"
+          required type="text"
+        />
+        @if (description.invalid && (description.touched || hobbyGroupForm.submitted)) {
+          <p-message severity="error" size="small" variant="simple">Description is required.</p-message>
+        }
+      </div>
+      <div class="flex flex-col gap-1 w-full">
+        <p-multi-select #tagIds=ngModel [(ngModel)]="newHobbyGroup.tagIds" [fluid]="true"
+          [options]="tags()"
+          appendTo="body"
+          class="w-full" display="chip" name="tagIds"
+          optionLabel="label" optionValue="id"
+          placeholder="Select Tags"
+        ></p-multi-select>
+      </div>
+    </div>
+    <div class="justify-center">
+      <p-button label="Submit" severity="secondary" type="submit"/>
+    </div>
 
-    </form>
+  </form>
 </p-dialog>

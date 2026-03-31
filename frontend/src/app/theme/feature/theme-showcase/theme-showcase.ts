@@ -50,21 +50,13 @@ export class ThemeShowcaseComponent {
     hoverCard = false;
 
     cities = [
-        {name: 'New York', code: 'NY'},
-        {name: 'London', code: 'LDN'},
-        {name: 'Paris', code: 'PRS'},
-        {name: 'Tokyo', code: 'TKY'}
+        { name: 'New York', code: 'NY' },
+        { name: 'London', code: 'LDN' },
+        { name: 'Paris', code: 'PRS' },
+        { name: 'Tokyo', code: 'TKY' }
     ];
 
     selectedCity: any;
-
-    toggleTheme() {
-        if (this.darkMode) {
-            document.body.classList.add('dark-mode');
-        } else {
-            document.body.classList.remove('dark-mode');
-        }
-    }
 
     get debugInfo() {
         return JSON.stringify({
@@ -90,6 +82,14 @@ export class ThemeShowcaseComponent {
                 }
             }
         }, null, 2);
+    }
+
+    toggleTheme() {
+        if (this.darkMode) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
     }
 
 }

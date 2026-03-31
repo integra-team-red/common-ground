@@ -36,7 +36,7 @@ export class TagPageComponent implements OnInit {
 
     tags = signal<TagDto[]>([]);
     searchValue = "";
-    currentTag = signal<TagDto>({label: ""});
+    currentTag = signal<TagDto>({ label: "" });
 
     visibleAddForm = signal<boolean>(false);
     visibleUpdateForm = signal<boolean>(false);
@@ -65,8 +65,8 @@ export class TagPageComponent implements OnInit {
                     size: this.currentSize,
                     page: this.currentPage
                 }).subscribe((response: PageTagDto) => {
-                    this.tags.set(response.content ?? []);
-                    this.totalRecords.set(response.totalElements ?? 0);
+                this.tags.set(response.content ?? []);
+                this.totalRecords.set(response.totalElements ?? 0);
             });
         }
     }
@@ -83,7 +83,8 @@ export class TagPageComponent implements OnInit {
             next: () => {
                 this.getTags();
                 this.visibleAddForm.set(false);
-                this.toastService.showSuccess("Tag was created successfully.");
+                this.toastService.showSuccess("Tag wascreated successfully."
+                );
             },
             error: (err) => {
                 console.error("Error creating tag", err);
@@ -98,7 +99,8 @@ export class TagPageComponent implements OnInit {
                 this.getTags();
                 this.visibleUpdateForm.set(false);
 
-                this.toastService.showSuccess("Tag was updated successfully.");
+                this.toastService.showSuccess("Tag wasupdated successfully."
+                );
             },
             error: () => {
                 this.toastService.showError("Could not update tag.");
@@ -111,7 +113,8 @@ export class TagPageComponent implements OnInit {
             next: () => {
                 this.getTags();
 
-                this.toastService.showSuccess("Tag was deleted successfully.");
+                this.toastService.showSuccess("Tag wasdeleted successfully."
+                );
             },
             error: () => {
                 this.toastService.showError("Could not delete tag");

@@ -3,7 +3,7 @@ import {Button} from "primeng/button";
 import {Dialog} from "primeng/dialog";
 import {SystemFeedbackDTO} from "@app/api/model/systemFeedbackDTO";
 import {SystemFeedbackControllerService} from "@app/api/api/systemFeedbackController.service";
-import{ToastService} from "../../../toast-service/toast-service";
+import {ToastService} from "../../../toast-service/toast-service";
 
 @Component({
     selector: 'app-delete-feedback',
@@ -18,7 +18,7 @@ export class DeleteEvent {
     visible = signal<boolean>(false);
     refreshTable = output<void>();
     feedbackData = input.required<SystemFeedbackDTO>();
-    toastService=inject(ToastService);
+    toastService = inject(ToastService);
 
     openDialog() {
         this.visible.set(true);
@@ -34,8 +34,8 @@ export class DeleteEvent {
                     this.toastService.showSuccess("Succesfully deleted feedback ");
                 },
                 error: () => {
-                this.toastService.showError("Could not delete feedback ");
-            }
+                    this.toastService.showError("Could not delete feedback ");
+                }
             });
         }
     }

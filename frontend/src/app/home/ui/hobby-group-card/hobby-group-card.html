@@ -1,25 +1,25 @@
 <p-card>
-    <ng-template #title>
-        <h3>{{ cardTitle() }}</h3></ng-template>
-    <p>
-        {{ cardDescription() }}
-    </p>
-    <ng-template #footer>
-        <div class="flex flex-row justify-between items-center">
-            <div class="flex flex-shrink-0 whitespace-nowrap">
-                <p-avatar icon="pi pi-user" class="mr-2" shape="circle"/>
-                <span>User Name</span>
-            </div>
+  <ng-template #title>
+    <h3>{{ cardTitle() }}</h3></ng-template>
+  <p>
+    {{ cardDescription() }}
+  </p>
+  <ng-template #footer>
+    <div class="flex flex-row justify-between items-center">
+      <div class="flex flex-shrink-0 whitespace-nowrap">
+        <p-avatar class="mr-2" icon="pi pi-user" shape="circle"/>
+        <span>User Name</span>
+      </div>
 
-            <div class="flex flex-row flex-wrap gap-2 justify-end">
-                @for (tag of cardTags(); track tag.id) {
-                    <p-chip [label]="tag.label"/>
-                }
-            </div>
-        </div>
-        <div class="flex gap-4 mt-2 -mb-4">
-            <p-button label="Join" icon="pi pi-users" variant="text"/>
-        </div>
-    </ng-template>
+      <div class="flex flex-row flex-wrap gap-2 justify-end">
+        @for (tag of cardTags(); track tag.id) {
+          <p-chip [label]="tag.label"/>
+        }
+      </div>
+    </div>
+    <div class="flex gap-4 mt-2 -mb-4">
+      <p-button icon="pi pi-users" label="Join" variant="text"/>
+    </div>
+  </ng-template>
 
 </p-card>

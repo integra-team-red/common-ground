@@ -11,9 +11,8 @@ import {Drawer} from "primeng/drawer";
     styleUrl: './sidebar.css',
 })
 export class Sidebar {
-    private router = inject(Router);
     visible: boolean = false;
-
+    private router = inject(Router);
     public navRoutes = this.router.config
         .filter(route => route.path !== '**' && route.title)
         .map(route => ({

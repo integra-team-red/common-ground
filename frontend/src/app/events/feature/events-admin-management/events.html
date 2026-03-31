@@ -1,27 +1,28 @@
 <div class="mt-4 flex flex-col gap-6 p-6">
-    <div class="flex flex-row items-center w-full gap-4">
-        <h2 class="text-4xl whitespace-nowrap">Admin: Event Management</h2>
+  <div class="flex flex-row items-center w-full gap-4">
+    <h2 class="text-4xl whitespace-nowrap">Admin: Event Management</h2>
 
-        <div class="flex flex-row grow justify-end gap-2">
-            <div class="grow max-w-md">
-                <p-iconfield class="w-full">
-                    <p-inputicon class="pi pi-search"/>
-                    <input type="text" pInputText placeholder="Search Events..." class="w-full"
-                           [ngModel]="searchQuery()"
-                           (ngModelChange)="searchQuery.set($event); onSearch()"/>
-                </p-iconfield>
-            </div>
-            <div>
-                <app-create-event (refreshTable)="getEvents()"></app-create-event>
-            </div>
-        </div>
+    <div class="flex flex-row grow justify-end gap-2">
+      <div class="grow max-w-md">
+        <p-iconfield class="w-full">
+          <p-inputicon class="pi pi-search"/>
+          <input (ngModelChange)="searchQuery.set($event); onSearch()" [ngModel]="searchQuery()" class="w-full"
+            pInputText
+            placeholder="Search Events..."
+            type="text"/>
+        </p-iconfield>
+      </div>
+      <div>
+        <app-create-event (refreshTable)="getEvents()"></app-create-event>
+      </div>
     </div>
-    <div class="w-full overflow-x-auto">
-        <app-events-table
-                [events]="events()"
-                [rows]="rows()"
-                [totalRecords]="totalRecords()"
-                (refresh)="getEvents()" (lazyEvent)="loadEventsLazy($event)">
-        </app-events-table>
-    </div>
+  </div>
+  <div class="w-full overflow-x-auto">
+    <app-events-table
+      (lazyEvent)="loadEventsLazy($event)"
+      (refresh)="getEvents()"
+      [events]="events()"
+      [rows]="rows()" [totalRecords]="totalRecords()">
+    </app-events-table>
+  </div>
 </div>

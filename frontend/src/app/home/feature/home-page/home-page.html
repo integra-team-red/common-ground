@@ -1,38 +1,38 @@
 <div class="flex flex-row w-full justify-between gap-8 p-6">
 
-    <div class="w-full max-w-[600px]">
-        <h2 class="text-4xl mb-6"><b>Hobby Groups</b></h2>
+  <div class="w-full max-w-[600px]">
+    <h2 class="text-4xl mb-6"><b>Hobby Groups</b></h2>
 
-        <div class="flex flex-col gap-6">
-            @for (group of filteredHobbyGroups(); track group.id) {
-                <app-hobby-group-card
-                        [cardTitle]="group.name ?? ''"
-                        [cardDescription]="group.description ?? ''"
-                        [cardTagsIds]="group.tagIds"/>
-            }
+    <div class="flex flex-col gap-6">
+      @for (group of filteredHobbyGroups(); track group.id) {
+        <app-hobby-group-card
+          [cardDescription]="group.description ?? ''"
+          [cardTagsIds]="group.tagIds"
+          [cardTitle]="group.name ?? ''"/>
+      }
 
-            <div #scrollAnchor class="h-20 w-full flex justify-center items-center">
-                @if (loading()) {
-                    <i class="pi pi-spin pi-spinner text-3xl text-blue-500"></i>
-                }
-            </div>
-        </div>
+      <div #scrollAnchor class="h-20 w-full flex justify-center items-center">
+        @if (loading()) {
+          <i class="pi pi-spin pi-spinner text-3xl text-blue-500"></i>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="w-full flex flex-col sticky top-6 h-[calc(100vh-3rem)] overflow-hidden">
+    <div class="flex flex-row w-full gap-2 mb-3 ">
+      <p-iconfield class="w-full">
+        <p-inputicon class="pi pi-search"/>
+        <input (ngModelChange)="onSearch($event)" [(ngModel)]="searchQuery" autocomplete="off" class="w-full"
+          fluid pInputText placeholder="Search by name" type="text"/>
+      </p-iconfield>
+
+      <div class="w-full">
+        <app-create-hobby-group (refreshHobbyGroup)="getHobbyGroups(0)"></app-create-hobby-group>
+      </div>
     </div>
 
-    <div class="w-full flex flex-col sticky top-6 h-[calc(100vh-3rem)] overflow-hidden">
-        <div class="flex flex-row w-full gap-2 mb-3 ">
-            <p-iconfield class="w-full">
-                <p-inputicon class="pi pi-search"/>
-                <input type="text" pInputText placeholder="Search by name" [(ngModel)]="searchQuery"
-                       (ngModelChange)="onSearch($event)" autocomplete="off" class="w-full" fluid/>
-            </p-iconfield>
-
-            <div class="w-full">
-                <app-create-hobby-group (refreshHobbyGroup)="getHobbyGroups(0)"></app-create-hobby-group>
-            </div>
-        </div>
-
-        <img class="w-full" src="https://placehold.co/700x1000?text=Placeholder+Map" alt="map image"/>
-    </div>
+    <img alt="map image" class="w-full" src="https://placehold.co/700x1000?text=Placeholder+Map"/>
+  </div>
 
 </div>

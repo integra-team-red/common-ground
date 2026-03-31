@@ -1,64 +1,71 @@
-<p-button label="Create New Event" (onClick)="visible.set(true)"></p-button>
-<p-dialog header="Create Event" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }" dismissableMask>
-    <span class="p-text-secondary block mb-2">Enter the details for the new event</span>
-    <form #eventForm="ngForm" (ngSubmit)="onSubmit(eventForm)" class="flex flex-col gap-4 w-full">
-        <div class="flex flex-col gap-2">
+<p-button (onClick)="visible.set(true)" label="Create New Event"></p-button>
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }" dismissableMask header="Create Event">
+  <span class="p-text-secondary block mb-2">Enter the details for the new event</span>
+  <form #eventForm="ngForm" (ngSubmit)="onSubmit(eventForm)" class="flex flex-col gap-4 w-full">
+    <div class="flex flex-col gap-2">
 
-            <div class="flex flex-col gap-1">
-                <input pInputText type="text" id="title" placeholder="Event Title" name="title"
-                       [(ngModel)]="newEvent.title"
-                       #title="ngModel" [invalid]="title.invalid && (title.touched || eventForm.submitted)"
-                       required/>
-                @if (title.invalid && (title.touched || eventForm.submitted)) {
-                    <p-message severity="error" size="small" variant="simple">Title is required.</p-message>
-                }
-            </div>
+      <div class="flex flex-col gap-1">
+        <input #title="ngModel" [(ngModel)]="newEvent.title"
+          [invalid]="title.invalid && (title.touched || eventForm.submitted)" id="title" name="title"
+          pInputText
+          placeholder="Event Title" required
+          type="text"/>
+        @if (title.invalid && (title.touched || eventForm.submitted)) {
+          <p-message severity="error" size="small" variant="simple">Title is required.</p-message>
+        }
+      </div>
 
-            <div class="flex flex-col gap-1">
-                <p-datepicker id="startTime" name="startTime" placeholder="Start Time"
-                              [(ngModel)]="newEvent.startTime"
-                              [showTime]="true" hourFormat="24" appendTo="body" styleClass="w-full"
-                              #startTime="ngModel"
-                              [invalid]="startTime.invalid && (startTime.touched || eventForm.submitted)" required/>
-                @if (startTime.invalid && (startTime.touched || eventForm.submitted)) {
-                    <p-message severity="error" size="small" variant="simple">Start Time is required.</p-message>
-                }
-            </div>
+      <div class="flex flex-col gap-1">
+        <p-datepicker #startTime="ngModel" [(ngModel)]="newEvent.startTime"
+          [invalid]="startTime.invalid && (startTime.touched || eventForm.submitted)"
+          [showTime]="true"
+          appendTo="body" hourFormat="24" id="startTime" name="startTime"
+          placeholder="Start Time"
+          required styleClass="w-full"/>
+        @if (startTime.invalid && (startTime.touched || eventForm.submitted)) {
+          <p-message severity="error" size="small" variant="simple">Start Time is required.</p-message>
+        }
+      </div>
 
-            <div class="flex flex-col gap-1">
-                <p-datepicker id="endTime" name="endTime" placeholder="End Time" [(ngModel)]="newEvent.endTime"
-                              [showTime]="true" hourFormat="24" appendTo="body" styleClass="w-full"
-                              #endTime="ngModel"
-                              [invalid]="endTime.invalid && (endTime.touched || eventForm.submitted)" required/>
-                @if (endTime.invalid && (endTime.touched || eventForm.submitted)) {
-                    <p-message severity="error" size="small" variant="simple">End Time is required.</p-message>
-                }
-            </div>
+      <div class="flex flex-col gap-1">
+        <p-datepicker #endTime="ngModel" [(ngModel)]="newEvent.endTime"
+          [invalid]="endTime.invalid && (endTime.touched || eventForm.submitted)" [showTime]="true"
+          appendTo="body" hourFormat="24" id="endTime" name="endTime"
+          placeholder="End Time"
+          required styleClass="w-full"/>
+        @if (endTime.invalid && (endTime.touched || eventForm.submitted)) {
+          <p-message severity="error" size="small" variant="simple">End Time is required.</p-message>
+        }
+      </div>
 
-            <div class="flex flex-col gap-1">
-                <input pInputText type="text" id="locationId" placeholder="Location ID" name="locationId"
-                       [(ngModel)]="newEvent.locationId"
-                       #locationId="ngModel"
-                       [invalid]="locationId.invalid && (locationId.touched || eventForm.submitted)" required/>
-                @if (locationId.invalid && (locationId.touched || eventForm.submitted)) {
-                    <p-message severity="error" size="small" variant="simple">Location ID is required.</p-message>
-                }
-            </div>
+      <div class="flex flex-col gap-1">
+        <input #locationId="ngModel" [(ngModel)]="newEvent.locationId"
+          [invalid]="locationId.invalid && (locationId.touched || eventForm.submitted)" id="locationId"
+          name="locationId"
+          pInputText
+          placeholder="Location ID"
+          required type="text"/>
+        @if (locationId.invalid && (locationId.touched || eventForm.submitted)) {
+          <p-message severity="error" size="small" variant="simple">Location ID is required.</p-message>
+        }
+      </div>
 
-            <div class="flex flex-col gap-1">
-                <input pInputText type="text" id="hobbyGroupId" placeholder="Hobby Group ID" name="hobbyGroupId"
-                       [(ngModel)]="newEvent.hobbyGroupId"
-                       #hobbyGroupId="ngModel"
-                       [invalid]="hobbyGroupId.invalid && (hobbyGroupId.touched || eventForm.submitted)" required/>
-                @if (hobbyGroupId.invalid && (hobbyGroupId.touched || eventForm.submitted)) {
-                    <p-message severity="error" size="small" variant="simple">Hobby Group ID is required.
-                    </p-message>
-                }
-            </div>
+      <div class="flex flex-col gap-1">
+        <input #hobbyGroupId="ngModel" [(ngModel)]="newEvent.hobbyGroupId"
+          [invalid]="hobbyGroupId.invalid && (hobbyGroupId.touched || eventForm.submitted)" id="hobbyGroupId"
+          name="hobbyGroupId"
+          pInputText
+          placeholder="Hobby Group ID"
+          required type="text"/>
+        @if (hobbyGroupId.invalid && (hobbyGroupId.touched || eventForm.submitted)) {
+          <p-message severity="error" size="small" variant="simple">Hobby Group ID is required.
+          </p-message>
+        }
+      </div>
 
-        </div>
+    </div>
 
-        <p-button label="Submit" severity="secondary" type="submit"/>
-    </form>
+    <p-button label="Submit" severity="secondary" type="submit"/>
+  </form>
 
 </p-dialog>

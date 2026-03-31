@@ -1,36 +1,36 @@
 <div class="flex flex-col gap-8">
-    <div class="flex justify-between gap-8 w-full">
-        <h2 class="text-4xl font-bold">Admin: Tag Management</h2>
-        <div class="flex gap-8">
-            <div class="flex">
-                <p-iconfield iconPosition="left" class="ml-auto w-full">
-                    <p-inputicon>
-                        <i class="pi pi-search"></i>
-                    </p-inputicon>
-                    <input pInputText
-                           type="text"
-                           [(ngModel)]="searchValue"
-                           (input)="getTags()"
-                           placeholder="Search Tags..."/>
-                </p-iconfield>
-            </div>
-            <p-button label="Create New Tag" (click)="onTagCreateClick()" />
-        </div>
-
+  <div class="flex justify-between gap-8 w-full">
+    <h2 class="text-4xl font-bold">Admin: Tag Management</h2>
+    <div class="flex gap-8">
+      <div class="flex">
+        <p-iconfield class="ml-auto w-full" iconPosition="left">
+          <p-inputicon>
+            <i class="pi pi-search"></i>
+          </p-inputicon>
+          <input (input)="getTags()"
+            [(ngModel)]="searchValue"
+            pInputText
+            placeholder="Search Tags..."
+            type="text"/>
+        </p-iconfield>
+      </div>
+      <p-button (click)="onTagCreateClick()" label="Create New Tag"/>
     </div>
 
-    <app-tag-table class="w-full"
-                   [tags]="tags()"
-                   [totalRecords]="totalRecords()"
-                   (loadLazy)="loadTagsLazy($event)"
-                   (updateClick)="onTagUpdateClick($event)"
-                   (deleteClick)="onTagDeleteClick($event)"/>
+  </div>
 
-    <app-create-tag-form [visible]="visibleAddForm()"
-                         (create)="createTag($event)"
-                         (hide)="visibleAddForm.set(false)"/>
-    <app-update-tag-form [updateTag]="currentTag()"
-                         [visible]="visibleUpdateForm()"
-                         (create)="updateTag($event)"
-                         (hide)="visibleUpdateForm.set(false)"/>
+  <app-tag-table (deleteClick)="onTagDeleteClick($event)"
+    (loadLazy)="loadTagsLazy($event)"
+    (updateClick)="onTagUpdateClick($event)"
+    [tags]="tags()"
+    [totalRecords]="totalRecords()"
+    class="w-full"/>
+
+  <app-create-tag-form (create)="createTag($event)"
+    (hide)="visibleAddForm.set(false)"
+    [visible]="visibleAddForm()"/>
+  <app-update-tag-form (create)="updateTag($event)"
+    (hide)="visibleUpdateForm.set(false)"
+    [updateTag]="currentTag()"
+    [visible]="visibleUpdateForm()"/>
 </div>

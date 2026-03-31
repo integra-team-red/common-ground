@@ -29,7 +29,7 @@ export class UpdateEvent {
     refreshTable = output<void>();
 
     eventData = input.required<EventDto>();
-    editEvent: EventDto = {title: "", startTime: "", endTime: "", locationId: "", hobbyGroupId: ""};
+    editEvent: EventDto = { title: "", startTime: "", endTime: "", locationId: "", hobbyGroupId: "" };
 
     openDialog() {
         this.editEvent = { ...this.eventData() };

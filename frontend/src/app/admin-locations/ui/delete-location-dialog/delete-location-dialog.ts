@@ -20,7 +20,7 @@ export class DeleteLocationDialog {
     constructor() {
         effect(() => {
             const currentLocation = this.locationDto();
-            this.editableLocation.set({...currentLocation});
+            this.editableLocation.set({ ...currentLocation });
         });
     }
 
