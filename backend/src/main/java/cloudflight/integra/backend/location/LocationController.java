@@ -45,7 +45,7 @@ public class LocationController {
     @GetMapping
     @Operation(
         operationId = "getLocations",
-        summary = "Get all locations",
+        summary = "Get all locations, optionally filtered by user",
         responses = {
             @ApiResponse(
                 responseCode = "200",
@@ -57,7 +57,14 @@ public class LocationController {
             )
         }
     )
-    public Page<LocationDto> getAll(Pageable pageable) {
+    public Page<LocationDto> getAll(
+        @RequestParam(required = false) UUID userId,
+        Pageable pageable
+    ) {
+        if (userId != null) {
+            return locationService.getByCreator(userId, pageable)
+                .map(locationMapper::toDto);
+        }
         return locationService.getAll(pageable).map(locationMapper::toDto);
     }
 

@@ -1,6 +1,7 @@
 package cloudflight.integra.backend.location;
 
 import cloudflight.integra.backend.location.model.Location;
+import cloudflight.integra.backend.user.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,11 @@ public class LocationService {
     @Transactional(readOnly = true)
     public Location getById(UUID id) {
         return repository.findById(id).orElseThrow();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Location> getByCreator(UUID creatorId, Pageable pageable) {
+        return repository.findByCreatorId(creatorId, pageable);
     }
 
     @Transactional
