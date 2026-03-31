@@ -29,9 +29,9 @@ export const routes: Routes = [
         data: { isAdmin: true }
     },
     {
-        path:'feedback',
-        title:"Feedback",
-        component:FeedbackPage
+        path: 'feedback',
+        title: "Feedback",
+        component: FeedbackPage
     },
     {
         path: 'registration',

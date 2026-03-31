@@ -47,7 +47,7 @@ export class Events {
                 this.totalRecords.set(response.totalElements ?? 0);
             });
         } else {
-            this.eventService.getAllEvents({page: currentPage, size: currentSize}).subscribe((response) => {
+            this.eventService.getAllEvents({ page: currentPage, size: currentSize }).subscribe((response) => {
                 this.events.set(response.content ?? []);
                 this.totalRecords.set(response.totalElements ?? 0);
             });

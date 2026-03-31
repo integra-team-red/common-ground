@@ -38,7 +38,7 @@ export class LocationsPage implements OnInit {
     getLocations(page: number = 0, size: number = 10) {
         this.currentPage.set(page);
         this.rows.set(size);
-        const pageable: Pageable = {page, size};
+        const pageable: Pageable = { page, size };
         this.locationService.getLocations(pageable).subscribe({
             next: (response: PageLocationDto) => {
                 this.locations.set(response.content ?? []);
@@ -56,7 +56,7 @@ export class LocationsPage implements OnInit {
             this.getLocations();
             return;
         }
-        const pageable: Pageable = {page: 0, size: this.rows()};
+        const pageable: Pageable = { page: 0, size: this.rows() };
         this.locationService.getByName(searchTerm, pageable).subscribe({
             next: (response: PageLocationDto) => {
                 this.locations.set(response.content ?? []);

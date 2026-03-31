@@ -1,30 +1,30 @@
-<p-table [value]="tags()" [tableStyle]="{ 'min-width': '50rem' }" [scrollable]="true" [lazy]="true"
-         (onLazyLoad)="loadTagsLazy($event)" [paginator]="true" [rows]="rows" [totalRecords]="totalRecords()"
-         [rowsPerPageOptions]="[10, 25, 50]">
-    <ng-template #header>
-        <tr>
-            <th>ID</th>
-            <th>Label</th>
-            <th>Normalized Label</th>
-            <th>Actions</th>
-        </tr>
-    </ng-template>
-    <ng-template #body let-tag>
-        <tr>
-            <td>{{ tag.id }}</td>
-            <td>
-                <p-chip>
-                        <span style="white-space: pre">{{ tag.label }}</span>
-                </p-chip>
+<p-table (onLazyLoad)="loadTagsLazy($event)" [lazy]="true" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]"
+  [rows]="rows" [scrollable]="true" [tableStyle]="{ 'min-width': '50rem' }" [totalRecords]="totalRecords()"
+  [value]="tags()">
+  <ng-template #header>
+    <tr>
+      <th>ID</th>
+      <th>Label</th>
+      <th>Normalized Label</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-tag>
+    <tr>
+      <td>{{ tag.id }}</td>
+      <td>
+        <p-chip>
+          <span style="white-space: pre">{{ tag.label }}</span>
+        </p-chip>
 
-            </td>
-            <td>{{ tag.normalizedLabel }}</td>
-            <td>
-                <div class="flex gap-2">
-                    <p-button icon="pi pi-pencil" severity="secondary" (click)="updateClick.emit(tag.id)"/>
-                    <p-button icon="pi pi-trash" (click)="deleteClick.emit(tag.id)"/>
-                </div>
-            </td>
-        </tr>
-    </ng-template>
+      </td>
+      <td>{{ tag.normalizedLabel }}</td>
+      <td>
+        <div class="flex gap-2">
+          <p-button (click)="updateClick.emit(tag.id)" icon="pi pi-pencil" severity="secondary"/>
+          <p-button (click)="deleteClick.emit(tag.id)" icon="pi pi-trash"/>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
 </p-table>

@@ -47,7 +47,7 @@ export class HomePage implements OnInit {
                 this.filteredHobbyGroups().length < this.totalRecords()) {
                 this.loadMore();
             }
-        }, {threshold: 0.1});
+        }, { threshold: 0.1 });
 
         if (this.scrollAnchor) {
             observer.observe(this.scrollAnchor.nativeElement);
@@ -62,7 +62,7 @@ export class HomePage implements OnInit {
 
     getHobbyGroups(page: number) {
         this.loading.set(true);
-        this.hobbyGroupService.getAllHobbyGroups({size: 5, page: page})
+        this.hobbyGroupService.getAllHobbyGroups({ size: 5, page: page })
             .subscribe({
                 next: (response) => {
                     const newItems = response.content ?? [];
@@ -80,9 +80,9 @@ export class HomePage implements OnInit {
             });
     }
 
-    getFilteredHobbyGroups(page: number){
+    getFilteredHobbyGroups(page: number) {
         this.loading.set(true);
-        this.hobbyGroupService.filterAllHobbyGroupsByName(this.searchQuery().trim(), {size:5, page:page})
+        this.hobbyGroupService.filterAllHobbyGroupsByName(this.searchQuery().trim(), { size: 5, page: page })
             .subscribe({
                 next: (response) => {
                     const newItems = response.content ?? [];

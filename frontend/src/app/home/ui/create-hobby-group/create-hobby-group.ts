@@ -47,7 +47,7 @@ export class CreateHobbyGroup {
     }
 
     getTags() {
-        this.tagService.getAllTags({size: 10, page: 0})
+        this.tagService.getAllTags({ size: 10, page: 0 })
             .subscribe((response: PageTagDto) => {
                 this.tags.set(response.content ?? []);
             });

@@ -1,7 +1,7 @@
-import { Component, input, output } from '@angular/core';
-import { TableLazyLoadEvent, TableModule } from "primeng/table";
-import { DatePipe } from "@angular/common";
-import { SystemFeedbackDTO } from "@app/api/model/systemFeedbackDTO";
+import {Component, input, output} from '@angular/core';
+import {TableLazyLoadEvent, TableModule} from "primeng/table";
+import {DatePipe} from "@angular/common";
+import {SystemFeedbackDTO} from "@app/api/model/systemFeedbackDTO";
 import {UpdateFeedback} from "../update-feedback/update-feedback";
 import {DeleteEvent} from "../delete-feedback/delete-feedback";
 

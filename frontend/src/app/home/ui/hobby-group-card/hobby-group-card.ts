@@ -32,6 +32,6 @@ export class HobbyGroupCard {
         })
     );
 
-    cardTags = toSignal(this.tags, {initialValue: []});
+    cardTags = toSignal(this.tags, { initialValue: [] });
 }
 

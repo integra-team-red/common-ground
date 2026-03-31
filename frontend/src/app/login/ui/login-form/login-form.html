@@ -1,71 +1,71 @@
 <div class="px-6 py-20">
-    <div class="bg-surface-50 p-8 md:p-12 shadow-sm rounded-2xl w-full max-w-sm mx-auto flex flex-col gap-8">
-        <div class="flex flex-col items-center gap-4">
-            <div class="flex items-center gap-4">
-            </div>
-            <div class="flex flex-col items-center gap-2 w-full">
-                <div class="text-surface-900 dark:text-surface-0 text-2xl font-semibold leading-tight
+  <div class="bg-surface-50 p-8 md:p-12 shadow-sm rounded-2xl w-full max-w-sm mx-auto flex flex-col gap-8">
+    <div class="flex flex-col items-center gap-4">
+      <div class="flex items-center gap-4">
+      </div>
+      <div class="flex flex-col items-center gap-2 w-full">
+        <div class="text-surface-900 dark:text-surface-0 text-2xl font-semibold leading-tight
                 text-center w-full">
-                    Log In
-                </div>
-                <div class="text-center w-full">
-                    <span class="text-surface-700 dark:text-surface-200 leading-normal">Don't have an account?</span>
-                    <a class="text-primary font-medium ml-1 cursor-pointer hover:text-primary-emphasis"
-                       routerLink="/registration">Register!</a>
-                </div>
-            </div>
+          Log In
         </div>
-        <div class="card flex justify-center">
-            <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="flex flex-col gap-4 sm:w-56">
-                <div class="flex flex-col gap-6 w-full">
-                    <div class="flex flex-col gap-2 w-full">
-                        <label for="username" class="text-surface-900 dark:text-surface-0 font-medium leading-normal">
-                            Username
-                        </label>
-                        <input
-                                pInputText
-                                [(ngModel)]="request.username"
-                                name="username"
-                                id="username"
-                                placeholder="Username"
-                                class="w-full px-3 py-2 shadow-sm rounded-lg"
-                                #username="ngModel"
-                                [invalid]="username.invalid && (username.touched || loginForm.submitted)" required
-                        />
-                        @if (username.invalid && (username.touched || loginForm.submitted)) {
-                            <p-message severity="error" size="small" variant="simple">Username is required</p-message>
-                        }
-                    </div>
-                    <div class="flex flex-col gap-2 w-full">
-                        <label for="password" class="text-surface-900 dark:text-surface-0 font-medium leading-normal">
-                            Password
-                        </label>
-                        <p-password
-                                [(ngModel)]="request.password"
-                                variant="filled"
-                                name="password"
-                                inputId="password"
-                                placeholder="Password"
-                                class="w-full"
-                                inputStyleClass="w-full px-3 py-2 shadow-sm rounded-lg"
-                                [feedback]="false"
-                                [toggleMask]="true"
-                                #password="ngModel"
-                                [invalid]="password.invalid && (password.touched || loginForm.submitted)" required
-                        ></p-password>
-                        @if (password.invalid && (password.touched || loginForm.submitted)) {
-                            <p-message severity="error" size="small" variant="simple">Password is required</p-message>
-                        }
-                    </div>
-                    <div class="flex flex-col sm:flex-row items-start
-                    sm:items-center justify-between w-full gap-3 sm:gap-0">
-                    </div>
-                    <button pButton class="w-full py-2 rounded-lg flex justify-center items-center gap-2">
-                        <i pButtonIcon class="pi pi-user text-base! leading-normal!"></i>
-                        <span pButtonLabel>Log in</span>
-                    </button>
-                </div>
-            </form>
+        <div class="text-center w-full">
+          <span class="text-surface-700 dark:text-surface-200 leading-normal">Don't have an account?</span>
+          <a class="text-primary font-medium ml-1 cursor-pointer hover:text-primary-emphasis"
+            routerLink="/registration">Register!</a>
         </div>
+      </div>
     </div>
+    <div class="card flex justify-center">
+      <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="flex flex-col gap-4 sm:w-56">
+        <div class="flex flex-col gap-6 w-full">
+          <div class="flex flex-col gap-2 w-full">
+            <label class="text-surface-900 dark:text-surface-0 font-medium leading-normal" for="username">
+              Username
+            </label>
+            <input
+              #username="ngModel"
+              [(ngModel)]="request.username"
+              [invalid]="username.invalid && (username.touched || loginForm.submitted)"
+              class="w-full px-3 py-2 shadow-sm rounded-lg"
+              id="username"
+              name="username"
+              pInputText
+              placeholder="Username" required
+            />
+            @if (username.invalid && (username.touched || loginForm.submitted)) {
+              <p-message severity="error" size="small" variant="simple">Username is required</p-message>
+            }
+          </div>
+          <div class="flex flex-col gap-2 w-full">
+            <label class="text-surface-900 dark:text-surface-0 font-medium leading-normal" for="password">
+              Password
+            </label>
+            <p-password
+              #password="ngModel"
+              [(ngModel)]="request.password"
+              [feedback]="false"
+              [invalid]="password.invalid && (password.touched || loginForm.submitted)"
+              [toggleMask]="true"
+              class="w-full"
+              inputId="password"
+              inputStyleClass="w-full px-3 py-2 shadow-sm rounded-lg"
+              name="password"
+              placeholder="Password"
+              required variant="filled"
+            ></p-password>
+            @if (password.invalid && (password.touched || loginForm.submitted)) {
+              <p-message severity="error" size="small" variant="simple">Password is required</p-message>
+            }
+          </div>
+          <div class="flex flex-col sm:flex-row items-start
+                    sm:items-center justify-between w-full gap-3 sm:gap-0">
+          </div>
+          <button class="w-full py-2 rounded-lg flex justify-center items-center gap-2" pButton>
+            <i class="pi pi-user text-base! leading-normal!" pButtonIcon></i>
+            <span pButtonLabel>Log in</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
