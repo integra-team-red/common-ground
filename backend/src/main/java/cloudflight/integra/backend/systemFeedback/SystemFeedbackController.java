@@ -28,14 +28,7 @@ public class SystemFeedbackController {
     @GetMapping
     @Operation(
         summary = "Get all System Feedbacks",
-        operationId = "getAllSystemFeedbacks",
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = Page.class)))
-        }
+        operationId = "getAllSystemFeedbacks"
     )
     public Page<SystemFeedbackDTO> getAll(
         @RequestParam(required = false) String search,

@@ -1,4 +1,4 @@
-name: Backend Tests 🧪
+name: Backend Build 🧪
 
 on: [ pull_request ]
 
@@ -7,7 +7,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  backend-tests:
+  backend-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources 📄
@@ -19,5 +19,5 @@ jobs:
           distribution: 'temurin'
           java-version: 24
 
-      - name: Run backend tests 🧪
-        run: ./backend/gradlew -p ./backend/ test -PexcludeTags=architecture
+      - name: Run backend build 🧪
+        run: ./backend/gradlew -p ./backend/ build
