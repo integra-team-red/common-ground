@@ -4,6 +4,7 @@ import cloudflight.integra.backend.tag.model.Tag;
 import cloudflight.integra.backend.user.Role;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -30,15 +31,26 @@ public class User {
     )
     private List<Tag> tags;
 
+    private LocalDateTime joinedDate;
+
     public User() {}
 
-    public User(UUID id, String username, String email, String password, Role role, List<Tag> tags) {
+    public User(
+        UUID id,
+        String username,
+        String email,
+        String password,
+        Role role,
+        List<Tag> tags,
+        LocalDateTime joinedDate
+    ) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
         this.tags = tags;
+        this.joinedDate = joinedDate;
     }
 
     public UUID getId() {
@@ -86,6 +98,10 @@ public class User {
     public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
+
+    public LocalDateTime getJoinedDate() { return joinedDate; }
+
+    public void setJoinedDate(LocalDateTime joinedDate) { this.joinedDate = joinedDate; }
 
     @Override
     public boolean equals(Object o) {

@@ -7,6 +7,7 @@ import {Registration} from "./registration/registration";
 import {Events} from "./events/feature/events-admin-management/events";
 import {LoginPage} from "./login/feature/login-page/login-page";
 import {FeedbackPage} from "./feedback/feature/feedbacks-admin-management/feedback-page";
+import {ProfilePage} from "./profile/feature/profile-page/profile-page";
 
 export const routes: Routes = [
     {
@@ -57,4 +58,10 @@ export const routes: Routes = [
         component: TagPageComponent,
         data: { isAdmin: true }
     },
+    {
+        path: 'profile',
+        title: "Profile",
+        component: ProfilePage,
+        data: { isProfile: true }
+    }
 ];
