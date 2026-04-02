@@ -8,7 +8,7 @@ import {LocationControllerService} from "@app/api/api/locationController.service
 import {Pageable} from "@app/api/model/pageable";
 import {LocationDto} from "@app/api/model/locationDto";
 import {ToastService} from "../../../toast-service/toast-service";
-import {Page} from "@app/api/model/page";
+import {PageLocationDto} from "@app/api/model/pageLocationDto";
 
 @Component({
     selector: 'app-admin-locations',
@@ -40,7 +40,7 @@ export class LocationsPage implements OnInit {
         this.rows.set(size);
         const pageable: Pageable = {page, size};
         this.locationService.getLocations(pageable).subscribe({
-            next: (response: Page) => {
+            next: (response: PageLocationDto) => {
                 this.locations.set(response.content ?? []);
                 this.totalElements.set(response.totalElements ?? 0);
             },
@@ -58,7 +58,7 @@ export class LocationsPage implements OnInit {
         }
         const pageable: Pageable = {page: 0, size: this.rows()};
         this.locationService.getByName(searchTerm, pageable).subscribe({
-            next: (response: Page) => {
+            next: (response: PageLocationDto) => {
                 this.locations.set(response.content ?? []);
                 this.totalElements.set(response.totalElements ?? 0);
             },

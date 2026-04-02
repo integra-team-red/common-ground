@@ -26,17 +26,7 @@ public class LocationController {
     @GetMapping("/search/{name}")
     @Operation(
         operationId = "getByName",
-        summary = "Search locations by name",
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                description = "Returns paged list of searched locations",
-                content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = Page.class)
-                )
-            )
-        }
+        summary = "Search locations by name"
     )
     public Page<LocationDto> getByName(@PathVariable("name") String name, Pageable pageable) {
         return locationService.getByName(name, pageable).map(locationMapper::toDto);
@@ -45,17 +35,7 @@ public class LocationController {
     @GetMapping
     @Operation(
         operationId = "getLocations",
-        summary = "Get all locations, optionally filtered by user",
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                description = "Returns paged list of locations",
-                content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = Page.class)
-                )
-            )
-        }
+        summary = "Get all locations, optionally filtered by user"
     )
     public Page<LocationDto> getAll(
         @RequestParam(required = false) UUID userId,

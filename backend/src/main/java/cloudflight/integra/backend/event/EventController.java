@@ -43,15 +43,7 @@ public class EventController {
     @GetMapping
     @Operation(
         summary = "Get all Events",
-        operationId = "getAllEvents",
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                content =
-                @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = Page.class))),
-        }
+        operationId = "getAllEvents"
     )
     public Page<EventDto> getAll(
         @PageableDefault(sort = "startTime", direction = Sort.Direction.DESC) Pageable pageable
@@ -63,15 +55,7 @@ public class EventController {
     @GetMapping("/after/{after}")
     @Operation(
         summary = "Get all Events After A Certain Time",
-        operationId = "getAllEventsAfter",
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                content =
-                @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = Page.class))),
-        }
+        operationId = "getAllEventsAfter"
     )
     public Page<EventDto> getAllAfter(
         @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd HH::mm:ss.SSSSSS") LocalDateTime after, Pageable pageable
@@ -89,7 +73,7 @@ public class EventController {
                 content =
                 @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = Page.class))),
+                    schema = @Schema(implementation = EventDto.class))),
         }
     )
     public EventDto getById(@PathVariable UUID id) {
@@ -99,15 +83,7 @@ public class EventController {
     @GetMapping("/location/{locationId}")
     @Operation(
         summary = "Get all Events by Location Id",
-        operationId = "getAllEventsByLocationId",
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                content =
-                @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = Page.class))),
-        }
+        operationId = "getAllEventsByLocationId"
     )
     public Page<EventDto> getAllEventsByLocationId(@PathVariable UUID locationId, Pageable pageable) {
         return service.getByLocationId(locationId, pageable).map(mapper::toDto);
@@ -117,15 +93,7 @@ public class EventController {
     @GetMapping("/title/{title}")
     @Operation(
         summary = "Get all Events by Title",
-        operationId = "getAllEventsByTitleInput",
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                content =
-                @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = Page.class))),
-        }
+        operationId = "getAllEventsByTitleInput"
     )
     public Page<EventDto> getAllEventsByTitle(@PathVariable String title, Pageable pageable) {
         return service.getByEventTitle(title, pageable).map(mapper::toDto);
@@ -172,15 +140,7 @@ public class EventController {
     @DeleteMapping("/{id}")
     @Operation(
         summary = "Delete an Event",
-        operationId = "deleteEvent",
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                content =
-                @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = EventDto.class))),
-        }
+        operationId = "deleteEvent"
     )
     public void delete(@PathVariable UUID id) {
         service.delete(id);

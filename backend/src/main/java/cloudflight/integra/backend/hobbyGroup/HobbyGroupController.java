@@ -40,16 +40,8 @@ public class HobbyGroupController {
 
     @Operation(
         summary = "Get all Hobby Groups",
-        operationId = "getAllHobbyGroups",
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                content =
-                @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = Page.class))),
-        })
-
+        operationId = "getAllHobbyGroups"
+    )
     @GetMapping
     public Page<HobbyGroupDto> getAll(Pageable pageable) {
         return hobbyGroupService.getAll(pageable)
@@ -59,15 +51,8 @@ public class HobbyGroupController {
     @GetMapping("/filter")
     @Operation(
         summary = "Get all Hobby Groups for which the title contain a given string",
-        operationId = "filterAllHobbyGroupsByName",
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                content =
-                @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = Page.class))),
-        })
+        operationId = "filterAllHobbyGroupsByName"
+    )
     public Page<HobbyGroupDto> filterByName(@RequestParam String name, Pageable pageable) {
         return hobbyGroupService.filterByName(name, pageable)
             .map(group -> mapper.toDto(group, tagService.getIdsFromTags(group.getTags())));
