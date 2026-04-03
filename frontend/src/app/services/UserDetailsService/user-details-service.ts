@@ -11,6 +11,7 @@ export class UserDetailsService {
     private currentUser = signal<UserDto | null>(null);
 
     getCurrentUser = computed(() => this.currentUser());
+    isAdmin = computed(() => this.currentUser()?.role === UserDto.RoleEnum.Admin);
 
     async loadCurrentUser() {
         try {
