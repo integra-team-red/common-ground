@@ -7,6 +7,7 @@ import {Registration} from "./registration/registration";
 import {Events} from "./events/feature/events-admin-management/events";
 import {LoginPage} from "./login/feature/login-page/login-page";
 import {FeedbackPage} from "./feedback/feature/feedbacks-admin-management/feedback-page";
+import {authGuard} from "./auth/auth-guard";
 
 export const routes: Routes = [
     {
@@ -26,6 +27,7 @@ export const routes: Routes = [
         path: 'theme',
         title: "Theme",
         component: ThemeShowcaseComponent,
+        canActivate: [authGuard],
         data: { isAdmin: true }
     },
     {
@@ -48,6 +50,7 @@ export const routes: Routes = [
         path: 'locations',
         title: "Locations",
         component: LocationsPage,
+        canActivate: [authGuard],
         data: { isAdmin: true }
     },
 
@@ -55,6 +58,7 @@ export const routes: Routes = [
         path: 'tag',
         title: "Tag",
         component: TagPageComponent,
+        canActivate: [authGuard],
         data: { isAdmin: true }
     },
 ];

@@ -29,10 +29,12 @@
                         </span>
                     </a>
                 }
-                <div class="px-3 py-4">
-                    <hr class="border-t border-white/70 w-full m-0"/>
-                </div>
-                @for (route of adminRoutes; track route.path) {
+                @if (adminRoutes().length > 0) {
+                    <div class="px-3 py-4">
+                        <hr class="border-t border-white/70 w-full m-0"/>
+                    </div>
+                }
+                @for (route of adminRoutes(); track route.path) {
                     <a (click)="visible = false"
                        [routerLinkActiveOptions]="{ exact: true }"
                        [routerLink]="route.path"
