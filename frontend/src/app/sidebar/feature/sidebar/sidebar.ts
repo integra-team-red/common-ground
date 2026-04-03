@@ -1,8 +1,9 @@
-import {Component, inject} from '@angular/core';
+import {Component, computed, inject} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {Button} from "primeng/button";
 import {Drawer} from "primeng/drawer";
+import {UserDetailsService} from "../../../services/UserDetailsService/user-details-service";
 
 @Component({
     selector: 'app-sidebar',
@@ -12,6 +13,7 @@ import {Drawer} from "primeng/drawer";
 })
 export class Sidebar {
     private router = inject(Router);
+    userDetailsService = inject(UserDetailsService);
     visible: boolean = false;
 
     public navRoutes = this.router.config
@@ -24,6 +26,9 @@ export class Sidebar {
         }));
     public generalRoutes = this.navRoutes
         .filter(r => !r.isAdmin);
-    public adminRoutes = this.navRoutes
-        .filter(r => r.isAdmin);
+    public adminRoutes = computed(() => {
+        return this.userDetailsService.isAdmin()
+            ? this.navRoutes.filter(r => r.isAdmin)
+            : [];
+    });
 }
