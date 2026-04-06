@@ -1,10 +1,12 @@
 package cloudflight.integra.backend.hobbyGroup;
 
 
+import cloudflight.integra.backend.emailSystem.UserJoinedGroupEvent;
 import cloudflight.integra.backend.exceptions.AlreadyMemberOfThisHobbyGroupException;
 import cloudflight.integra.backend.exceptions.NotMemberOfHobbyGroupException;
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
 import cloudflight.integra.backend.user.model.User;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,11 +18,15 @@ import java.util.UUID;
 @Service
 public class HobbyGroupService {
     private final HobbyGroupRepository repository;
+    private final ApplicationEventPublisher eventPublisher;
 
 
-    public HobbyGroupService(HobbyGroupRepository repository) {
+    public HobbyGroupService(
+        HobbyGroupRepository repository,
+        ApplicationEventPublisher eventPublisher
+    ) {
         this.repository = repository;
-
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional(readOnly = true)
@@ -64,17 +70,18 @@ public class HobbyGroupService {
     }
 
     @Transactional
-    public HobbyGroup addNewMemberToHobbyGroup(User newMember, UUID hobbyGroupId){
+    public HobbyGroup addNewMemberToHobbyGroup(User newMember, UUID hobbyGroupId) {
         HobbyGroup hobbyGroup = repository.findById(hobbyGroupId).orElseThrow();
         if (hobbyGroup.getMembers().contains(newMember))
             throw new AlreadyMemberOfThisHobbyGroupException("The user is already part of this group");
         hobbyGroup.getMembers().add(newMember);
         repository.save(hobbyGroup);
+        eventPublisher.publishEvent(new UserJoinedGroupEvent(newMember, hobbyGroup));
         return hobbyGroup;
     }
 
     @Transactional
-    public HobbyGroup deleteMemberFromHobbyGroup(User oldMember, UUID hobbyGroupId ){
+    public HobbyGroup deleteMemberFromHobbyGroup(User oldMember, UUID hobbyGroupId) {
         HobbyGroup hobbyGroup = repository.findById(hobbyGroupId).orElseThrow();
         if (!hobbyGroup.getMembers().contains(oldMember))
             throw new NotMemberOfHobbyGroupException("The user is not part of this group");
