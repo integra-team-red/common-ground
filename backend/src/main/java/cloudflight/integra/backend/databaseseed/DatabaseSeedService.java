@@ -158,7 +158,7 @@ public class DatabaseSeedService {
         while (i > 0) {
             HobbyGroup hobbyGroup = new HobbyGroup();
             hobbyGroup.setName(faker.space().nebula());
-            hobbyGroup.setDescription(faker.yoda().quote());
+            hobbyGroup.setDescription(faker.shakespeare().hamletQuote());
             hobbyGroup.setRadiusKm(faker.number().numberBetween(0, 10));
             hobbyGroup.setOwner(user);
             hobbyGroupRepository.save(hobbyGroup);

@@ -40,7 +40,10 @@ public class HobbyGroupController {
 
     @Operation(
         summary = "Get all Hobby Groups",
-        operationId = "getAllHobbyGroups"
+        operationId = "getAllHobbyGroups",
+        responses={
+            @ApiResponse(content = @Content(mediaType = "application/json"))
+        }
     )
     @GetMapping
     public Page<HobbyGroupDto> getAll(Pageable pageable) {
@@ -51,7 +54,10 @@ public class HobbyGroupController {
     @GetMapping("/filter")
     @Operation(
         summary = "Get all Hobby Groups for which the title contain a given string",
-        operationId = "filterAllHobbyGroupsByName"
+        operationId = "filterAllHobbyGroupsByName",
+        responses={
+            @ApiResponse(content = @Content(mediaType = "application/json"))
+        }
     )
     public Page<HobbyGroupDto> filterByName(@RequestParam String name, Pageable pageable) {
         return hobbyGroupService.filterByName(name, pageable)
@@ -67,7 +73,8 @@ public class HobbyGroupController {
                 description = "Found the group",
                 content = @Content(
                     schema = @Schema(implementation = HobbyGroupDto.class))),
-            @ApiResponse(responseCode = "404", description = "Hobby Group not found")
+            @ApiResponse(responseCode = "404", description = "Hobby Group not found"),
+            @ApiResponse(content=@Content(mediaType = "application/json"))
         }
     )
     public HobbyGroupDto getById(@PathVariable UUID id) {
@@ -135,7 +142,8 @@ public class HobbyGroupController {
         operationId = "deleteHobbyGroup",
         responses = {
             @ApiResponse(responseCode = "204", description = "Group deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "Group not found")
+            @ApiResponse(responseCode = "404", description = "Group not found"),
+            @ApiResponse(content = @Content(mediaType = "application/json"))
         }
     )
     public void delete(@PathVariable UUID id) {
@@ -155,7 +163,8 @@ public class HobbyGroupController {
                     schema = @Schema(implementation = HobbyGroupDto.class))),
             @ApiResponse(
                 responseCode = "409",
-                description = "User is already a member")
+                description = "User is already a member"),
+            @ApiResponse(content = @Content(mediaType = "application.json"))
         })
     public HobbyGroupDto joinHobbyGroup(@PathVariable UUID id, @AuthenticationPrincipal UserDetails userDetails) {
         User newMember = userService.getByUsername(userDetails.getUsername());
