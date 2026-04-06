@@ -7,6 +7,8 @@ import {InputText} from "primeng/inputtext";
 import {IconField} from "primeng/iconfield";
 import {InputIcon} from "primeng/inputicon";
 import {CreateHobbyGroup} from "../../ui/create-hobby-group/create-hobby-group";
+import {Button} from "primeng/button";
+
 
 @Component({
     selector: 'app-home-page',
@@ -17,6 +19,7 @@ import {CreateHobbyGroup} from "../../ui/create-hobby-group/create-hobby-group";
         IconField,
         InputIcon,
         CreateHobbyGroup,
+        Button,
     ],
     templateUrl: './home-page.html',
     standalone: true,

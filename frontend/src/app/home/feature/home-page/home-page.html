@@ -1,8 +1,6 @@
-<div class="flex flex-row w-full justify-between gap-8 p-6">
-
-    <div class="w-full max-w-[600px]">
-        <h2 class="text-4xl mb-6"><b>Hobby Groups</b></h2>
-
+<div class="flex flex-col sm:flex-row w-full justify-between gap-8 p-6">
+    <div class="w-full max-w-600px order-2 sm:order-1">
+        <h2 class="text-2xl mb-6 sm:text-4xl"><b>Hobby Groups</b></h2>
         <div class="flex flex-col gap-6">
             @for (group of filteredHobbyGroups(); track group.id) {
                 <app-hobby-group-card [hobbyGroupDto]="group"
@@ -18,20 +16,23 @@
         </div>
     </div>
 
-    <div class="w-full flex flex-col sticky top-6 h-[calc(100vh-3rem)] overflow-hidden">
-        <div class="flex flex-row w-full gap-2 mb-3 ">
-            <p-iconfield class="w-full">
+    <div class="w-full flex flex-col sm:sticky sm:top-6 sm:h-[calc(100vh-3rem)] sm:overflow-hidden order-1 sm:order-2">
+
+        <div class="flex flex-row items-center w-full gap-2 mb-3">
+            <p-iconfield class="flex-1">
                 <p-inputicon class="pi pi-search"/>
                 <input type="text" pInputText placeholder="Search by name" [(ngModel)]="searchQuery"
                        (ngModelChange)="onSearch($event)" autocomplete="off" class="w-full" fluid/>
             </p-iconfield>
 
-            <div class="w-full">
+            <div class="shrink-0">
                 <app-create-hobby-group (refreshHobbyGroup)="getHobbyGroups(0)"></app-create-hobby-group>
             </div>
         </div>
 
-        <img class="w-full" src="https://placehold.co/700x1000?text=Placeholder+Map" alt="map image"/>
+        <img class="hidden sm:block w-full rounded-xl"
+             src="https://placehold.co/700x1000?text=Placeholder+Map" alt="map image"
+        />
     </div>
-
+    <p-button class="sm:hidden fixed bottom-6 right-6 " label="Show map"></p-button>
 </div>
