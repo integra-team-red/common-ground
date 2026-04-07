@@ -1,4 +1,4 @@
-<p-button label="Create New Event" (onClick)="visible.set(true)"></p-button>
+<p-button [fluid]="true" label="Create New Event" (onClick)="visible.set(true)"></p-button>
 <p-dialog header="Create Event" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }" dismissableMask>
     <span class="p-text-secondary block mb-2">Enter the details for the new event</span>
     <form #eventForm="ngForm" (ngSubmit)="onSubmit(eventForm)" class="flex flex-col gap-4 w-full">

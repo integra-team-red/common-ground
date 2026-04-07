@@ -96,4 +96,13 @@ public class SystemFeedbackController {
     public void delete(@PathVariable UUID id) {
         service.delete(id);
     }
+
+    @GetMapping("/email/{email}")
+    @Operation(
+        summary = "Get all Feedbacks by Email",
+        operationId = "findAllSystemFeedbacksByEmail"
+    )
+    public Page<SystemFeedbackDTO> findAllSystemFeedbacksByEmail(@PathVariable String email, Pageable pageable) {
+        return service.findByEmailContainingIgnoreCase(email, pageable).map(mapper::toDto);
+    }
 }

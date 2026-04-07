@@ -34,4 +34,9 @@ export class Sidebar {
             ? this.navRoutes.filter(r => r.isAdmin && !r.isProfile)
             : [];
     });
+
+    logout() {
+        localStorage.removeItem('userToken');
+        this.router.navigate(['/login']);
+    }
 }

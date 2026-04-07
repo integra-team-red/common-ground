@@ -1,33 +1,72 @@
-<p-table [value]="events()" [tableStyle]="{ 'min-width': '50rem' }" [scrollable]="true" [lazy]="true"
-         (onLazyLoad)="loadEventsLazy($event)" [paginator]="true" [rows]="rows()" [totalRecords]="totalRecords()"
-         [showCurrentPageReport]="true">
-    <ng-template pTemplate="header">
-        <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Location Id</th>
-            <th>Hobby Group Id</th>
-            <th>Actions</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-event>
-        <tr>
-            <td>{{ event.id }}</td>
-            <td>{{ event.title }}</td>
-            <td>{{ event.startTime | date: 'short' }}</td>
-            <td>{{ event.endTime | date: 'short' }}</td>
-            <td>{{ event.locationId }}</td>
-            <td>{{ event.hobbyGroupId }}</td>
-            <td>
-                <div class="flex flex-row gap-2">
+<div class="hidden md:block">
+    <p-table [value]="events()" [tableStyle]="{ 'min-width': '50rem' }" [scrollable]="true" [lazy]="true"
+             (onLazyLoad)="loadEventsLazy($event)" [paginator]="true" [rows]="rows()" [totalRecords]="totalRecords()"
+             [showCurrentPageReport]="false">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Location Id</th>
+                <th>Hobby Group Id</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-event>
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.title }}</td>
+                <td>{{ event.startTime | date: 'short' }}</td>
+                <td>{{ event.endTime | date: 'short' }}</td>
+                <td>{{ event.locationId }}</td>
+                <td>{{ event.hobbyGroupId }}</td>
+                <td>
+                    <div class="flex flex-row gap-2">
+                        <app-update-event [eventData]="event" (refreshTable)="refresh.emit()"></app-update-event>
+                        <app-delete-event [eventData]="event" (refreshTable)="refresh.emit()"></app-delete-event>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<div class="block md:hidden flex flex-col gap-4">
+    @for (event of events(); track event.id) {
+        <div class="bg-surface-50 text-surface-950 border border-surface-200 rounded-xl
+        p-4 shadow-sm flex flex-col gap-3">
+            <div class="flex justify-between items-start border-b border-gray-200 pb-3">
+                <h3 class="font-bold text-lg text-gray-800">{{ event.title }}</h3>
+                <div class="flex gap-2">
                     <app-update-event [eventData]="event" (refreshTable)="refresh.emit()"></app-update-event>
                     <app-delete-event [eventData]="event" (refreshTable)="refresh.emit()"></app-delete-event>
                 </div>
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
+            </div>
 
+            <div class="flex flex-col gap-2 text-sm">
+                <div class="flex justify-between items-center">
+                    <span class="font-semibold text-gray-500">Start Time:</span>
+                    <span>{{ event.startTime | date: 'short' }}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="font-semibold text-gray-500">End Time:</span>
+                    <span>{{ event.endTime | date: 'short' }}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="font-semibold text-gray-500">Location ID:</span>
+                    <span class="truncate max-w-[150px]" [title]="event.locationId">{{ event.locationId }}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="font-semibold text-gray-500">Group ID:</span>
+                    <span class="truncate max-w-[150px]" [title]="event.hobbyGroupId">{{ event.hobbyGroupId }}</span>
+                </div>
+                <div class="flex justify-between items-center mt-1">
+                    <span class="font-semibold text-gray-500">Event ID:</span>
+                    <span class="text-xs text-gray-400 truncate max-w-[100px]" [title]="event.id">{{ event.id }}</span>
+                </div>
+            </div>
 
+        </div>
+    }
+</div>

@@ -15,13 +15,35 @@ export const routes: Routes = [
         path: '',
         title: "Home",
         component: HomePage,
+        data: {icon: 'pi-home'}
     },
 
     {
         path: 'events',
         title: "Events",
         component: Events,
+        data: {icon: 'pi-calendar'}
+    },
 
+    {
+        path:'feedback',
+        title:"Feedback",
+        component:FeedbackPage,
+        data: {icon: 'pi-comment'}
+    },
+
+    {
+        path: 'login',
+        title: "Login",
+        component: LoginPage,
+        data: {icon: 'pi-sign-in'}
+    },
+
+    {
+        path: 'registration',
+        title: 'User Registration',
+        component: Registration,
+        data: { icon: 'pi-user-plus' }
     },
 
     {
@@ -29,30 +51,15 @@ export const routes: Routes = [
         title: "Theme",
         component: ThemeShowcaseComponent,
         canActivate: [authGuard],
-        data: { isAdmin: true }
+        data: { isAdmin: true, icon: 'pi-palette' }
     },
-    {
-        path:'feedback',
-        title:"Feedback",
-        component:FeedbackPage,
-    },
-    {
-        path: 'registration',
-        title: 'User Registration',
-        component: Registration,
-        data: { isAdmin: true }
-    },
-    {
-        path: 'login',
-        title: "Login",
-        component: LoginPage,
-    },
+
     {
         path: 'locations',
         title: "Locations",
         component: LocationsPage,
         canActivate: [authGuard],
-        data: { isAdmin: true }
+        data: { isAdmin: true, icon: 'pi-map-marker' }
     },
 
     {
@@ -60,7 +67,7 @@ export const routes: Routes = [
         title: "Tag",
         component: TagPageComponent,
         canActivate: [authGuard],
-        data: { isAdmin: true }
+        data: { isAdmin: true, icon: 'pi-tag' }
     },
     {
         path: 'profile',

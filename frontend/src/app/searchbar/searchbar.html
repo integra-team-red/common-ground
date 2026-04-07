@@ -1,0 +1,9 @@
+<p-iconfield class="w-full">
+    <p-inputicon class="pi pi-search" />
+    <input class="w-full"
+           (ngModelChange)="onSearch($event)"
+           [(ngModel)]="searchTerm"
+           pInputText
+           placeholder="Search..."
+           type="text" />
+</p-iconfield>
