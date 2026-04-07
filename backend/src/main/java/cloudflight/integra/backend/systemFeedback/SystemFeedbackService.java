@@ -29,6 +29,16 @@ public class SystemFeedbackService {
             search, pageable
         );
     }
+
+    @Transactional(readOnly = true)
+    public Page<SystemFeedback> findByEmailContainingIgnoreCase(String email, Pageable pageable) {
+        Page<SystemFeedback> systemFeedbacks = repository.findByEmailContainingIgnoreCase(email, pageable);
+        if(systemFeedbacks.isEmpty()) {
+            throw new NoSuchElementException("There is no system feedback found with this email.");
+        }
+        return systemFeedbacks;
+    }
+
     @Transactional(readOnly = true)
     public List<SystemFeedback> getAll() {
         return repository.findAll();
@@ -64,8 +74,7 @@ public class SystemFeedbackService {
         if (repository.findById(id).isPresent()) {
             repository.deleteById(id);
             return true;
-        }
-        else throw new NoSuchElementException();
+        } else throw new NoSuchElementException();
     }
 
 }

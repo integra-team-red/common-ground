@@ -1,4 +1,4 @@
-<p-button label="Create New Feedback" (onClick)="visible.set(true)"></p-button>
+<p-button [fluid]="true" label="Create New Feedback" (onClick)="visible.set(true)"></p-button>
 <p-dialog header="Submit Feedback" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem' }" dismissableMask>
     <span class="p-text-secondary block mb-5">Please fill in your feedback details.</span>
 

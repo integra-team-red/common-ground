@@ -1,22 +1,20 @@
 import {Component, output} from '@angular/core';
+import {FormsModule} from "@angular/forms";
 import {IconField} from "primeng/iconfield";
 import {InputIcon} from "primeng/inputicon";
 import {InputText} from "primeng/inputtext";
-import {FormsModule} from "@angular/forms";
 
 @Component({
-    selector: 'app-search-bar',
+    selector: 'app-searchbar',
     imports: [
+        FormsModule,
         IconField,
         InputIcon,
-        InputText,
-        FormsModule
+        InputText
     ],
-    templateUrl: './search-bar.html',
-    styleUrl: './search-bar.css',
-    standalone: true,
+    templateUrl: './searchbar.html',
 })
-export class SearchBar {
+export class Searchbar {
     searchTerm: string = '';
     search = output<string>();
 

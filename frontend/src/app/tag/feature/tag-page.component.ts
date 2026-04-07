@@ -9,9 +9,9 @@ import {FormsModule} from "@angular/forms";
 import {CreateTag} from "../ui/create-tag/create-tag";
 import {UpdateTag} from "../ui/update-tag/update-tag";
 import {TableLazyLoadEvent} from "primeng/table";
-import {IconField} from "primeng/iconfield";
-import {InputIcon} from "primeng/inputicon";
 import {ToastService} from "../../toast-service/toast-service";
+import {Searchbar} from "../../searchbar/searchbar";
+import {Pageable} from "@app/api/model/pageable";
 
 @Component({
     selector: 'app-tag-page.component',
@@ -22,8 +22,7 @@ import {ToastService} from "../../toast-service/toast-service";
         FormsModule,
         CreateTag,
         UpdateTag,
-        IconField,
-        InputIcon,
+        Searchbar,
     ],
     templateUrl: './tag-page.component.html',
     styleUrl: './tag-page.component.css',
@@ -41,7 +40,7 @@ export class TagPageComponent implements OnInit {
     visibleAddForm = signal<boolean>(false);
     visibleUpdateForm = signal<boolean>(false);
 
-    rows = 10;
+    rows = signal(10);
     totalRecords = signal<number>(0);
     currentPage = 0;
     currentSize = this.rows;
@@ -53,7 +52,7 @@ export class TagPageComponent implements OnInit {
     getTags(): void {
         if (this.searchValue == "") {
             this.tagService.getAllTags({
-                size: this.currentSize,
+                size: this.currentSize(),
                 page: this.currentPage
             }).subscribe((response: PageTagDto) => {
                 this.tags.set(response.content ?? []);
@@ -62,7 +61,7 @@ export class TagPageComponent implements OnInit {
         } else {
             this.tagService.filterTags(
                 this.searchValue, {
-                    size: this.currentSize,
+                    size: this.currentSize(),
                     page: this.currentPage
                 }).subscribe((response: PageTagDto) => {
                     this.tags.set(response.content ?? []);
@@ -72,9 +71,8 @@ export class TagPageComponent implements OnInit {
     }
 
     loadTagsLazy(event: TableLazyLoadEvent) {
-        this.currentPage = Math.floor((event.first ?? 0) / (event.rows ?? this.rows));
-        this.currentSize = event.rows ?? this.rows;
-
+        this.currentPage = Math.floor((event.first ?? 0) / (event.rows ?? this.rows()));
+        this.currentSize.set(event.rows ?? this.rows());
         this.getTags();
     }
 
@@ -136,4 +134,19 @@ export class TagPageComponent implements OnInit {
             this.deleteTag();
         });
     }
+
+    onSearch(searchTerm: string) {
+        if (!searchTerm || searchTerm.trim() === '') {
+            this.getTags();
+            return;
+        }
+        const pageable: Pageable = {page: 0, size: this.rows()};
+        this.tagService.filterTags(searchTerm, pageable).subscribe({
+            next: (response: PageTagDto) => {
+                this.tags.set(response.content ?? []);
+                this.totalRecords.set(response.totalElements ?? 0);
+            },
+        });
+    }
+
 }

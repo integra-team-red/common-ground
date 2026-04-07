@@ -9,21 +9,21 @@ import {PageEventDto} from "@app/api/model/pageEventDto";
 import {EventsTable} from "../../ui/events-table/events-table";
 import {CreateEvent} from "../../ui/create-event/create-event";
 import {FormsModule} from "@angular/forms";
+import {Searchbar} from "../../../searchbar/searchbar";
+import {Pageable} from "@app/api/model/pageable";
+import {PageLocationDto} from "@app/api/model/pageLocationDto";
 
 @Component({
     selector: 'app-events',
     imports: [
-        IconField,
-        InputIcon,
-        InputText,
         TableModule,
         EventsTable,
         CreateEvent,
         FormsModule,
+        Searchbar,
     ],
     providers: [EventControllerService],
     templateUrl: './events.html',
-    styleUrl: './events.css',
 })
 export class Events {
     eventService = inject(EventControllerService);
@@ -66,8 +66,17 @@ export class Events {
         })
     }
 
-    onSearch() {
-        this.pageNumber.set(0)
-        this.getEvents();
+    onSearch(searchTerm: string) {
+        if (!searchTerm || searchTerm.trim() === '') {
+            this.getEvents();
+            return;
+        }
+        const pageable: Pageable = {page: 0, size: this.rows()};
+        this.eventService.getAllEventsByTitleInput(searchTerm, pageable).subscribe({
+            next: (response: PageEventDto) => {
+                this.events.set(response.content ?? []);
+                this.totalRecords.set(response.totalElements ?? 0);
+            },
+        });
     }
 }

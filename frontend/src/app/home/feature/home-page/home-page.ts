@@ -3,10 +3,10 @@ import {HobbyGroupCard} from "../../ui/hobby-group-card/hobby-group-card";
 import {HobbyGroupControllerService} from "@app/api/api/hobbyGroupController.service";
 import {HobbyGroupDto} from "@app/api/model/hobbyGroupDto";
 import {FormsModule} from "@angular/forms";
-import {InputText} from "primeng/inputtext";
-import {IconField} from "primeng/iconfield";
-import {InputIcon} from "primeng/inputicon";
 import {CreateHobbyGroup} from "../../ui/create-hobby-group/create-hobby-group";
+import {Searchbar} from "../../../searchbar/searchbar";
+import {Pageable} from "@app/api/model/pageable";
+import {PageHobbyGroupDto} from "@app/api/model/pageHobbyGroupDto";
 import {Button} from "primeng/button";
 
 
@@ -15,10 +15,8 @@ import {Button} from "primeng/button";
     imports: [
         HobbyGroupCard,
         FormsModule,
-        InputText,
-        IconField,
-        InputIcon,
         CreateHobbyGroup,
+        Searchbar,
         Button,
     ],
     templateUrl: './home-page.html',
@@ -43,19 +41,6 @@ export class HomePage implements OnInit {
 
     }
 
-    ngAfterViewInit(): void {
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !this.loading() &&
-                this.filteredHobbyGroups().length < this.totalRecords()) {
-                this.loadMore();
-            }
-        }, {threshold: 0.1});
-
-        if (this.scrollAnchor) {
-            observer.observe(this.scrollAnchor.nativeElement);
-        }
-    }
-
     loadMore() {
         const nextPage = this.currentPage() + 1;
         this.currentPage.set(nextPage);
@@ -64,7 +49,7 @@ export class HomePage implements OnInit {
 
     getHobbyGroups(page: number) {
         this.loading.set(true);
-        this.hobbyGroupService.getAllHobbyGroups({size: 5, page: page})
+        this.hobbyGroupService.getAllHobbyGroups({size: 10, page: page})
             .subscribe({
                 next: (response) => {
                     const newItems = response.content ?? [];
@@ -102,11 +87,20 @@ export class HomePage implements OnInit {
             });
     }
 
-    onSearch(query: string) {
-        this.searchQuery.set(query);
-        this.currentPage.set(0);
-        this.hobbyGroups.set([]);
-        this.getFilteredHobbyGroups(0);
+    onSearch(searchTerm: string) {
+        this.searchQuery.set(searchTerm);
+        if (!searchTerm || searchTerm.trim() === '') {
+            this.getHobbyGroups(0);
+            return;
+        }
+        const pageable: Pageable = {page: 0};
+        this.hobbyGroupService.filterAllHobbyGroupsByName(searchTerm, pageable).subscribe({
+            next: (response: PageHobbyGroupDto) => {
+                this.hobbyGroups.set(response.content ?? []);
+                this.filteredHobbyGroups.set(this.hobbyGroups());
+                this.totalRecords.set(response.totalElements ?? 0);
+            },
+        });
     }
 
     onScroll(event: any) {
