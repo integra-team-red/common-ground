@@ -1,6 +1,6 @@
-<div class="flex flex-col md:flex-row w-full justify-between gap-8 p-6">
-    <div class="w-full max-w-600px order-2 md:order-1">
-        <h2 class="text-2xl mb-6 md:text-4xl"><b>Hobby Groups</b></h2>
+<div class="flex flex-col sm:flex-row w-full justify-between gap-8 p-0 sm:p-6">
+    <div class="w-full max-w-600px order-2 sm:order-1">
+        <h2 class="text-2xl mb-6 sm:text-4xl"><b>Hobby Groups</b></h2>
         <div class="flex flex-col gap-6">
             @for (group of filteredHobbyGroups(); track group.id) {
                 <app-hobby-group-card [hobbyGroupDto]="group"
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="w-full flex flex-col md:sticky md:top-6 md:h-[calc(100vh-3rem)] md:overflow-hidden order-1 md:order-2">
+    <div class="w-full flex flex-col sm:sticky sm:top-6 sm:h-[calc(100vh-3rem)] sm:overflow-hidden order-1 sm:order-2">
 
         <div class="flex flex-row items-center w-full gap-2 mb-3">
             <p-iconfield class="flex-1">
@@ -30,9 +30,9 @@
             </div>
         </div>
 
-        <img class="hidden md:block w-full rounded-xl"
+        <img class="hidden sm:block w-full rounded-xl"
              src="https://placehold.co/700x1000?text=Placeholder+Map" alt="map image"
         />
     </div>
-    <p-button class="md:hidden fixed bottom-6 right-6 " label="Show map"></p-button>
+    <p-button class="sm:hidden fixed bottom-6 right-6 " label="Show map"></p-button>
 </div>
