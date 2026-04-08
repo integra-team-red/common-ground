@@ -102,7 +102,7 @@ public class DatabaseSeedService {
         int i = 10;
         while (i > 0) {
             Location location = new Location();
-            location.setName(faker.lordOfTheRings().location());
+            location.setName(truncate(faker.lordOfTheRings().location()));
             location.setLatitude(faker.number().randomDouble(4, 0, 90));
             location.setLongitude(faker.number().randomDouble(4, 0, 90));
             locationRepository.save(location);
@@ -119,7 +119,7 @@ public class DatabaseSeedService {
         while (i > 0) {
             SystemFeedback systemFeedback = new SystemFeedback();
             systemFeedback.setEmail(faker.internet().emailAddress());
-            systemFeedback.setMessage(faker.chuckNorris().fact());
+            systemFeedback.setMessage(truncate(faker.chuckNorris().fact()));
             systemFeedback.setCreatedAt(LocalDateTime.of(2026, 4, faker.number().numberBetween(1, 30), 12, 0));
             systemFeedbackRepository.save(systemFeedback);
             i--;
@@ -142,8 +142,8 @@ public class DatabaseSeedService {
 
         for (String label : labels) {
             Tag tag = new Tag();
-            tag.setLabel(label);
-            tag.setNormalizedLabel(label.toLowerCase());
+            tag.setLabel(truncate(label));
+            tag.setNormalizedLabel(truncate(label).toLowerCase());
             tagRepository.save(tag);
         }
 
@@ -157,8 +157,8 @@ public class DatabaseSeedService {
         User user = userRepository.findByEmail("leo@commonground.com");
         while (i > 0) {
             HobbyGroup hobbyGroup = new HobbyGroup();
-            hobbyGroup.setName(faker.space().nebula());
-            hobbyGroup.setDescription(faker.shakespeare().hamletQuote());
+            hobbyGroup.setName(truncate(faker.space().nebula()));
+            hobbyGroup.setDescription(truncate(faker.yoda().quote()));
             hobbyGroup.setRadiusKm(faker.number().numberBetween(0, 10));
             hobbyGroup.setOwner(user);
             hobbyGroupRepository.save(hobbyGroup);
@@ -177,7 +177,7 @@ public class DatabaseSeedService {
         int i = 10;
         while (i > 0) {
             Event event = new Event();
-            event.setTitle(faker.cat().name());
+            event.setTitle(truncate(faker.cat().name()));
             LocalDateTime startTime = LocalDateTime.of(2026, 4, faker.number().numberBetween(1, 30), 12, 0);
             event.setStartTime(startTime);
             event.setEndTime(startTime.plusHours(2));
@@ -186,6 +186,11 @@ public class DatabaseSeedService {
             eventRepository.save(event);
             i--;
         }
+    }
+
+    private String truncate(String text) {
+        if (text == null) return null;
+        return text.length() > 100 ? text.substring(0, 90) + "..." : text;
     }
 
 }
