@@ -8,6 +8,8 @@ import {IconField} from "primeng/iconfield";
 import {InputIcon} from "primeng/inputicon";
 import {CreateHobbyGroup} from "../../ui/create-hobby-group/create-hobby-group";
 import {Button} from "primeng/button";
+import {Dialog} from "primeng/dialog";
+import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 
 
 @Component({
@@ -20,6 +22,7 @@ import {Button} from "primeng/button";
         InputIcon,
         CreateHobbyGroup,
         Button,
+        Dialog,
     ],
     templateUrl: './home-page.html',
     standalone: true,
@@ -28,6 +31,9 @@ export class HomePage implements OnInit {
     hobbyGroupService = inject(HobbyGroupControllerService);
     hobbyGroups = signal<HobbyGroupDto[]>([]);
     visible = signal<boolean>(false);
+    readonly mapEmbedUrl: SafeResourceUrl = inject(DomSanitizer).bypassSecurityTrustResourceUrl(
+        'https://www.openstreetmap.org/export/embed.html?bbox=3.0,50.5,7.5,53.5&layer=mapnik'
+    );
 
     searchQuery = signal<string>('');
     filteredHobbyGroups = signal<HobbyGroupDto[]>([]);

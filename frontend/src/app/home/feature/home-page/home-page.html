@@ -34,5 +34,25 @@
              src="https://placehold.co/700x1000?text=Placeholder+Map" alt="map image"
         />
     </div>
-    <p-button class="md:hidden fixed bottom-6 right-6 " label="Show map"></p-button>
+    <p-button class="md:hidden fixed bottom-6 right-6" icon="pi pi-map" label="Show map"
+              (click)="visible.set(true)"></p-button>
 </div>
+
+<p-dialog
+    header="Map"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '95vw', maxWidth: '600px' }"
+    [contentStyle]="{ padding: '0' }"
+    dismissableMask
+    class="md:hidden"
+>
+    <iframe
+        [src]="mapEmbedUrl"
+        width="100%"
+        height="400"
+        style="border: none; display: block;"
+        title="Interactive Map"
+        loading="lazy"
+    ></iframe>
+</p-dialog>
