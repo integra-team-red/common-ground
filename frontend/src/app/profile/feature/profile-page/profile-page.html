@@ -1,8 +1,26 @@
 <p-card [header]="user.username">
-    <p class="m-0">
-        Email: <span class="italic">{{ user.email }}</span>
-    </p>
-    <p class="m-0">
-        Joined at <span class="italic">{{ user.joinedDate | date: 'longDate'}}</span>
-    </p>
+    <div class="flex flex-column gap-3">
+        <div>
+            <p class="m-0">
+                Email: <span class="italic">{{ user.email }}</span>
+            </p>
+            <p class="m-0">
+                Joined at <span class="italic">{{ user.joinedDate | date: 'longDate'}}</span>
+            </p>
+        </div>
+        <div class="flex gap-4">
+            <app-location-selection-dropdown
+                    [locations]="locations()"
+                    [(value)]="selectedLocation">
+            </app-location-selection-dropdown>
+
+            <p-button
+                    label="Add Location"
+                    (onClick)="openCreateDialog()">
+            </p-button>
+        </div>
+    </div>
 </p-card>
+
+<app-create-edit-location-dialog [(visible)]="openCreateDialogVisible"
+                                 (saved)="handleCreateDialogSubmit($event)"/>

@@ -1,18 +1,18 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {Button} from "primeng/button";
 import {LocationsTable} from "../../ui/locations-table/locations-table";
-import {CreateEditLocationDialog} from "../../ui/create-edit-location-dialog/create-edit-location-dialog";
+import {CreateLocationDialog} from "../../../../shared-components/create-location-dialog/create-location-dialog";
 import {DeleteLocationDialog} from "../../ui/delete-location-dialog/delete-location-dialog";
-import {LocationControllerService} from "@app/api/api/locationController.service";
 import {Pageable} from "@app/api/model/pageable";
 import {LocationDto} from "@app/api/model/locationDto";
 import {ToastService} from "../../../toast-service/toast-service";
 import {PageLocationDto} from "@app/api/model/pageLocationDto";
 import {Searchbar} from "../../../searchbar/searchbar";
+import {LocationControllerService} from "@app/api/api/locationController.service";
 
 @Component({
     selector: 'app-admin-locations',
-    imports: [Button, LocationsTable, CreateEditLocationDialog, DeleteLocationDialog, Searchbar],
+    imports: [Button, LocationsTable, CreateLocationDialog, DeleteLocationDialog, Searchbar],
     templateUrl: './locations-page.html',
     styleUrl: './locations-page.css',
     standalone: true,
