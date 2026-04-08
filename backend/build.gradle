@@ -35,7 +35,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.14'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'com.tngtech.archunit:archunit-junit5:1.4.1'
@@ -67,6 +67,8 @@ openApiGenerate {
     outputDir = "$frontendPath/typescript-client"
     apiPackage = "api"
     modelPackage = "model"
+
+    cleanupOutput = true
 }
 
 tasks.register('generateOpenApiDocs', Test) {
@@ -86,6 +88,12 @@ tasks.register('generateOpenApiDocs', Test) {
         println "========================================"
         println "OPENAPI DOCS: Running OpenApiExportTest"
         println "========================================"
+
+        def specFile = file("${projectDir}/openapi.yaml")
+        if (specFile.exists()) {
+            println "CLEANUP: Deleting old openapi.yaml"
+            specFile.delete()
+        }
     }
 
     doLast {

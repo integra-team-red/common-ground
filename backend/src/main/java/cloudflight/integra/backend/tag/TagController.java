@@ -26,10 +26,7 @@ public class TagController {
     @GetMapping()
     @Operation(
         summary = "Get all Tags",
-        operationId = "getAllTags",
-        responses={
-            @ApiResponse(content = @Content(mediaType = "application/json"))
-        }
+        operationId = "getAllTags"
     )
     public Page<TagDto> getAll(@PageableDefault(sort = "label", direction = Sort.Direction.ASC) Pageable pageable) {
         return this.service.getAll(pageable).map(this.mapper::toDto);
@@ -55,10 +52,7 @@ public class TagController {
     @GetMapping("/normalized/{value}")
     @Operation(
         summary = "Filter Tags by normalized label",
-        operationId = "FilterTags",
-        responses={
-            @ApiResponse(content = @Content(mediaType = "application/json"))
-        }
+        operationId = "FilterTags"
     )
     public Page<TagDto> filter(
         @PathVariable String value,
@@ -108,10 +102,7 @@ public class TagController {
     @DeleteMapping("/{id}")
     @Operation(
         summary = "Delete an existing Tag from the repository",
-        operationId = "deleteTag",
-        responses={
-            @ApiResponse(content = @Content(mediaType = "application/json"))
-        }
+        operationId = "deleteTag"
     )
     public void delete(@PathVariable Long id) {
         this.service.delete(id);
