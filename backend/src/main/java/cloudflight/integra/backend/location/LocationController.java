@@ -2,12 +2,16 @@ package cloudflight.integra.backend.location;
 
 import cloudflight.integra.backend.location.model.Location;
 import cloudflight.integra.backend.location.model.LocationDto;
+import cloudflight.integra.backend.user.UserService;
+import cloudflight.integra.backend.user.model.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -17,10 +21,12 @@ import java.util.UUID;
 public class LocationController {
     private final LocationService locationService;
     private final LocationMapper locationMapper;
+    private final UserService userService;
 
-    public LocationController(LocationService locationService, LocationMapper locationMapper) {
+    public LocationController(LocationService locationService, LocationMapper locationMapper, UserService userService) {
         this.locationService = locationService;
         this.locationMapper = locationMapper;
+        this.userService = userService;
     }
 
     @GetMapping("/search/{name}")
@@ -79,8 +85,10 @@ public class LocationController {
             )
         }
     )
-    public LocationDto create(@RequestBody LocationDto locationDto) {
+    public LocationDto create(@RequestBody LocationDto locationDto,  @AuthenticationPrincipal UserDetails currentUser) {
+        User creator = userService.getByUsername(currentUser.getUsername());
         Location entity = locationMapper.toEntity(locationDto);
+        entity.setCreator(creator);
         Location location = locationService.create(entity);
         return locationMapper.toDto(location);
     }

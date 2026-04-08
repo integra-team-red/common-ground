@@ -24,7 +24,7 @@
     </div>
 </div>
 
-<app-create-edit-location-dialog [(visible)]="openCreateDialogVisible" [locationDto]="selectedLocation()"
+<app-create-edit-location-dialog [(visible)]="openCreateDialogVisible"
                                  (saved)="handleCreateDialogSubmit($event)"/>
 <app-delete-location-dialog [(visible)]="openDeleteDialogVisible" [locationDto]="selectedLocation()"
                             (confirmed)="handleDeleteDialogSubmit($event)"/>

@@ -8,22 +8,23 @@ import {FormsModule} from "@angular/forms";
 @Component({
     selector: 'app-create-edit-location-dialog',
     imports: [DialogModule, InputText, Button, FormsModule],
-    templateUrl: './create-edit-location-dialog.html',
-    styleUrl: './create-edit-location-dialog.css',
+    templateUrl: './create-location-dialog.html',
+    styleUrl: './create-location-dialog.css',
     standalone: true,
 })
-export class CreateEditLocationDialog {
+export class CreateLocationDialog {
     visible = model<boolean>(false);
-
-    locationDto = input<LocationDto>({});
     saved = output<LocationDto>();
 
     editableLocation = signal<LocationDto>({});
 
     constructor() {
         effect(() => {
-            const currentLocation = this.locationDto();
-            this.editableLocation.set({...currentLocation});
+            this.editableLocation.set({
+                name: '',
+                latitude: undefined,
+                longitude: undefined
+            });
         });
     }
 

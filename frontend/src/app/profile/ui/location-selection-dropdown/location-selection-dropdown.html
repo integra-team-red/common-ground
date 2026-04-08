@@ -1,0 +1,15 @@
+<select
+        [ngModel]="value()"
+        (ngModelChange)="value.set($event)"
+        class="text-m">
+
+    <option [ngValue]="undefined" disabled selected>
+        {{ placeholder() }}
+    </option>
+
+    @for (loc of locations(); track loc.id) {
+        <option [ngValue]="loc">
+            {{ loc.name }}
+        </option>
+    }
+</select>
