@@ -28,10 +28,7 @@ public class SystemFeedbackController {
     @GetMapping
     @Operation(
         summary = "Get all System Feedbacks",
-        operationId = "getAllSystemFeedbacks",
-        responses={
-            @ApiResponse(content = @Content(mediaType = "application/json"))
-        }
+        operationId = "getAllSystemFeedbacks"
     )
     public Page<SystemFeedbackDTO> getAll(
         @RequestParam(required = false) String search,
@@ -93,8 +90,7 @@ public class SystemFeedbackController {
         summary = "Delete a System Feedback",
         operationId = "deleteSystemFeedback",
         responses = {
-            @ApiResponse(responseCode = "200"),
-            @ApiResponse(content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200")
         }
     )
     public void delete(@PathVariable UUID id) {
