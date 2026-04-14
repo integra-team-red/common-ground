@@ -5,6 +5,7 @@ import cloudflight.integra.backend.emailSystem.UserJoinedGroupEvent;
 import cloudflight.integra.backend.exceptions.AlreadyMemberOfThisHobbyGroupException;
 import cloudflight.integra.backend.exceptions.NotMemberOfHobbyGroupException;
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
+import cloudflight.integra.backend.location.model.Location;
 import cloudflight.integra.backend.user.model.User;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -33,6 +35,9 @@ public class HobbyGroupService {
     public Page<HobbyGroup> getAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
+
+    @Transactional(readOnly = true)
+    public List<HobbyGroup> getAllList(){ return repository.findAll(); }
 
     @Transactional(readOnly = true)
     public HobbyGroup getById(UUID id) {

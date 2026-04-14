@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,6 +22,9 @@ public class LocationService {
     public Page<Location> getAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
+
+    @Transactional(readOnly = true)
+    public List<Location> getAllList(){ return repository.findAll(); }
 
     @Transactional(readOnly = true)
     public Location getById(UUID id) {
