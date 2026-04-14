@@ -1,36 +1,76 @@
-<p-card>
-    <ng-template #title>
-        <h3>{{ hobbyGroupDto().name}}</h3></ng-template>
-    <p>
-        {{ hobbyGroupDto().description }}
-    </p>
-    <ng-template #footer>
-        <div class="flex flex-row justify-between items-center">
-            <div class="flex flex-shrink-0 whitespace-nowrap">
-                <p-avatar icon="pi pi-user" class="mr-2" shape="circle"/>
-                <span>User Name</span>
+@if (loading()) {
+
+    <p-card class="min-h-[200px]">
+        <ng-template #title>
+            <h3>
+                <p-skeleton width="60%" height="20px" class="mb-3"></p-skeleton>
+            </h3>
+        </ng-template>
+
+        <p>
+            <p-skeleton width="100%" height="14px" class="mb-3"></p-skeleton>
+        </p>
+
+        <ng-template #footer>
+            <div class="flex flex-row justify-between items-center">
+                <div class="flex flex-shrink-0 whitespace-nowrap items-center">
+                    <p-skeleton shape="circle" size="2rem" class="mr-2"></p-skeleton>
+                    <p-skeleton width="80px" height="14px"></p-skeleton>
+                </div>
+
+                <div class="flex flex-row flex-wrap gap-2 justify-end">
+                    <p-skeleton width="60px" height="24px" borderRadius="16px"></p-skeleton>
+                    <p-skeleton width="50px" height="24px" borderRadius="16px"></p-skeleton>
+                    <p-skeleton width="70px" height="24px" borderRadius="16px"></p-skeleton>
+                </div>
             </div>
 
-            <div class="flex flex-row flex-wrap gap-2 justify-end">
-                @for (tag of cardTags(); track tag.id) {
-                    <p-chip [label]="tag.label"/>
-                }
+            <div class="flex gap-4 mt-2 -mb-4">
+                <p-skeleton width="80px" height="32px"></p-skeleton>
             </div>
-        </div>
-        <div class="flex gap-4 mt-2 -mb-4">
+        </ng-template>
+    </p-card>
 
-            @if(!isOwner()){
-                @if(!isMember()){
-                    <p-button label="Join" icon="pi pi-plus-circle" variant="text" (click)="join()"/>
+} @else {
+
+    <p-card class="min-h-[200px]">
+        <ng-template #title>
+            <h3>{{ hobbyGroupDto().name }}</h3>
+        </ng-template>
+
+        <p>
+            {{ hobbyGroupDto().description }}
+        </p>
+
+        <ng-template #footer>
+            <div class="flex flex-row justify-between items-center">
+                <div class="flex flex-shrink-0 whitespace-nowrap">
+                    <p-avatar icon="pi pi-user" class="mr-2" shape="circle"/>
+                    <span>User Name</span>
+                </div>
+
+                <div class="flex flex-row flex-wrap gap-2 justify-end">
+                    @for (tag of cardTags(); track tag.id) {
+                        <p-chip [label]="tag.label"/>
+                    }
+                </div>
+            </div>
+
+            <div class="flex gap-4 mt-2 -mb-4">
+                @if (!isOwner()) {
+                    @if (!isMember()) {
+                        <p-button label="Join" icon="pi pi-plus-circle" variant="text" (click)="join()"/>
+                    } @else {
+                        <p-button label="Leave" icon="pi pi-minus-circle" variant="text" (click)="leave()"/>
+                    }
                 } @else {
-                    <p-button label="Leave" icon="pi pi-minus-circle" variant="text" (click)="leave()"/>
+                    <app-delete-hobby-group
+                            [hobbyGroupDto]="hobbyGroupDto()"
+                            (groupDeleted)="groupDeleted.emit()">
+                    </app-delete-hobby-group>
                 }
-            }
-            @else{
-                <app-delete-hobby-group [hobbyGroupDto]="hobbyGroupDto()" (groupDeleted)="groupDeleted.emit()">
-                </app-delete-hobby-group>
-                }
-        </div>
-    </ng-template>
+            </div>
+        </ng-template>
+    </p-card>
 
-</p-card>
+}

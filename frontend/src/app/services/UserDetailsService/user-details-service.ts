@@ -18,6 +18,7 @@ export class UserDetailsService {
     private userLocations = signal<LocationDto[]>([]);
     private userId = signal<string | undefined>('');
     selectedLocation = signal<LocationDto | undefined>(undefined);
+    loadingLocations = signal<boolean>(true);
 
     getUserLocations = computed(() => this.userLocations());
     getUserId = computed(() =>this.currentUser()?.id)
@@ -26,7 +27,7 @@ export class UserDetailsService {
 
 
     refreshLocations() {
-
+        this.loadingLocations.set(true);
         this.locationService.getLocations({ page: 0, size: 10 }, this.userId()).subscribe({
             next: (response: PageLocationDto) => {
                 this.userLocations.set(response.content ?? []);
@@ -40,9 +41,11 @@ export class UserDetailsService {
                         this.selectedLocation.set(this.userLocations()[0]);
                     }
                 }
+                this.loadingLocations.set(false);
             },
             error: (err) => {
                 console.error('Error getting locations:', err);
+                this.loadingLocations.set(false);
             }
         });
     }

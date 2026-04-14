@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {Card} from "primeng/card";
 import {UserDetailsService} from "../../../services/UserDetailsService/user-details-service";
 import {DatePipe} from "@angular/common";
@@ -8,6 +8,8 @@ import {ToastService} from "../../../toast-service/toast-service";
 import {Button} from "primeng/button";
 import {LocationSelectionDropdown} from "../../ui/location-selection-dropdown/location-selection-dropdown";
 import {LocationControllerService} from "@app/api/api/locationController.service";
+import {Skeleton} from "primeng/skeleton";
+import {PrimeTemplate} from "primeng/api";
 
 @Component({
     selector: 'app-profile-page',
@@ -16,7 +18,10 @@ import {LocationControllerService} from "@app/api/api/locationController.service
         DatePipe,
         CreateLocationDialog,
         Button,
-        LocationSelectionDropdown
+        LocationSelectionDropdown,
+        DatePipe,
+        Skeleton,
+        PrimeTemplate
     ],
     templateUrl: './profile-page.html',
 })
@@ -24,6 +29,8 @@ export class ProfilePage implements OnInit {
     private userDetailsService = inject(UserDetailsService);
     private locationService= inject(LocationControllerService)
     private toastService = inject(ToastService);
+
+    loading = this.userDetailsService.loadingLocations;
 
     userId =  this.userDetailsService.getUserId;
     selectedLocation = this.userDetailsService.selectedLocation;
