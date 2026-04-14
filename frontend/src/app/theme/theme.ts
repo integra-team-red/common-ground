@@ -54,9 +54,9 @@ export const CommonGroundTheme = definePreset(Aura, {
         },
         drawer:{
             root: {
-                background: '{coral.100}',
-                color: '{coral.950}'
+                background: '{coral.500}',
+                color: '{coral.950}',
             }
-        }
+        },
     }
 });

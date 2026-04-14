@@ -6,12 +6,12 @@
     <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
 </aside>
 
-<p-drawer [(visible)]="visible" [style]="{'border': 'none', 'width': '300px'}">
+<p-drawer [(visible)]="visible">
     <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
 </p-drawer>
 
 <ng-template #sidebarContent>
-    <div class="h-full bg-primary m-4 p-8 rounded-xl flex flex-col justify-between">
+    <div class="h-full bg-primary sm:m-4 sm:p-8 rounded-xl flex flex-col justify-between">
         <div class="flex flex-col gap-8 items-center text-white font-thin">
             <h1 class="text-4xl animate-[pulse_4s_infinite]">Common Ground</h1>
 
@@ -49,7 +49,7 @@
                 }
             </div>
         </div>
-        <div class="w-full pb-4">
+        <div class="w-full sm:pb-4">
             <div class="px-3 mb-4">
                 <hr class="border-t border-white/70 w-full m-0"/>
             </div>
