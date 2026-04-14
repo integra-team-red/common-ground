@@ -2,15 +2,21 @@
     <div class="w-full max-w-[600px] order-2 md:order-1">
         <h2 class="text-2xl whitespace-nowrap font-bold mb-6 md:text-3xl">Hobby Groups</h2>
         <div class="flex flex-col gap-6 mt-4">
-            @for (group of filteredHobbyGroups(); track group.id) {
-                <app-hobby-group-card [hobbyGroupDto]="group"
-                                      (groupUpdated)="onGroupUpdated()"
-                                      (groupDeleted)="onGroupDeleted()"/>
+            @if(!loading()) {
+                @for (group of filteredHobbyGroups(); track group.id) {
+                    <app-hobby-group-card [loading]="false"
+                                          [hobbyGroupDto]="group"
+                                          (groupUpdated)="onGroupUpdated()"
+                                          (groupDeleted)="onGroupDeleted()"/>
+                }
+            }
+            @else () {
+                @for (i of [1,2,3,4,5]; track i) {
+                    <app-hobby-group-card [loading]="true" [hobbyGroupDto]="{}"/>
+                }
             }
             <div #scrollAnchor class="h-20 w-full flex justify-center items-center">
-                @if (loading()) {
-                    <i class="pi pi-spin pi-spinner text-3xl text-blue-500"></i>
-                }
+
             </div>
         </div>
     </div>

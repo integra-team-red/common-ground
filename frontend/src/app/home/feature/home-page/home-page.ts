@@ -38,6 +38,8 @@ export class HomePage implements OnInit {
 
     ngOnInit(): void {
         this.getHobbyGroups(0)
+        this.loading.set(true)
+
 
     }
 

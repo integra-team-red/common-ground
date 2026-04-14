@@ -11,6 +11,7 @@ import {HobbyGroupDto} from "@app/api/model/hobbyGroupDto";
 import {HobbyGroupControllerService} from "@app/api/api/hobbyGroupController.service";
 import {ToastService} from "../../../toast-service/toast-service";
 import {DeleteHobbyGroup} from "../delete-hobby-group/delete-hobby-group";
+import {Skeleton} from "primeng/skeleton";
 
 @Component({
     selector: 'app-hobby-group-card',
@@ -20,12 +21,14 @@ import {DeleteHobbyGroup} from "../delete-hobby-group/delete-hobby-group";
         Chip,
         Button,
         DeleteHobbyGroup,
+        Skeleton,
     ],
     standalone: true,
     templateUrl: './hobby-group-card.html'
 })
 export class HobbyGroupCard {
 
+    loading = input<boolean>(true);
     hobbyGroupDto = input.required<HobbyGroupDto>()
     hobbyGroupService = inject(HobbyGroupControllerService);
     tagService = inject(TagControllerService)

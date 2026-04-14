@@ -1,26 +1,51 @@
-<p-card [header]="user.username">
-    <div class="flex flex-column gap-3">
-        <div>
-            <p class="m-0">
-                Email: <span class="italic">{{ user.email }}</span>
-            </p>
-            <p class="m-0">
-                Joined at <span class="italic">{{ user.joinedDate | date: 'longDate'}}</span>
-            </p>
-        </div>
-        <div class="flex gap-4">
-            <app-location-selection-dropdown
-                    [locations]="locations()"
-                    [(value)]="selectedLocation">
-            </app-location-selection-dropdown>
+@if (loading()) {
+    <p-card class="min-h-[150px]">
+        <ng-template pTemplate="header">
+            <div class="p-5 pt-6 pb-0">
+                <p-skeleton width="20%" height="20px"></p-skeleton>
+            </div>
+        </ng-template>
+        <div class="flex flex-column gap-3 ">
+            <div class="w-full md:w-72">
+                <p-skeleton width="100%" height="20px" class="m-0 mb-4"></p-skeleton>
+                <p-skeleton width="100%" height="20px" class="m-0 mb-3"></p-skeleton>
+            </div>
 
-            <p-button
-                    label="Add Location"
-                    (onClick)="openCreateDialog()">
-            </p-button>
+            <div class="flex flex-column md:flex-row gap-3 md:gap-4 w-full flex-wrap">
+                <p-skeleton width="15%" height="20px"></p-skeleton>
+                <p-skeleton width="10%" height="40px"></p-skeleton>
+            </div>
         </div>
-    </div>
-</p-card>
+    </p-card>
+} @else {
+    <p-card class="min-h-[150px]" [header]="user.username">
+        <div class="flex flex-column gap-3">
+            <div>
+                <p class="m-0 mb-3">
+                    Email: <span class="italic">{{ user.email }}</span>
+                </p>
 
+                <p class="m-0 mb-3">
+                    Joined at <span class="italic">{{ user.joinedDate | date: 'longDate' }}</span>
+                </p>
+            </div>
+            <div class="flex flex-column md:flex-row gap-3 md:gap-4 w-full flex-wrap">
+                <app-location-selection-dropdown
+                        class="w-full md:w-auto flex-shrink-0"
+                        [locations]="locations()"
+                        [(value)]="selectedLocation">
+                </app-location-selection-dropdown>
+
+                <p-button
+                        class="w-full md:w-auto flex-shrink-0"
+                        label="Add Location"
+                        (onClick)="openCreateDialog()">
+                </p-button>
+            </div>
+        </div>
+    </p-card>
+}
 <app-create-edit-location-dialog [(visible)]="openCreateDialogVisible"
                                  (saved)="handleCreateDialogSubmit($event)"/>
+
+
