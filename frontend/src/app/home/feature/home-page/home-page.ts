@@ -41,6 +41,19 @@ export class HomePage implements OnInit {
 
     }
 
+    ngAfterViewInit(): void {
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !this.loading() &&
+                this.filteredHobbyGroups().length < this.totalRecords()) {
+                this.loadMore();
+            }
+        }, {threshold: 0.1});
+
+        if (this.scrollAnchor) {
+            observer.observe(this.scrollAnchor.nativeElement);
+        }
+    }
+
     loadMore() {
         const nextPage = this.currentPage() + 1;
         this.currentPage.set(nextPage);
@@ -49,7 +62,7 @@ export class HomePage implements OnInit {
 
     getHobbyGroups(page: number) {
         this.loading.set(true);
-        this.hobbyGroupService.getAllHobbyGroups({size: 10, page: page})
+        this.hobbyGroupService.getAllHobbyGroups({size: 4, page: page})
             .subscribe({
                 next: (response) => {
                     const newItems = response.content ?? [];
@@ -69,7 +82,7 @@ export class HomePage implements OnInit {
 
     getFilteredHobbyGroups(page: number) {
         this.loading.set(true);
-        this.hobbyGroupService.filterAllHobbyGroupsByName(this.searchQuery().trim(), {size: 5, page: page})
+        this.hobbyGroupService.filterAllHobbyGroupsByName(this.searchQuery().trim(), {size: 4, page: page})
             .subscribe({
                 next: (response) => {
                     const newItems = response.content ?? [];
@@ -89,6 +102,8 @@ export class HomePage implements OnInit {
 
     onSearch(searchTerm: string) {
         this.searchQuery.set(searchTerm);
+        this.currentPage.set(0);
+        this.hobbyGroups.set([]);
         if (!searchTerm || searchTerm.trim() === '') {
             this.getHobbyGroups(0);
             return;
