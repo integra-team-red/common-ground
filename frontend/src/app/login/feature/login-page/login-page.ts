@@ -28,7 +28,7 @@ export class LoginPage {
                 this.toastService.showSuccess("Logged in successfully!");
 
                 setTimeout(() => {
-                    this.router.navigate(['/']).then(() => {
+                    this.router.navigate(['/home']).then(() => {
                     });
                 }, 1500);
             },

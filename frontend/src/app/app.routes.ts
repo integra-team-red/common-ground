@@ -11,8 +11,21 @@ import {authGuard} from "./auth/auth-guard";
 import {ProfilePage} from "./profile/feature/profile-page/profile-page";
 
 export const routes: Routes = [
+
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
+
     {
-        path: '',
+        path: 'login',
+        component: LoginPage,
+    },
+
+    {
+        path: 'registration',
+        component: Registration,
+    },
+
+    {
+        path: 'home',
         title: "Home",
         component: HomePage,
         data: {icon: 'pi-home'}
@@ -30,20 +43,6 @@ export const routes: Routes = [
         title:"Feedback",
         component:FeedbackPage,
         data: {icon: 'pi-comment'}
-    },
-
-    {
-        path: 'login',
-        title: "Login",
-        component: LoginPage,
-        data: {icon: 'pi-sign-in'}
-    },
-
-    {
-        path: 'registration',
-        title: 'User Registration',
-        component: Registration,
-        data: { icon: 'pi-user-plus' }
     },
 
     {
