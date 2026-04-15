@@ -2,18 +2,23 @@
         position="top-right"
         [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }">
 </p-toast>
-<div class="lg:hidden flex items-center bg-primary text-white">
-    <app-sidebar/>
-</div>
-
-<div class="min-h-screen flex flex-col lg:flex-row overflow-hidden">
-    <header class="hidden lg:block w-80 h-screen sticky top-0">
-        <app-sidebar/>
-    </header>
-
-    <main class="flex-1">
-        <div class="h-screen overflow-y-auto p-4 lg:p-8">
-            <router-outlet/>
-        </div>
+@if (hideSidebar) {
+    <main class="min-h-screen flex items-center justify-center bg-surface-50">
+        <router-outlet/>
     </main>
-</div>
+} @else {
+    <div class="lg:hidden flex items-center bg-primary text-white">
+        <app-sidebar/>
+    </div>
+    <div class="min-h-screen flex flex-col lg:flex-row overflow-hidden">
+        <header class="hidden lg:block w-80 h-screen sticky top-0">
+            <app-sidebar/>
+        </header>
+
+        <main class="flex-1">
+            <div class="h-screen overflow-y-auto p-4 lg:p-8">
+                <router-outlet/>
+            </div>
+        </main>
+    </div>
+}

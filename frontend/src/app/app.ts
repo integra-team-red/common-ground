@@ -1,7 +1,7 @@
-import {Component, signal} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-import {Sidebar} from "./sidebar/feature/sidebar/sidebar";
-import {Toast} from "primeng/toast";
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { Sidebar } from "./sidebar/feature/sidebar/sidebar";
+import { Toast } from "primeng/toast";
 
 @Component({
     selector: 'app-root',
@@ -10,5 +10,9 @@ import {Toast} from "primeng/toast";
     styleUrl: './app.css',
 })
 export class App {
-    protected readonly title = signal('frontend');
+    private router = inject(Router);
+
+    get hideSidebar(): boolean {
+        return this.router.url.includes('/login') || this.router.url.includes('/registration');
+    }
 }
