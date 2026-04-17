@@ -34,8 +34,11 @@ public class SecurityConfig {
                 (req, resp, ex)
                     -> resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage())));
 
-        http.authorizeHttpRequests((authorize)
-            -> authorize.anyRequest().permitAll());
+        http.authorizeHttpRequests((authorize) -> authorize
+            .requestMatchers("/api/login", "/api/register").permitAll()
+            .requestMatchers("/api/**").authenticated()
+            .anyRequest().permitAll()
+        );
 
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
