@@ -30,6 +30,8 @@ springdoc:
   default-produces-media-type: application/json
 
 matrix:
+  admin:
+    token: token
   server-name: server
   base-url: url
   registration-shared-secret: secret

@@ -20,6 +20,7 @@ public class Event {
 
     @ManyToOne
     private HobbyGroup hobbyGroup;
+    private String matrixRoomId;
 
 
     public Event(
@@ -36,6 +37,8 @@ public class Event {
         this.endTime = endTime;
         this.hobbyGroup = hobbyGroup;
         this.location = location;
+        this.matrixRoomId = null;
+
     }
 
     public Event() {
@@ -88,4 +91,8 @@ public class Event {
     public void setHobbyGroup(HobbyGroup hobbyGroup) {
         this.hobbyGroup = hobbyGroup;
     }
+
+    public String getMatrixRoomId() { return this.matrixRoomId;}
+
+    public void setMatrixRoomId(String matrixRoomId) {this.matrixRoomId = matrixRoomId;}
 }

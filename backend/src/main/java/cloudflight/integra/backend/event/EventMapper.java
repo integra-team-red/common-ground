@@ -15,10 +15,18 @@ public class EventMapper {
             event.getStartTime(),
             event.getEndTime(),
             event.getLocation().getId(),
-            event.getHobbyGroup().getId());
+            event.getHobbyGroup().getId(),
+            event.getMatrixRoomId());
     }
 
     public Event toEntity(EventDto dto, Location location, HobbyGroup hobbyGroup) {
-        return new Event(dto.id(), dto.title(), dto.startTime(), dto.endTime(), location, hobbyGroup);
+        Event eventFomDto = new Event(dto.id(),
+            dto.title(),
+            dto.startTime(),
+            dto.endTime(),
+            location,
+            hobbyGroup);
+        eventFomDto.setMatrixRoomId(eventFomDto.getMatrixRoomId());
+        return eventFomDto;
     }
 }

@@ -35,6 +35,8 @@ logging:
     org.flywaydb: INFO
 
 matrix:
+  admin:
+    token: ${MATRIX_ACCESS_TOKEN:}
   server-name: ${MATRIX_SERVER_NAME:}
   base-url: ${MATRIX_BASE_URL:http://localhost:8008}
   registration-shared-secret: ${MATRIX_REGISTRATION_SHARED_SECRET:}
