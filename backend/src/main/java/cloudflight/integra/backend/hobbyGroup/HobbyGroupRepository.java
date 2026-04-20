@@ -1,6 +1,7 @@
 package cloudflight.integra.backend.hobbyGroup;
 
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
+import cloudflight.integra.backend.location.model.Location;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,6 @@ import java.util.UUID;
 @Repository
 public interface HobbyGroupRepository extends JpaRepository<HobbyGroup, UUID> {
     Page<HobbyGroup> findByNameContainingIgnoreCase(String name, Pageable pageable);
+
+    Page<HobbyGroup> findByGroupLocation(Location location, Pageable pageable);
 }

@@ -35,7 +35,7 @@
 
     <p-card class="min-h-[200px]">
         <ng-template #title>
-            <h3>{{ hobbyGroupDto().name }}</h3>
+            <h3>{{ hobbyGroupDto().name }} | {{ groupLocation()?.name }}</h3>
         </ng-template>
 
         <p>
@@ -44,7 +44,7 @@
 
         <ng-template #footer>
             <div class="flex flex-row justify-between items-center">
-                <div class="flex flex-shrink-0 whitespace-nowrap">
+                <div class="flex flex-shrink-0 whitespace-nowrap justify-between ">
                     <p-avatar class="mr-2" icon="pi pi-user" shape="circle"/>
                     <span>User Name</span>
                 </div>

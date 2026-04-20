@@ -190,6 +190,8 @@ public class DatabaseSeedService {
             hobbyGroup.setDescription(truncate(faker.yoda().quote()));
             hobbyGroup.setRadiusKm(faker.number().numberBetween(0, 10));
             hobbyGroup.setOwner(user);
+            hobbyGroup.setGroupLocation(locationService.getAllList()
+                .get(faker.random().nextInt(locationService.getAllList().size())));
             hobbyGroupService.create(hobbyGroup);
             i--;
         }
