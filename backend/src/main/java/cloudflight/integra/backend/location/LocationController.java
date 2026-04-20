@@ -54,7 +54,12 @@ public class LocationController {
         return locationService.getAll(pageable).map(locationMapper::toDto);
     }
 
+
     @GetMapping("/{id}")
+    @Operation(
+        operationId= "getLocationById",
+        summary= "Get location by id"
+    )
     public LocationDto getById(@PathVariable UUID id) {
         return locationMapper.toDto(locationService.getById(id));
     }

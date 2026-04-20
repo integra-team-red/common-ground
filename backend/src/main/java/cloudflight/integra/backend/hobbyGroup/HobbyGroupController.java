@@ -2,6 +2,8 @@ package cloudflight.integra.backend.hobbyGroup;
 
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroupDto;
+import cloudflight.integra.backend.location.LocationService;
+import cloudflight.integra.backend.location.model.Location;
 import cloudflight.integra.backend.tag.TagService;
 import cloudflight.integra.backend.user.UserService;
 import cloudflight.integra.backend.user.model.User;
@@ -25,17 +27,20 @@ public class HobbyGroupController {
     private final TagService tagService;
     private final HobbyGroupMapper mapper;
     private final UserService userService;
+    private final LocationService locationService;
 
     public HobbyGroupController(
         HobbyGroupService service,
         TagService tagService,
         HobbyGroupMapper mapper,
-        UserService userService
+        UserService userService,
+        LocationService locationService
     ) {
         this.hobbyGroupService = service;
         this.tagService = tagService;
         this.mapper = mapper;
         this.userService = userService;
+        this.locationService = locationService;
     }
 
     @Operation(
@@ -43,7 +48,12 @@ public class HobbyGroupController {
         operationId = "getAllHobbyGroups"
     )
     @GetMapping
-    public Page<HobbyGroupDto> getAll(Pageable pageable) {
+    public Page<HobbyGroupDto> getAll(@RequestParam(required = false) UUID locationId,Pageable pageable) {
+        if(locationId != null){
+            Location groupLocation = locationService.getById(locationId);
+            return hobbyGroupService.getAllByLocation(groupLocation, pageable)
+                .map(group -> mapper.toDto(group, tagService.getIdsFromTags(group.getTags())));
+        }
         return hobbyGroupService.getAll(pageable)
             .map(group -> mapper.toDto(group, tagService.getIdsFromTags(group.getTags())));
     }
@@ -57,6 +67,7 @@ public class HobbyGroupController {
         return hobbyGroupService.filterByName(name, pageable)
             .map(group -> mapper.toDto(group, tagService.getIdsFromTags(group.getTags())));
     }
+
 
     @GetMapping("/{id}")
     @Operation(
@@ -98,7 +109,8 @@ public class HobbyGroupController {
         HobbyGroup createHobbyGroup = hobbyGroupService.create(mapper.toEntity(
             groupDto,
             tagService.getTagsFromIds(groupDto.tagIds()),
-            owner)
+            owner,
+            locationService.getById(groupDto.groupLocationId()))
         );
         return mapper.toDto(createHobbyGroup, groupDto.tagIds());
     }
@@ -125,7 +137,8 @@ public class HobbyGroupController {
         HobbyGroup updateHobbyGroup = hobbyGroupService.update(id, mapper.toEntity(
             groupDto,
             tagService.getTagsFromIds(groupDto.tagIds()),
-            owner));
+            owner,
+            locationService.getById(groupDto.groupLocationId())));
 
         return mapper.toDto(updateHobbyGroup, groupDto.tagIds());
     }
