@@ -44,6 +44,11 @@ public class HobbyGroupService {
         return repository.findById(id).orElseThrow();
     }
 
+    @Transactional(readOnly = true)
+    public Page<HobbyGroup> getAllByLocation(Location location, Pageable pageable) {
+        return repository.findByGroupLocation(location, pageable);
+    }
+
     @Transactional
     public HobbyGroup create(HobbyGroup group) {
         group.setId(null);
@@ -94,4 +99,5 @@ public class HobbyGroupService {
         repository.save(hobbyGroup);
         return hobbyGroup;
     }
+
 }

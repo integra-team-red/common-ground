@@ -33,9 +33,10 @@ export class UserDetailsService {
                     const match = this.userLocations().find(i => i.id === prevLoc.id);
                     if (match) {
                         this.selectedLocation.set(match);
-                    } else {
-                        this.selectedLocation.set(this.userLocations()[0]);
                     }
+                } else if(this.userLocations().length > 0){
+                    this.selectedLocation.set(this.userLocations()[0]);
+                    console.log("selectedLocation")
                 }
                 this.loadingLocations.set(false);
             },
