@@ -23,7 +23,7 @@ export class LoginPage {
 
     protected onSubmit(request: LoginRequest) {
         this.authService.loginUser(request).subscribe({
-            next: async() => {
+            next: async () => {
                 await this.userDetailsService.loadCurrentUser();
                 this.toastService.showSuccess("Logged in successfully!");
 

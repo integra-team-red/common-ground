@@ -1,49 +1,51 @@
-<p-button icon="pi pi-pencil" severity="secondary" (click)="openDialog()"></p-button>
+<p-button (click)="openDialog()" icon="pi pi-pencil" severity="secondary"></p-button>
 
-<p-dialog header="Update System Feedback"
-          [modal]="true"
-          [(visible)]="visible"
-          [style]="{ width: '25rem' }"
-          dismissableMask
-          appendTo="body">
+<p-dialog [(visible)]="visible"
+    [modal]="true"
+    [style]="{ width: '25rem' }"
+    appendTo="body"
+    dismissableMask
+    header="Update System Feedback">
     <span class="p-text-secondary block mb-8">Update the feedback details below.</span>
 
     <form #feedbackForm="ngForm" (ngSubmit)="onSubmit(feedbackForm)" class="flex flex-col gap-4 w-full">
         <div class="flex flex-col gap-2">
 
             <div class="flex flex-col gap-1">
-                <label for="edit-email" class="text-sm font-semibold">User Email</label>
-                <input pInputText type="email" id="edit-email" placeholder="user@example.com" name="email"
-                       [(ngModel)]="newFeedback.email" #email="ngModel"
-                       [invalid]="email.invalid && (email.touched || feedbackForm.submitted)" required email/>
+                <label class="text-sm font-semibold" for="edit-email">User Email</label>
+                <input #email="ngModel" [(ngModel)]="newFeedback.email"
+                    [invalid]="email.invalid && (email.touched || feedbackForm.submitted)" email id="edit-email"
+                    name="email" pInputText
+                    placeholder="user@example.com" required type="email"/>
                 @if (email.invalid && (email.touched || feedbackForm.submitted)) {
                     <p-message severity="error" size="small" variant="simple">A valid email is required.</p-message>
                 }
             </div>
 
             <div class="flex flex-col gap-1">
-                <label for="edit-createdAt" class="text-sm font-semibold">Date Received</label>
-                <p-datepicker id="edit-createdAt" name="createdAt" placeholder="Select Date"
-                              [(ngModel)]="newFeedback.createdAt" [showTime]="true" hourFormat="24" appendTo="body"
-                              styleClass="w-full" #createdAt="ngModel"
-                              [invalid]="createdAt.invalid && (createdAt.touched || feedbackForm.submitted)" required/>
+                <label class="text-sm font-semibold" for="edit-createdAt">Date Received</label>
+                <p-datepicker #createdAt="ngModel" [(ngModel)]="newFeedback.createdAt"
+                    [invalid]="createdAt.invalid && (createdAt.touched || feedbackForm.submitted)"
+                    [showTime]="true" appendTo="body" hourFormat="24" id="edit-createdAt"
+                    name="createdAt" placeholder="Select Date"
+                    required styleClass="w-full"/>
                 @if (createdAt.invalid && (createdAt.touched || feedbackForm.submitted)) {
                     <p-message severity="error" size="small" variant="simple">Creation date is required.</p-message>
                 }
             </div>
 
             <div class="flex flex-col gap-1">
-                <label for="edit-message" class="text-sm font-semibold">Feedback Message</label>
-                <textarea pInputTextarea
-                          id="edit-message"
-                          name="message"
-                          placeholder="Feedback content..."
-                          [(ngModel)]="newFeedback.message"
-                          #message="ngModel"
-                          rows="4"
-                          class="w-full p-2 border rounded"
-                          [invalid]="message.invalid && (message.touched || feedbackForm.submitted)"
-                          required></textarea>
+                <label class="text-sm font-semibold" for="edit-message">Feedback Message</label>
+                <textarea #message="ngModel"
+                    [(ngModel)]="newFeedback.message"
+                    [invalid]="message.invalid && (message.touched || feedbackForm.submitted)"
+                    class="w-full p-2 border rounded"
+                    id="edit-message"
+                    name="message"
+                    pInputTextarea
+                    placeholder="Feedback content..."
+                    required
+                    rows="4"></textarea>
                 @if (message.invalid && (message.touched || feedbackForm.submitted)) {
                     <p-message severity="error" size="small" variant="simple">Message content is required.</p-message>
                 }
@@ -52,8 +54,9 @@
         </div>
 
         <div class="flex justify-end gap-2 mt-4">
-            <p-button label="Cancel" severity="secondary" [outlined]="true" (click)="visible.set(false)" type="button"/>
-            <p-button label="Update Feedback" severity="primary" type="submit" [disabled]="feedbackForm.invalid"/>
+            <p-button (click)="visible.set(false)" [outlined]="true" label="Cancel"
+                severity="secondary" type="button"/>
+            <p-button [disabled]="feedbackForm.invalid" label="Update Feedback" severity="primary" type="submit"/>
         </div>
 
     </form>

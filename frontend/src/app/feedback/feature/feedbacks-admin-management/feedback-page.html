@@ -13,11 +13,11 @@
     <div class="w-full border border-gray-300 rounded-xl overflow-hidden">
         <div class="w-full overflow-x-auto">
             <app-feedback-table
-                    [feedbacks]="feedbacks()"
-                    [rows]="rows()"
-                    [totalRecords]="totalRecords()"
-                    (refresh)="getFeedbacks()"
-                    (lazyEvent)="loadFeedbacksLazy($event)">
+                (lazyEvent)="loadFeedbacksLazy($event)"
+                (refresh)="getFeedbacks()"
+                [feedbacks]="feedbacks()"
+                [rows]="rows()"
+                [totalRecords]="totalRecords()">
             </app-feedback-table>
         </div>
     </div>

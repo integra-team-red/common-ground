@@ -1,22 +1,23 @@
-<p-dialog dismissableMask="true" (onHide)="close()" [(visible)]="visible"
-          [header]="editableLocation().id ? 'Edit Location' : 'Create Location'"
-          [modal]="true" [style]="{ width: '25rem' }">
+<p-dialog (onHide)="close()" [(visible)]="visible" [header]="editableLocation().id ?
+    'Edit Location' : 'Create Location'"
+    [modal]="true"
+    [style]="{ width: '25rem' }" dismissableMask="true">
     <div class="flex flex-col gap-4">
         <div class="flex items-center gap-4">
             <label class="font-semibold w-24">Name</label>
             <input [(ngModel)]="editableLocation().name" autocomplete="off" class="flex-auto" pInputText
-                   placeholder="Location Name"/>
+                placeholder="Location Name"/>
         </div>
         <div class="flex items-center gap-4">
             <label class="font-semibold w-24">Latitude</label>
             <input [(ngModel)]="editableLocation().latitude" autocomplete="off" class="flex-auto" pInputText
-                   placeholder="e.g. 48.2082"
-                   type="number"/>
+                placeholder="e.g. 48.2082"
+                type="number"/>
         </div>
         <div class="flex items-center gap-4 mb-4">
             <label class="font-semibold w-24">Longitude</label>
             <input [(ngModel)]="editableLocation().longitude" autocomplete="off" class="flex-auto" pInputText
-                   placeholder="e.g. 16.3738" type="number"/>
+                placeholder="e.g. 16.3738" type="number"/>
         </div>
     </div>
     <div class="flex justify-end gap-2">

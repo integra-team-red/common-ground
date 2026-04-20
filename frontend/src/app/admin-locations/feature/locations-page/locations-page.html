@@ -4,27 +4,27 @@
             Locations View</h2>
         <div class="flex flex-col md:flex-row w-full md:w-auto grow md:justify-end gap-3 md:gap-2">
             <div class="w-full md:w-auto">
-                <app-searchbar class="block w-full" (search)="onSearch($event)"></app-searchbar>
+                <app-searchbar (search)="onSearch($event)" class="block w-full"></app-searchbar>
             </div>
             <div class="w-full md:w-auto">
-                <p-button styleClass="w-full" label="Create New Location" (onClick)="openCreateDialog()"></p-button>
+                <p-button (onClick)="openCreateDialog()" label="Create New Location" styleClass="w-full"></p-button>
             </div>
         </div>
     </div>
     <div class="w-full border border-gray-300 rounded-xl overflow-hidden">
         <div class="w-full overflow-x-auto">
             <app-locations-table
-                    [locations]="locations()"
-                    [totalRecords]="totalElements()"
-                    [rows]="rows()"
-                    (pageChange)="onPageChange($event)"
-                    (delete)="openDeleteDialog($event)">
+                (delete)="openDeleteDialog($event)"
+                (pageChange)="onPageChange($event)"
+                [locations]="locations()"
+                [rows]="rows()"
+                [totalRecords]="totalElements()">
             </app-locations-table>
         </div>
     </div>
 </div>
 
-<app-create-edit-location-dialog [(visible)]="openCreateDialogVisible"
-                                 (saved)="handleCreateDialogSubmit($event)"/>
-<app-delete-location-dialog [(visible)]="openDeleteDialogVisible" [locationDto]="selectedLocation()"
-                            (confirmed)="handleDeleteDialogSubmit($event)"/>
+<app-create-edit-location-dialog (saved)="handleCreateDialogSubmit($event)"
+    [(visible)]="openCreateDialogVisible"/>
+<app-delete-location-dialog (confirmed)="handleDeleteDialogSubmit($event)" [(visible)]="openDeleteDialogVisible"
+    [locationDto]="selectedLocation()"/>

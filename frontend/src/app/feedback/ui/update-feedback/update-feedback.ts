@@ -7,8 +7,8 @@ import {SystemFeedbackDTO} from "@app/api/model/systemFeedbackDTO";
 import {Button} from "primeng/button";
 import {Dialog} from "primeng/dialog";
 import {Message} from "primeng/message";
-import{Textarea} from "primeng/textarea";
-import{ToastService} from "../../../toast-service/toast-service";
+import {Textarea} from "primeng/textarea";
+import {ToastService} from "../../../toast-service/toast-service";
 
 @Component({
     selector: 'app-update-feedback',
@@ -24,13 +24,13 @@ import{ToastService} from "../../../toast-service/toast-service";
     ],
     templateUrl: './update-feedback.html',
 })
-export class UpdateFeedback{
+export class UpdateFeedback {
     feedbackService = inject(SystemFeedbackControllerService);
     visible = signal<boolean>(false);
     refreshTable = output<void>();
     feedbackData = input.required<SystemFeedbackDTO>();
-    toastService=inject(ToastService);
-    newFeedback: SystemFeedbackDTO = {email: "", message: "", createdAt: ""};
+    toastService = inject(ToastService);
+    newFeedback: SystemFeedbackDTO = { email: "", message: "", createdAt: "" };
 
     openDialog() {
         this.newFeedback = { ...this.feedbackData() };
@@ -39,6 +39,7 @@ export class UpdateFeedback{
         }
         this.visible.set(true);
     }
+
     onSubmit(form: NgForm) {
         if (form.valid && this.newFeedback.id) {
             this.feedbackService.updateSystemFeedback(this.newFeedback.id, this.newFeedback).subscribe({

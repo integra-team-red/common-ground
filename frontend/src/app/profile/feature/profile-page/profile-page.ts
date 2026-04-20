@@ -1,4 +1,4 @@
-import {Component, computed, inject, OnInit, signal} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Card} from "primeng/card";
 import {UserDetailsService} from "../../../services/UserDetailsService/user-details-service";
 import {DatePipe} from "@angular/common";
@@ -26,18 +26,15 @@ import {PrimeTemplate} from "primeng/api";
     templateUrl: './profile-page.html',
 })
 export class ProfilePage implements OnInit {
+    openCreateDialogVisible = false;
     private userDetailsService = inject(UserDetailsService);
-    private locationService= inject(LocationControllerService)
-    private toastService = inject(ToastService);
-
     loading = this.userDetailsService.loadingLocations;
-
-    userId =  this.userDetailsService.getUserId;
+    userId = this.userDetailsService.getUserId;
     selectedLocation = this.userDetailsService.selectedLocation;
     locations = this.userDetailsService.getUserLocations;
-    user = this.userDetailsService.getCurrentUser() ?? {username: "", email: "", joinedDate: ""};
-    openCreateDialogVisible = false;
-
+    user = this.userDetailsService.getCurrentUser() ?? { username: "", email: "", joinedDate: "" };
+    private locationService = inject(LocationControllerService)
+    private toastService = inject(ToastService);
 
     ngOnInit() {
         this.userDetailsService.refreshLocations();

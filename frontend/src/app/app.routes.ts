@@ -28,21 +28,21 @@ export const routes: Routes = [
         path: 'home',
         title: "Home",
         component: HomePage,
-        data: {icon: 'pi-home'}
+        data: { icon: 'pi-home' }
     },
 
     {
         path: 'events',
         title: "Events",
         component: Events,
-        data: {icon: 'pi-calendar'}
+        data: { icon: 'pi-calendar' }
     },
 
     {
-        path:'feedback',
-        title:"Feedback",
-        component:FeedbackPage,
-        data: {icon: 'pi-comment'}
+        path: 'feedback',
+        title: "Feedback",
+        component: FeedbackPage,
+        data: { icon: 'pi-comment' }
     },
 
     {

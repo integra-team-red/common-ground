@@ -2,23 +2,23 @@
     <p-card class="min-h-[150px]">
         <ng-template pTemplate="header">
             <div class="p-5 pt-6 pb-0">
-                <p-skeleton width="20%" height="20px"></p-skeleton>
+                <p-skeleton height="20px" width="20%"></p-skeleton>
             </div>
         </ng-template>
         <div class="flex flex-column gap-3 ">
             <div class="w-full md:w-72">
-                <p-skeleton width="100%" height="20px" class="m-0 mb-4"></p-skeleton>
-                <p-skeleton width="100%" height="20px" class="m-0 mb-3"></p-skeleton>
+                <p-skeleton class="m-0 mb-4" height="20px" width="100%"></p-skeleton>
+                <p-skeleton class="m-0 mb-3" height="20px" width="100%"></p-skeleton>
             </div>
 
             <div class="flex flex-column md:flex-row gap-3 md:gap-4 w-full flex-wrap">
-                <p-skeleton width="15%" height="20px"></p-skeleton>
-                <p-skeleton width="10%" height="40px"></p-skeleton>
+                <p-skeleton height="20px" width="15%"></p-skeleton>
+                <p-skeleton height="40px" width="10%"></p-skeleton>
             </div>
         </div>
     </p-card>
 } @else {
-    <p-card class="min-h-[150px]" [header]="user.username">
+    <p-card [header]="user.username" class="min-h-[150px]">
         <div class="flex flex-column gap-3">
             <div>
                 <p class="m-0 mb-3">
@@ -31,21 +31,21 @@
             </div>
             <div class="flex flex-column md:flex-row gap-3 md:gap-4 w-full flex-wrap">
                 <app-location-selection-dropdown
-                        class="w-full md:w-auto flex-shrink-0"
-                        [locations]="locations()"
-                        [(value)]="selectedLocation">
+                    [(value)]="selectedLocation"
+                    [locations]="locations()"
+                    class="w-full md:w-auto flex-shrink-0">
                 </app-location-selection-dropdown>
 
                 <p-button
-                        class="w-full md:w-auto flex-shrink-0"
-                        label="Add Location"
-                        (onClick)="openCreateDialog()">
+                    (onClick)="openCreateDialog()"
+                    class="w-full md:w-auto flex-shrink-0"
+                    label="Add Location">
                 </p-button>
             </div>
         </div>
     </p-card>
 }
-<app-create-edit-location-dialog [(visible)]="openCreateDialogVisible"
-                                 (saved)="handleCreateDialogSubmit($event)"/>
+<app-create-edit-location-dialog (saved)="handleCreateDialogSubmit($event)"
+    [(visible)]="openCreateDialogVisible"/>
 
 

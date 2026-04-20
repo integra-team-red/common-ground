@@ -13,18 +13,15 @@ import {LocationControllerService} from "@app/api/api/locationController.service
 export class UserDetailsService {
     userService = inject(UserControllerService);
     locationService = inject(LocationControllerService);
-
-    private currentUser = signal<UserDto | null>(null);
-    private userLocations = signal<LocationDto[]>([]);
-    private userId = signal<string | undefined>('');
     selectedLocation = signal<LocationDto | undefined>(undefined);
     loadingLocations = signal<boolean>(true);
-
-    getUserLocations = computed(() => this.userLocations());
-    getUserId = computed(() =>this.currentUser()?.id)
+    private currentUser = signal<UserDto | null>(null);
+    getUserId = computed(() => this.currentUser()?.id)
     getCurrentUser = computed(() => this.currentUser());
     isAdmin = computed(() => this.currentUser()?.role === UserDto.RoleEnum.Admin);
-
+    private userLocations = signal<LocationDto[]>([]);
+    getUserLocations = computed(() => this.userLocations());
+    private userId = signal<string | undefined>('');
 
     refreshLocations() {
         this.loadingLocations.set(true);
@@ -32,12 +29,11 @@ export class UserDetailsService {
             next: (response: PageLocationDto) => {
                 this.userLocations.set(response.content ?? []);
                 const prevLoc = this.selectedLocation();
-                if(prevLoc) {
+                if (prevLoc) {
                     const match = this.userLocations().find(i => i.id === prevLoc.id);
-                    if(match) {
+                    if (match) {
                         this.selectedLocation.set(match);
-                    }
-                    else {
+                    } else {
                         this.selectedLocation.set(this.userLocations()[0]);
                     }
                 }

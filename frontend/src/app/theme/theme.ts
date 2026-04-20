@@ -43,16 +43,16 @@ export const CommonGroundTheme = definePreset(Aura, {
             }
         },
         datatable: {
-            row:{
+            row: {
                 background: '{surface.50}',
                 color: '{surface.950}'
             },
-            headerCell:{
+            headerCell: {
                 background: '{surface.100}',
                 color: '{surface.950}'
             }
         },
-        drawer:{
+        drawer: {
             root: {
                 background: '{coral.500}',
                 color: '{coral.950}',

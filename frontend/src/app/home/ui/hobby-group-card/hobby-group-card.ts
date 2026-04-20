@@ -52,7 +52,7 @@ export class HobbyGroupCard {
             return forkJoin(requests);
         })
     );
-    cardTags = toSignal(this.tags, {initialValue: []});
+    cardTags = toSignal(this.tags, { initialValue: [] });
 
     join() {
         this.hobbyGroupService.joinHobbyGroup(this.hobbyGroupDto().id!)

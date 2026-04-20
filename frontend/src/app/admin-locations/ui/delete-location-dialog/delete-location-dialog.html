@@ -1,5 +1,5 @@
-<p-dialog dismissableMask="true" (onHide)="close()" [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }"
-          header="Confirm Deletion">
+<p-dialog (onHide)="close()" [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }" dismissableMask="true"
+    header="Confirm Deletion">
     <div class="mb-4">
         Are you sure you want to delete the location <strong>{{ locationDto().name }}</strong>? This action cannot be
         undone.

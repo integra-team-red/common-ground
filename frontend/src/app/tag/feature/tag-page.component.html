@@ -6,26 +6,27 @@
                 <app-searchbar (search)="onSearch($event)"></app-searchbar>
             </div>
             <div class="w-full md:w-auto">
-                <p-button styleClass="w-full" label="Create New Tag" (click)="onTagCreateClick()"/>            </div>
+                <p-button (click)="onTagCreateClick()" label="Create New Tag" styleClass="w-full"/>
+            </div>
         </div>
 
     </div>
 
     <div class="w-full border border-gray-300 rounded-xl overflow-hidden">
         <div class="w-full overflow-x-auto">
-            <app-tag-table class="w-full overflow-x-auto"
-                           [tags]="tags()"
-                           [totalRecords]="totalRecords()"
-                           (loadLazy)="loadTagsLazy($event)"
-                           (updateClick)="onTagUpdateClick($event)"
-                           (deleteClick)="onTagDeleteClick($event)"/>
+            <app-tag-table (deleteClick)="onTagDeleteClick($event)"
+                (loadLazy)="loadTagsLazy($event)"
+                (updateClick)="onTagUpdateClick($event)"
+                [tags]="tags()"
+                [totalRecords]="totalRecords()"
+                class="w-full overflow-x-auto"/>
         </div>
     </div>
-    <app-create-tag-form [visible]="visibleAddForm()"
-                         (create)="createTag($event)"
-                         (hide)="visibleAddForm.set(false)"/>
-    <app-update-tag-form [updateTag]="currentTag()"
-                         [visible]="visibleUpdateForm()"
-                         (create)="updateTag($event)"
-                         (hide)="visibleUpdateForm.set(false)"/>
+    <app-create-tag-form (create)="createTag($event)"
+        (hide)="visibleAddForm.set(false)"
+        [visible]="visibleAddForm()"/>
+    <app-update-tag-form (create)="updateTag($event)"
+        (hide)="visibleUpdateForm.set(false)"
+        [updateTag]="currentTag()"
+        [visible]="visibleUpdateForm()"/>
 </div>

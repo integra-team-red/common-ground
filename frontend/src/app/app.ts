@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { Sidebar } from "./sidebar/feature/sidebar/sidebar";
-import { Toast } from "primeng/toast";
+import {Component, inject} from '@angular/core';
+import {Router, RouterOutlet} from '@angular/router';
+import {Sidebar} from "./sidebar/feature/sidebar/sidebar";
+import {Toast} from "primeng/toast";
 
 @Component({
     selector: 'app-root',

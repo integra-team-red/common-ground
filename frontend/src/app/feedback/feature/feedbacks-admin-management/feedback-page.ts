@@ -62,7 +62,7 @@ export class FeedbackPage implements OnInit {
             this.getFeedbacks();
             return;
         }
-        const pageable: Pageable = {page: 0, size: this.rows()};
+        const pageable: Pageable = { page: 0, size: this.rows() };
         this.feedbackService.findAllSystemFeedbacksByEmail(searchTerm, pageable).subscribe({
             next: (response: PageSystemFeedbackDTO) => {
                 this.feedbacks.set(response.content ?? []);

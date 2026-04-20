@@ -1,51 +1,58 @@
-<p-button [fluid]="true" label="Create New Feedback" (onClick)="visible.set(true)"></p-button>
-<p-dialog header="Submit Feedback" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem' }" dismissableMask>
+<p-button (onClick)="visible.set(true)" [fluid]="true" label="Create New Feedback"></p-button>
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '30rem' }" dismissableMask header="Submit Feedback">
     <span class="p-text-secondary block mb-5">Please fill in your feedback details.</span>
 
     <form #feedbackForm="ngForm" (ngSubmit)="onSubmit(feedbackForm)" class="flex flex-col gap-4 w-full">
 
         <div class="flex flex-col gap-1">
-            <label for="email" class="font-semibold text-sm">Email Address</label>
-            <input pInputText type="email" id="email" placeholder="example@domain.com" name="email"
-                   [(ngModel)]="newFeedback.email"
-                   #email="ngModel"
-                   [invalid]="email.invalid && (email.touched || feedbackForm.submitted)"
-                   required email/> @if (email.invalid && (email.touched || feedbackForm.submitted)) {
+            <label class="font-semibold text-sm" for="email">Email Address</label>
+            <input #email="ngModel" [(ngModel)]="newFeedback.email"
+                [invalid]="email.invalid && (email.touched || feedbackForm.submitted)" email id="email"
+                name="email"
+                pInputText
+                placeholder="example@domain.com"
+                required type="email"/> @if (email.invalid && (email.touched || feedbackForm.submitted)) {
             <p-message severity="error" size="small" variant="simple">
-                @if (email.errors?.['required']) { Email is required. }
-                @if (email.errors?.['email']) { Invalid email format. }
+                @if (email.errors?.['required']) {
+                    Email is required.
+                }
+                @if (email.errors?.['email']) {
+                    Invalid email format.
+                }
             </p-message>
         }
         </div>
 
         <div class="flex flex-col gap-1">
-            <label for="message" class="font-semibold text-sm">Your Message</label>
-            <textarea pTextarea id="message" name="message" rows="4" placeholder="Write your feedback here..."
-                      [(ngModel)]="newFeedback.message"
-                      #message="ngModel"
-                      [invalid]="message.invalid && (message.touched || feedbackForm.submitted)"
-                      required class="w-full"></textarea>
+            <label class="font-semibold text-sm" for="message">Your Message</label>
+            <textarea #message="ngModel" [(ngModel)]="newFeedback.message"
+                [invalid]="message.invalid && (message.touched || feedbackForm.submitted)" class="w-full" id="message"
+                name="message"
+                pTextarea
+                placeholder="Write your feedback here..."
+                required rows="4"></textarea>
             @if (message.invalid && (message.touched || feedbackForm.submitted)) {
                 <p-message severity="error" size="small" variant="simple">Message cannot be empty.</p-message>
             }
         </div>
 
         <div class="flex flex-col gap-1">
-            <label for="createdAt" class="font-semibold text-sm">Date</label>
-            <p-datepicker id="createdAt" name="createdAt" placeholder="Select Date and Time"
-                          [(ngModel)]="newFeedback.createdAt"
-                          [showTime]="true" hourFormat="24" appendTo="body" styleClass="w-full"
-                          #createdAt="ngModel"
-                          [invalid]="createdAt.invalid && (createdAt.touched || feedbackForm.submitted)"
-                          required/>
+            <label class="font-semibold text-sm" for="createdAt">Date</label>
+            <p-datepicker #createdAt="ngModel" [(ngModel)]="newFeedback.createdAt"
+                [invalid]="createdAt.invalid && (createdAt.touched || feedbackForm.submitted)"
+                [showTime]="true"
+                appendTo="body" hourFormat="24" id="createdAt" name="createdAt"
+                placeholder="Select Date and Time"
+                required
+                styleClass="w-full"/>
             @if (createdAt.invalid && (createdAt.touched || feedbackForm.submitted)) {
                 <p-message severity="error" size="small" variant="simple">Date is required.</p-message>
             }
         </div>
 
         <div class="flex justify-end gap-2 mt-4">
-            <p-button label="Cancel" severity="secondary" (onClick)="visible.set(false)" type="button"/>
-            <p-button label="Submit Feedback" type="submit" [disabled]="feedbackForm.invalid"/>
+            <p-button (onClick)="visible.set(false)" label="Cancel" severity="secondary" type="button"/>
+            <p-button [disabled]="feedbackForm.invalid" label="Submit Feedback" type="submit"/>
         </div>
     </form>
 

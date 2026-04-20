@@ -1,6 +1,6 @@
 <div class="hidden md:block">
-    <p-table [value]="tags()" [tableStyle]="{ 'min-width': '50rem' }" [scrollable]="true" [lazy]="true"
-             (onLazyLoad)="loadTagsLazy($event)" [paginator]="true" [rows]="rows" [totalRecords]="totalRecords()">
+    <p-table (onLazyLoad)="loadTagsLazy($event)" [lazy]="true" [paginator]="true" [rows]="rows"
+        [scrollable]="true" [tableStyle]="{ 'min-width': '50rem' }" [totalRecords]="totalRecords()" [value]="tags()">
         <ng-template #header>
             <tr>
                 <th>Id</th>
@@ -20,8 +20,8 @@
                 <td>{{ tag.normalizedLabel }}</td>
                 <td>
                     <div class="flex gap-2">
-                        <p-button icon="pi pi-pencil" severity="secondary" (click)="updateClick.emit(tag.id)"/>
-                        <p-button icon="pi pi-trash" (click)="deleteClick.emit(tag.id)"/>
+                        <p-button (click)="updateClick.emit(tag.id)" icon="pi pi-pencil" severity="secondary"/>
+                        <p-button (click)="deleteClick.emit(tag.id)" icon="pi pi-trash"/>
                     </div>
                 </td>
             </tr>
@@ -37,15 +37,15 @@
 
                 <div class="overflow-hidden">
                     <p-chip>
-                        <span class="truncate max-w-[150px] sm:max-w-[200px]" style="white-space: pre"
-                              [title]="tag.label">{{ tag.label }}</span>
+                        <span [title]="tag.label" class="truncate max-w-[150px] sm:max-w-[200px]"
+                            style="white-space: pre">{{ tag.label }}</span>
                     </p-chip>
                 </div>
 
                 <div class="flex gap-2 shrink-0">
-                    <p-button icon="pi pi-pencil" severity="secondary"
-                              (click)="updateClick.emit(tag.id || 0)"></p-button>
-                    <p-button icon="pi pi-trash" (click)="deleteClick.emit(tag.id || 0)"></p-button>
+                    <p-button (click)="updateClick.emit(tag.id || 0)" icon="pi pi-pencil"
+                        severity="secondary"></p-button>
+                    <p-button (click)="deleteClick.emit(tag.id || 0)" icon="pi pi-trash"></p-button>
                 </div>
 
             </div>
@@ -54,13 +54,13 @@
 
                 <div class="flex justify-between items-center">
                     <span class="font-semibold text-gray-500">Normalized:</span>
-                    <span class="text-gray-700 truncate max-w-[180px]"
-                          [title]="tag.normalizedLabel">{{ tag.normalizedLabel }}</span>
+                    <span [title]="tag.normalizedLabel"
+                        class="text-gray-700 truncate max-w-[180px]">{{ tag.normalizedLabel }}</span>
                 </div>
 
                 <div class="flex justify-between items-center mt-1">
                     <span class="font-semibold text-gray-500">ID:</span>
-                    <span class="text-xs text-gray-400 truncate max-w-[180px]" [title]="tag.id">{{ tag.id }}</span>
+                    <span [title]="tag.id" class="text-xs text-gray-400 truncate max-w-[180px]">{{ tag.id }}</span>
                 </div>
 
             </div>
