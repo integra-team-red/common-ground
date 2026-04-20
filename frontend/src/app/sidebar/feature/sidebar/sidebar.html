@@ -1,5 +1,5 @@
 <div class="lg:hidden p-4 ">
-    <p-button icon="pi pi-bars" (click)="visible = true" severity="secondary" [text]="true"/>
+    <p-button (click)="visible = true" [text]="true" icon="pi pi-bars" severity="secondary"/>
 </div>
 
 <aside class="hidden lg:block h-full w-72">
@@ -18,11 +18,11 @@
             <div class="flex flex-col w-full text-2xl gap-2">
                 @for (route of generalRoutes; track route.path) {
                     <a (click)="visible = false"
-                       [routerLinkActiveOptions]="{ exact: true }"
-                       [routerLink]="route.path"
-                       class="p-2 rounded transition-all duration-300 hover:bg-primary-400
-                       hover:pl-6 no-underline text-white"
-                       routerLinkActive="font-bold bg-white/20">
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        [routerLink]="route.path"
+                        class="p-2 rounded transition-all duration-300 hover:bg-primary-400
+                        hover:pl-6 no-underline text-white"
+                        routerLinkActive="font-bold bg-white/20">
                         <span class="flex items-center gap-2">
                             <i [class]="'pi ' + route.icon"></i>
                             {{ route.title ?? route.path }}
@@ -36,11 +36,11 @@
                 }
                 @for (route of adminRoutes(); track route.path) {
                     <a (click)="visible = false"
-                       [routerLinkActiveOptions]="{ exact: true }"
-                       [routerLink]="route.path"
-                       class="p-2 rounded transition-all duration-300 hover:bg-primary-400
-                       hover:pl-6 no-underline text-white"
-                       routerLinkActive="font-bold bg-white/20">
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        [routerLink]="route.path"
+                        class="p-2 rounded transition-all duration-300 hover:bg-primary-400
+                        hover:pl-6 no-underline text-white"
+                        routerLinkActive="font-bold bg-white/20">
                         <span class="flex items-center gap-2">
                             <i [class]="'pi ' + route.icon"></i>
                             {{ route.title ?? route.path }}

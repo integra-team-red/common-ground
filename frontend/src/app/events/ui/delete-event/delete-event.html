@@ -1,6 +1,6 @@
-<p-button icon="pi pi-trash" (click)="openDialog()"></p-button>
+<p-button (click)="openDialog()" icon="pi pi-trash"></p-button>
 
-<p-dialog header="Delete Event" [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }" appendTo="body">
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }" appendTo="body" header="Delete Event">
 
     <p class="m-0 mb-6">
         Do you want to delete <strong>{{ eventData().title || 'this event' }}</strong>?<br>
@@ -8,10 +8,10 @@
     </p>
 
     <div class="flex gap-4 mt-1 w-full">
-        <p-button label="Cancel" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full"
-                  (click)="visible.set(false)"></p-button>
-        <p-button label="Delete" severity="primary" class="w-full" styleClass="w-full"
-                  (click)="confirmDelete()"></p-button>
+        <p-button (click)="visible.set(false)" [outlined]="true" class="w-full" label="Cancel" severity="secondary"
+            styleClass="w-full"></p-button>
+        <p-button (click)="confirmDelete()" class="w-full" label="Delete" severity="primary"
+            styleClass="w-full"></p-button>
     </div>
 
 </p-dialog>

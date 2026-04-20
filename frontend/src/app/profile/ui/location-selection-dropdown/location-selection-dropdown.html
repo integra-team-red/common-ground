@@ -1,7 +1,7 @@
 <select
-        [ngModel]="value()"
-        (ngModelChange)="value.set($event)"
-        class="text-m">
+    (ngModelChange)="value.set($event)"
+    [ngModel]="value()"
+    class="text-m">
 
     <option [ngValue]="undefined" disabled selected>
         {{ placeholder() }}

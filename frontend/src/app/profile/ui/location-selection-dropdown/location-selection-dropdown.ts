@@ -1,7 +1,7 @@
-import { Component, input, model } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { LocationDto } from "@app/api/model/locationDto";
+import {Component, input, model} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {LocationDto} from "@app/api/model/locationDto";
 
 @Component({
     selector: 'app-location-selection-dropdown',

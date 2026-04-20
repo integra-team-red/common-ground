@@ -3,30 +3,30 @@
     <p-card class="min-h-[200px]">
         <ng-template #title>
             <h3>
-                <p-skeleton width="60%" height="20px" class="mb-3"></p-skeleton>
+                <p-skeleton class="mb-3" height="20px" width="60%"></p-skeleton>
             </h3>
         </ng-template>
 
         <p>
-            <p-skeleton width="100%" height="14px" class="mb-3"></p-skeleton>
+            <p-skeleton class="mb-3" height="14px" width="100%"></p-skeleton>
         </p>
 
         <ng-template #footer>
             <div class="flex flex-row justify-between items-center">
                 <div class="flex flex-shrink-0 whitespace-nowrap items-center">
-                    <p-skeleton shape="circle" size="2rem" class="mr-2"></p-skeleton>
-                    <p-skeleton width="80px" height="14px"></p-skeleton>
+                    <p-skeleton class="mr-2" shape="circle" size="2rem"></p-skeleton>
+                    <p-skeleton height="14px" width="80px"></p-skeleton>
                 </div>
 
                 <div class="flex flex-row flex-wrap gap-2 justify-end">
-                    <p-skeleton width="60px" height="24px" borderRadius="16px"></p-skeleton>
-                    <p-skeleton width="50px" height="24px" borderRadius="16px"></p-skeleton>
-                    <p-skeleton width="70px" height="24px" borderRadius="16px"></p-skeleton>
+                    <p-skeleton borderRadius="16px" height="24px" width="60px"></p-skeleton>
+                    <p-skeleton borderRadius="16px" height="24px" width="50px"></p-skeleton>
+                    <p-skeleton borderRadius="16px" height="24px" width="70px"></p-skeleton>
                 </div>
             </div>
 
             <div class="flex gap-4 mt-2 -mb-4">
-                <p-skeleton width="80px" height="32px"></p-skeleton>
+                <p-skeleton height="32px" width="80px"></p-skeleton>
             </div>
         </ng-template>
     </p-card>
@@ -45,7 +45,7 @@
         <ng-template #footer>
             <div class="flex flex-row justify-between items-center">
                 <div class="flex flex-shrink-0 whitespace-nowrap">
-                    <p-avatar icon="pi pi-user" class="mr-2" shape="circle"/>
+                    <p-avatar class="mr-2" icon="pi pi-user" shape="circle"/>
                     <span>User Name</span>
                 </div>
 
@@ -59,14 +59,14 @@
             <div class="flex gap-4 mt-2 -mb-4">
                 @if (!isOwner()) {
                     @if (!isMember()) {
-                        <p-button label="Join" icon="pi pi-plus-circle" variant="text" (click)="join()"/>
+                        <p-button (click)="join()" icon="pi pi-plus-circle" label="Join" variant="text"/>
                     } @else {
-                        <p-button label="Leave" icon="pi pi-minus-circle" variant="text" (click)="leave()"/>
+                        <p-button (click)="leave()" icon="pi pi-minus-circle" label="Leave" variant="text"/>
                     }
                 } @else {
                     <app-delete-hobby-group
-                            [hobbyGroupDto]="hobbyGroupDto()"
-                            (groupDeleted)="groupDeleted.emit()">
+                        (groupDeleted)="groupDeleted.emit()"
+                        [hobbyGroupDto]="hobbyGroupDto()">
                     </app-delete-hobby-group>
                 }
             </div>

@@ -1,12 +1,12 @@
 <div class="hidden md:block">
     <p-table
-            (onLazyLoad)="onLazyLoad($event)"
-            [lazy]="true"
-            [paginator]="true"
-            [rows]="rows()"
-            [tableStyle]="{ 'min-width': '50rem' }"
-            [totalRecords]="totalRecords()"
-            [value]="locations()"
+        (onLazyLoad)="onLazyLoad($event)"
+        [lazy]="true"
+        [paginator]="true"
+        [rows]="rows()"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [totalRecords]="totalRecords()"
+        [value]="locations()"
     >
         <ng-template pTemplate="header">
             <tr>
@@ -24,7 +24,7 @@
                 <td>
                     <div class="flex gap-2">
                         <p-button (onClick)="onDelete(location)" icon="pi pi-trash" rounded severity="danger"
-                                  text></p-button>
+                            text></p-button>
                     </div>
                 </td>
             </tr>
@@ -42,7 +42,7 @@
 
                 <div class="shrink-0">
                     <p-button (onClick)="onDelete(location)" icon="pi pi-trash" rounded severity="danger"
-                              text></p-button>
+                        text></p-button>
                 </div>
 
             </div>
@@ -56,8 +56,8 @@
 
                 <div class="flex justify-between items-center mt-1">
                     <span class="font-semibold text-gray-500">ID:</span>
-                    <span class="text-xs text-gray-400 truncate max-w-[180px]"
-                          [title]="location.id">{{ location.id }}</span>
+                    <span [title]="location.id"
+                        class="text-xs text-gray-400 truncate max-w-[180px]">{{ location.id }}</span>
                 </div>
 
             </div>

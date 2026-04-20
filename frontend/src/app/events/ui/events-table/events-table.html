@@ -1,7 +1,8 @@
 <div class="hidden md:block">
-    <p-table [value]="events()" [tableStyle]="{ 'min-width': '50rem' }" [scrollable]="true" [lazy]="true"
-             (onLazyLoad)="loadEventsLazy($event)" [paginator]="true" [rows]="rows()" [totalRecords]="totalRecords()"
-             [showCurrentPageReport]="false">
+    <p-table (onLazyLoad)="loadEventsLazy($event)" [lazy]="true" [paginator]="true" [rows]="rows()"
+        [scrollable]="true" [showCurrentPageReport]="false" [tableStyle]="{ 'min-width': '50rem' }"
+        [totalRecords]="totalRecords()"
+        [value]="events()">
         <ng-template pTemplate="header">
             <tr>
                 <th>Id</th>
@@ -13,7 +14,7 @@
                 <th>Actions</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-event>
+        <ng-template let-event pTemplate="body">
             <tr>
                 <td>{{ event.id }}</td>
                 <td>{{ event.title }}</td>
@@ -23,8 +24,8 @@
                 <td>{{ event.hobbyGroupId }}</td>
                 <td>
                     <div class="flex flex-row gap-2">
-                        <app-update-event [eventData]="event" (refreshTable)="refresh.emit()"></app-update-event>
-                        <app-delete-event [eventData]="event" (refreshTable)="refresh.emit()"></app-delete-event>
+                        <app-update-event (refreshTable)="refresh.emit()" [eventData]="event"></app-update-event>
+                        <app-delete-event (refreshTable)="refresh.emit()" [eventData]="event"></app-delete-event>
                     </div>
                 </td>
             </tr>
@@ -39,8 +40,8 @@
             <div class="flex justify-between items-start border-b border-gray-200 pb-3">
                 <h3 class="font-bold text-lg text-gray-800">{{ event.title }}</h3>
                 <div class="flex gap-2">
-                    <app-update-event [eventData]="event" (refreshTable)="refresh.emit()"></app-update-event>
-                    <app-delete-event [eventData]="event" (refreshTable)="refresh.emit()"></app-delete-event>
+                    <app-update-event (refreshTable)="refresh.emit()" [eventData]="event"></app-update-event>
+                    <app-delete-event (refreshTable)="refresh.emit()" [eventData]="event"></app-delete-event>
                 </div>
             </div>
 
@@ -55,15 +56,16 @@
                 </div>
                 <div class="flex justify-between items-center">
                     <span class="font-semibold text-gray-500">Location ID:</span>
-                    <span class="truncate max-w-[150px]" [title]="event.locationId">{{ event.locationId }}</span>
+                    <span [title]="event.locationId" class="truncate max-w-[150px]">{{ event.locationId }}</span>
                 </div>
                 <div class="flex justify-between items-center">
                     <span class="font-semibold text-gray-500">Group ID:</span>
-                    <span class="truncate max-w-[150px]" [title]="event.hobbyGroupId">{{ event.hobbyGroupId }}</span>
+                    <span [title]="event.hobbyGroupId" class="truncate max-w-[150px]">{{ event.hobbyGroupId }}</span>
                 </div>
                 <div class="flex justify-between items-center mt-1">
                     <span class="font-semibold text-gray-500">Event ID:</span>
-                    <span class="text-xs text-gray-400 truncate max-w-[100px]" [title]="event.id">{{ event.id }}</span>
+                    <span [title]="event.id"
+                        class="text-xs text-gray-400 truncate max-w-[100px]">{{ event.id }}</span>
                 </div>
             </div>
 

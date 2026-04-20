@@ -33,10 +33,10 @@
                         <p-button label="Danger" severity="danger"></p-button>
                     </div>
                     <div class="flex flex-wrap gap-3">
-                        <p-button label="Outlined" variant="outlined" severity="primary"></p-button>
-                        <p-button label="Secondary" variant="outlined" severity="secondary"></p-button>
-                        <p-button label="Text Only" variant="text" severity="primary"></p-button>
-                        <p-button label="Secondary Text" variant="text" severity="secondary"></p-button>
+                        <p-button label="Outlined" severity="primary" variant="outlined"></p-button>
+                        <p-button label="Secondary" severity="secondary" variant="outlined"></p-button>
+                        <p-button label="Text Only" severity="primary" variant="text"></p-button>
+                        <p-button label="Secondary Text" severity="secondary" variant="text"></p-button>
                     </div>
                 </div>
 
@@ -46,46 +46,46 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Input Fields -->
                         <div>
-                            <label for="username" class="block mb-2 text-color">Username</label>
-                            <input pInputText id="username" class="w-full mb-4" placeholder="Enter username"/>
+                            <label class="block mb-2 text-color" for="username">Username</label>
+                            <input class="w-full mb-4" id="username" pInputText placeholder="Enter username"/>
 
-                            <label for="password" class="block mb-2 text-color">Password</label>
-                            <input pInputText id="password" type="password" class="w-full"
-                                   placeholder="Enter password"/>
+                            <label class="block mb-2 text-color" for="password">Password</label>
+                            <input class="w-full" id="password" pInputText placeholder="Enter password"
+                                type="password"/>
                         </div>
 
                         <!-- Checkboxes & Radio -->
                         <div>
                             <div class="field-checkbox mb-3">
                                 <p-checkbox [(ngModel)]="checked" [binary]="true" inputId="check"></p-checkbox>
-                                <label for="check" class="ml-2 text-color">Remember me</label>
+                                <label class="ml-2 text-color" for="check">Remember me</label>
                             </div>
 
                             <div class="field-radiobutton mb-3">
-                                <p-radioButton [(ngModel)]="radioValue" value="option1"
-                                               inputId="option1"></p-radioButton>
-                                <label for="option1" class="ml-2 text-color">Option 1</label>
+                                <p-radioButton [(ngModel)]="radioValue" inputId="option1"
+                                    value="option1"></p-radioButton>
+                                <label class="ml-2 text-color" for="option1">Option 1</label>
                             </div>
 
                             <div class="field-radiobutton">
-                                <p-radioButton [(ngModel)]="radioValue" value="option2"
-                                               inputId="option2"></p-radioButton>
-                                <label for="option2" class="ml-2 text-color">Option 2</label>
+                                <p-radioButton [(ngModel)]="radioValue" inputId="option2"
+                                    value="option2"></p-radioButton>
+                                <label class="ml-2 text-color" for="option2">Option 2</label>
                             </div>
                         </div>
                     </div>
 
                     <!-- Dropdown -->
                     <div class="mt-4">
-                        <label for="city" class="block mb-2 text-color">Select City</label>
-                        <p-select [options]="cities" [(ngModel)]="selectedCity" placeholder="Select a City"
-                                  optionLabel="name" class="w-full"></p-select>
+                        <label class="block mb-2 text-color" for="city">Select City</label>
+                        <p-select [(ngModel)]="selectedCity" [options]="cities" class="w-full"
+                            optionLabel="name" placeholder="Select a City"></p-select>
                     </div>
 
                     <!-- Slider -->
                     <div class="mt-6">
                         <label class="block mb-2 text-color">Slider: {{ sliderValue }}</label>
-                        <p-slider [(ngModel)]="sliderValue" [min]="0" [max]="100" class="w-full"></p-slider>
+                        <p-slider [(ngModel)]="sliderValue" [max]="100" [min]="0" class="w-full"></p-slider>
                     </div>
                 </div>
             </div>
@@ -105,9 +105,9 @@
                                 </p>
                                 <ng-template pTemplate="footer">
                                     <div class="flex gap-4 mt-1">
-                                        <p-button label="Primary Button" icon="pi pi-check"></p-button>
+                                        <p-button icon="pi pi-check" label="Primary Button"></p-button>
                                         <p-button label="Secondary" severity="secondary"
-                                                  variant="outlined"></p-button>
+                                            variant="outlined"></p-button>
                                     </div>
                                 </ng-template>
                             </p-card>
@@ -116,7 +116,7 @@
                             <p-card class="overflow-hidden">
                                 <ng-template #header>
                                     <img alt="Card" class="w-full"
-                                         src="https://primefaces.org/cdn/primeng/images/card-ng.jpg"/>
+                                        src="https://primefaces.org/cdn/primeng/images/card-ng.jpg"/>
                                 </ng-template>
                                 <ng-template #title> Advanced Card</ng-template>
                                 <ng-template #subtitle> Card subtitle</ng-template>
@@ -129,9 +129,9 @@
                                 </p>
                                 <ng-template #footer>
                                     <div class="flex gap-4 mt-1">
-                                        <p-button label="Cancel" severity="secondary" class="w-full"
-                                                  [outlined]="true" styleClass="w-full"/>
-                                        <p-button label="Save" class="w-full" styleClass="w-full"/>
+                                        <p-button [outlined]="true" class="w-full" label="Cancel"
+                                            severity="secondary" styleClass="w-full"/>
+                                        <p-button class="w-full" label="Save" styleClass="w-full"/>
                                     </div>
                                 </ng-template>
                             </p-card>
@@ -219,12 +219,12 @@
         <div class="flex justify-center mt-8">
             <div class="flex items-center gap-4 p-4 border-round surface-card">
                 <span class="text-color">Theme Mode:</span>
-                <p-toggleButton [(ngModel)]="darkMode"
-                                onLabel="Dark"
-                                offLabel="Light"
-                                onIcon="pi pi-moon"
-                                offIcon="pi pi-sun"
-                                (onChange)="toggleTheme()"></p-toggleButton>
+                <p-toggleButton (onChange)="toggleTheme()"
+                    [(ngModel)]="darkMode"
+                    offIcon="pi pi-sun"
+                    offLabel="Light"
+                    onIcon="pi pi-moon"
+                    onLabel="Dark"></p-toggleButton>
             </div>
         </div>
 

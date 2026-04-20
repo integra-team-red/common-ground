@@ -1,4 +1,4 @@
-<p-button label="Delete Hobby Group" icon="pi pi-trash" variant="text" (click)="openDialog()"></p-button>
+<p-button (click)="openDialog()" icon="pi pi-trash" label="Delete Hobby Group" variant="text"></p-button>
 
 <p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }" appendTo="body" header="Delete Hobby Group">
 
@@ -8,10 +8,10 @@
     </p>
 
     <div class="flex gap-4 mt-1 w-full">
-        <p-button label="Cancel" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full"
-                  (click)="visible.set(false)"></p-button>
-        <p-button label="Delete" severity="primary" class="w-full" styleClass="w-full"
-                  (click)="confirmDelete()"></p-button>
+        <p-button (click)="visible.set(false)" [outlined]="true" class="w-full" label="Cancel" severity="secondary"
+            styleClass="w-full"></p-button>
+        <p-button (click)="confirmDelete()" class="w-full" label="Delete" severity="primary"
+            styleClass="w-full"></p-button>
     </div>
 
 </p-dialog>

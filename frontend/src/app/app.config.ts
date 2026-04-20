@@ -1,6 +1,8 @@
 import {
     ApplicationConfig,
-    importProvidersFrom, inject, provideAppInitializer,
+    importProvidersFrom,
+    inject,
+    provideAppInitializer,
     provideBrowserGlobalErrorListeners
 } from '@angular/core';
 import {provideRouter} from '@angular/router';

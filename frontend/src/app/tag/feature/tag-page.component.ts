@@ -35,7 +35,7 @@ export class TagPageComponent implements OnInit {
 
     tags = signal<TagDto[]>([]);
     searchValue = "";
-    currentTag = signal<TagDto>({label: ""});
+    currentTag = signal<TagDto>({ label: "" });
 
     visibleAddForm = signal<boolean>(false);
     visibleUpdateForm = signal<boolean>(false);
@@ -64,8 +64,8 @@ export class TagPageComponent implements OnInit {
                     size: this.currentSize(),
                     page: this.currentPage
                 }).subscribe((response: PageTagDto) => {
-                    this.tags.set(response.content ?? []);
-                    this.totalRecords.set(response.totalElements ?? 0);
+                this.tags.set(response.content ?? []);
+                this.totalRecords.set(response.totalElements ?? 0);
             });
         }
     }
@@ -140,7 +140,7 @@ export class TagPageComponent implements OnInit {
             this.getTags();
             return;
         }
-        const pageable: Pageable = {page: 0, size: this.rows()};
+        const pageable: Pageable = { page: 0, size: this.rows() };
         this.tagService.filterTags(searchTerm, pageable).subscribe({
             next: (response: PageTagDto) => {
                 this.tags.set(response.content ?? []);

@@ -1,4 +1,4 @@
-import {Component, effect, input, model, output, signal,} from '@angular/core';
+import {Component, effect, model, output, signal,} from '@angular/core';
 import {DialogModule} from "primeng/dialog";
 import {InputText} from "primeng/inputtext";
 import {Button} from "primeng/button";

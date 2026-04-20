@@ -1,7 +1,4 @@
 import {Component, inject, signal} from '@angular/core';
-import {IconField} from "primeng/iconfield";
-import {InputIcon} from "primeng/inputicon";
-import {InputText} from "primeng/inputtext";
 import {TableLazyLoadEvent, TableModule} from "primeng/table";
 import {EventControllerService} from "@app/api/api/eventController.service";
 import {EventDto} from "@app/api/model/eventDto";
@@ -11,7 +8,6 @@ import {CreateEvent} from "../../ui/create-event/create-event";
 import {FormsModule} from "@angular/forms";
 import {Searchbar} from "../../../searchbar/searchbar";
 import {Pageable} from "@app/api/model/pageable";
-import {PageLocationDto} from "@app/api/model/pageLocationDto";
 
 @Component({
     selector: 'app-events',
@@ -47,7 +43,7 @@ export class Events {
                 this.totalRecords.set(response.totalElements ?? 0);
             });
         } else {
-            this.eventService.getAllEvents({page: currentPage, size: currentSize}).subscribe((response) => {
+            this.eventService.getAllEvents({ page: currentPage, size: currentSize }).subscribe((response) => {
                 this.events.set(response.content ?? []);
                 this.totalRecords.set(response.totalElements ?? 0);
             });
@@ -71,7 +67,7 @@ export class Events {
             this.getEvents();
             return;
         }
-        const pageable: Pageable = {page: 0, size: this.rows()};
+        const pageable: Pageable = { page: 0, size: this.rows() };
         this.eventService.getAllEventsByTitleInput(searchTerm, pageable).subscribe({
             next: (response: PageEventDto) => {
                 this.events.set(response.content ?? []);
