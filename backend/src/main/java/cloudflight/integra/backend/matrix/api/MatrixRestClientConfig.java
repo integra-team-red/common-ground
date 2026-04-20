@@ -12,10 +12,26 @@ import java.awt.*;
 public class MatrixRestClientConfig {
 
     @Bean
-    RestClient MatrixRestClient(RestClient.Builder builder, @Value("${matrix.base-url}")  String serverUrl) {
+    RestClient matrixRestClient(
+        RestClient.Builder builder,
+        @Value("${matrix.base-url}") String serverUrl
+    ) {
         return builder
             .baseUrl(serverUrl)
             .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+            .build();
+    }
+
+    @Bean
+    RestClient matrixAdminRestClient(
+        RestClient.Builder builder,
+        @Value("${matrix.base-url}") String serverUrl,
+        @Value("${matrix.admin.token}") String adminToken
+    ) {
+        return builder
+            .baseUrl(serverUrl)
+            .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+            .defaultHeader("Authorization", "Bearer " + adminToken)
             .build();
     }
 }

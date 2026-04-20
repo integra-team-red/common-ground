@@ -3,6 +3,7 @@ package cloudflight.integra.backend.matrix.api;
 import cloudflight.integra.backend.matrix.api.model.MatrixNonceResponse;
 import cloudflight.integra.backend.matrix.api.model.MatrixRegisterRequest;
 import cloudflight.integra.backend.matrix.api.model.MatrixRegisterResponse;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -19,10 +20,10 @@ public class MatrixAuthRestClient {
     private final String sharedSecret;
 
     public MatrixAuthRestClient(
-        RestClient matrixRestClient,
+        @Qualifier("matrixRestClient") RestClient restClient,
         @Value("${matrix.registration-shared-secret}") String sharedSecret
     ) {
-        this.matrixRestClient = matrixRestClient;
+        this.matrixRestClient = restClient;
         this.sharedSecret = sharedSecret;
     }
 

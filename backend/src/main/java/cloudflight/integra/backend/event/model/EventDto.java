@@ -9,6 +9,7 @@ public record EventDto(
     LocalDateTime startTime,
     LocalDateTime endTime,
     UUID locationId,
-    UUID hobbyGroupId
+    UUID hobbyGroupId,
+    String matrixRoomId
 ) {
 }

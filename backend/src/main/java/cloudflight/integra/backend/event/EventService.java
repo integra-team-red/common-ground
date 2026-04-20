@@ -1,6 +1,7 @@
 package cloudflight.integra.backend.event;
 
 import cloudflight.integra.backend.event.model.Event;
+import cloudflight.integra.backend.matrix.api.MatrixRoomCreationRestClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -10,12 +11,19 @@ import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.client.RestClientException;
+
 @Service
 public class EventService {
     private final EventRepository repository;
+    private static final Logger logger = LoggerFactory.getLogger(EventService.class);
+    private final MatrixRoomCreationRestClient matrixRoomCreationRestClient;
 
-    public EventService(EventRepository repository) {
+    public EventService(EventRepository repository, MatrixRoomCreationRestClient matrixRoomCreationRestClient) {
         this.repository = repository;
+        this.matrixRoomCreationRestClient = matrixRoomCreationRestClient;
     }
 
     @Transactional(readOnly = true)
@@ -36,7 +44,14 @@ public class EventService {
     @Transactional
     public Event create(Event event) {
         event.setId(null);
-        return repository.save(event);
+        Event newEvent = repository.save(event);
+        try {
+            newEvent.setMatrixRoomId(matrixRoomCreationRestClient.createRoom(event.getTitle()));
+        }
+        catch ( RestClientException e){
+            logger.error("Failed to create Matrix room for event {}: {}", event.getTitle(), e.getMessage());
+        }
+        return newEvent;
     }
 
     @Transactional
