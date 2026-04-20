@@ -53,4 +53,10 @@ public class UserService implements UserDetailsService {
     }
 
     public User findByEmail(String email){ return userRepository.findByEmail(email); }
+
+    public void setMatrixAccount(String username, String accessToken) {
+        User user = userRepository.findByUsername(username);
+        user.setMatrixAccessToken(accessToken);
+        userRepository.save(user);
+    }
 }

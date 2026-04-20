@@ -29,4 +29,6 @@ public class CustomUserDetails implements UserDetails {
     public String getUsername() {
         return user.getUsername();
     }
+
+    public boolean hasMatrixAccount() { return user.getMatrixAccessToken() != null; }
 }
