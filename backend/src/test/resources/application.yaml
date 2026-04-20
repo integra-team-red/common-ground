@@ -28,3 +28,8 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
   default-produces-media-type: application/json
+
+matrix:
+  server-name: server
+  base-url: url
+  registration-shared-secret: secret

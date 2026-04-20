@@ -1,5 +1,6 @@
 package cloudflight.integra.backend.user;
 
+import cloudflight.integra.backend.matrix.provisioning.MatrixProvisioningService;
 import cloudflight.integra.backend.tag.TagService;
 import cloudflight.integra.backend.user.model.User;
 import cloudflight.integra.backend.user.model.UserDto;
@@ -22,11 +23,18 @@ public class UserController {
     private final UserService userService;
     private final TagService tagService;
     private final UserMapper userMapper;
+    private final MatrixProvisioningService matrixProvisioningService;
 
-    public UserController(UserService userService, TagService tagService, UserMapper userMapper) {
+    public UserController(
+        UserService userService,
+        TagService tagService,
+        UserMapper userMapper,
+        MatrixProvisioningService matrixProvisioningService
+    ) {
         this.userService = userService;
         this.tagService = tagService;
         this.userMapper = userMapper;
+        this.matrixProvisioningService = matrixProvisioningService;
     }
 
     @PutMapping("/users/{username}/tags")
@@ -57,6 +65,9 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         User user = userService.getByUsername(userDetails.getUsername());
-        return ResponseEntity.ok(userMapper.toDto(user));
+
+        return ResponseEntity.ok(userMapper.toDto(user,
+            this.matrixProvisioningService.getMatrixUserId(user),
+            this.matrixProvisioningService.getTemporaryPassword(user)));
     }
 }

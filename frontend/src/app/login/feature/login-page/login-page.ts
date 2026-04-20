@@ -23,9 +23,13 @@ export class LoginPage {
 
     protected onSubmit(request: LoginRequest) {
         this.authService.loginUser(request).subscribe({
-            next: async () => {
+            next: async (res) => {
                 await this.userDetailsService.loadCurrentUser();
                 this.toastService.showSuccess("Logged in successfully!");
+
+                if (res?.matrixWarningMessage) {
+                    this.toastService.showError(res.matrixWarningMessage);
+                }
 
                 setTimeout(() => {
                     this.router.navigate(['/home']).then(() => {

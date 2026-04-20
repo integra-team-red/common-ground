@@ -32,6 +32,7 @@ public class User {
     private List<Tag> tags;
 
     private LocalDateTime joinedDate;
+    private String matrixAccessToken;
 
     public User() {}
 
@@ -42,7 +43,8 @@ public class User {
         String password,
         Role role,
         List<Tag> tags,
-        LocalDateTime joinedDate
+        LocalDateTime joinedDate,
+        String matrixAccessToken
     ) {
         this.id = id;
         this.username = username;
@@ -51,6 +53,7 @@ public class User {
         this.role = role;
         this.tags = tags;
         this.joinedDate = joinedDate;
+        this.matrixAccessToken = matrixAccessToken;
     }
 
     public UUID getId() {
@@ -102,6 +105,10 @@ public class User {
     public LocalDateTime getJoinedDate() { return joinedDate; }
 
     public void setJoinedDate(LocalDateTime joinedDate) { this.joinedDate = joinedDate; }
+
+    public String getMatrixAccessToken() { return matrixAccessToken; }
+
+    public void setMatrixAccessToken(String matrixAccessToken) { this.matrixAccessToken = matrixAccessToken; }
 
     @Override
     public boolean equals(Object o) {
