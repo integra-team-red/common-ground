@@ -59,7 +59,7 @@ public class LocationController {
         return locationMapper.toDto(locationService.getById(id));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     @Operation(
         summary = "Delete a Location",
         operationId = "deleteLocation",
