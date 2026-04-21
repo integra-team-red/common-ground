@@ -61,7 +61,7 @@ public class TagController {
         return this.service.filterNormalizedLabel(value, pageable).map(this.mapper::toDto);
     }
 
-    @PostMapping()
+    @PostMapping("/admin")
     @Operation(
         summary = "Add a new Tag to the repository",
         operationId = "createNewTag",
@@ -80,7 +80,7 @@ public class TagController {
         return this.mapper.toDto(this.service.create(this.mapper.toEntity(dto)));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     @Operation(
         summary = "Update an existing Tag from the repository",
         operationId = "updateTag",
@@ -99,7 +99,7 @@ public class TagController {
         return mapper.toDto(this.service.update(id, this.mapper.toEntity(dto)));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     @Operation(
         summary = "Delete an existing Tag from the repository",
         operationId = "deleteTag"
