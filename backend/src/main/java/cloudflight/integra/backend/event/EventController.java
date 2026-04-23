@@ -1,6 +1,7 @@
 package cloudflight.integra.backend.event;
 
 import cloudflight.integra.backend.event.model.EventDto;
+import cloudflight.integra.backend.event.model.EventMapDto;
 import cloudflight.integra.backend.hobbyGroup.HobbyGroupService;
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
 import cloudflight.integra.backend.location.LocationService;
@@ -17,6 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -51,6 +53,16 @@ public class EventController {
         return service.getAll(pageable).map(mapper::toDto);
     }
 
+    @GetMapping("/map")
+    @Operation(
+        summary="Get all Events for showing on map",
+        operationId = "getAllEventsForMap"
+    )
+    public List<EventMapDto> getAllEventsForMap(){
+        return service.getAllEventsForMap().stream()
+            .map(mapper::toMapDto)
+            .toList();
+    }
 
     @GetMapping("/after/{after}")
     @Operation(

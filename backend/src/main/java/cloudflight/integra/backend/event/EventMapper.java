@@ -2,6 +2,7 @@ package cloudflight.integra.backend.event;
 
 import cloudflight.integra.backend.event.model.Event;
 import cloudflight.integra.backend.event.model.EventDto;
+import cloudflight.integra.backend.event.model.EventMapDto;
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
 import cloudflight.integra.backend.location.model.Location;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,14 @@ public class EventMapper {
             event.getLocation().getId(),
             event.getHobbyGroup().getId(),
             event.getMatrixRoomId());
+    }
+    public EventMapDto toMapDto(Event event) {
+        return new EventMapDto(
+            event.getId(),
+            event.getTitle(),
+            event.getLocation().getLatitude(),
+            event.getLocation().getLongitude()
+        );
     }
 
     public Event toEntity(EventDto dto, Location location, HobbyGroup hobbyGroup) {
