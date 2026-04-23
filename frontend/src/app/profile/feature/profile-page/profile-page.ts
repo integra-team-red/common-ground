@@ -36,6 +36,17 @@ export class ProfilePage implements OnInit {
     private locationService = inject(LocationControllerService)
     private toastService = inject(ToastService);
 
+
+
+    onLocationChanged(newLoc: LocationDto | undefined) {
+        console.log("selected location : ", newLoc);
+        if (newLoc) {
+            this.userDetailsService.selectedLocation.set(newLoc);
+            localStorage.setItem('selectedLocation', JSON.stringify(newLoc));
+            console.log("Saved data in local storage");
+        }
+    }
+
     ngOnInit() {
         this.userDetailsService.refreshLocations();
     }

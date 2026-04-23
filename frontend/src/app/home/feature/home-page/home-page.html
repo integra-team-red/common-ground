@@ -1,5 +1,5 @@
-<div class="flex flex-col md:flex-row w-full justify-between gap-6 p-0 sm:p-6 mt-4">
-    <div class="w-full max-w-[600px] order-2 md:order-1">
+<div class="flex flex-col md:flex-row w-full justify-between gap-6 p-0 md:p-6 mt-4">
+    <div class="w-full max-w-150 order-2 md:order-1">
         <h2 class="text-2xl whitespace-nowrap font-bold mb-6 md:text-3xl">Hobby Groups</h2>
         <div class="flex flex-col gap-6 mt-4">
             @if (!loading()) {
@@ -28,9 +28,7 @@
                 <app-create-hobby-group (refreshHobbyGroup)="getHobbyGroups(0)"></app-create-hobby-group>
             </div>
         </div>
-        <img alt="map image"
-            class="hidden md:block w-full rounded-xl" src="https://placehold.co/700x1000?text=Placeholder+Map"
-        />
+        <div id="map" class="w-full h-full border-2 border-primary rounded-2xl"></div>
     </div>
     <p-button class="md:hidden fixed bottom-6 right-6 " label="Show map"></p-button>
 </div>

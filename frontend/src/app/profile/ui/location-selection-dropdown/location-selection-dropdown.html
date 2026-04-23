@@ -1,6 +1,5 @@
 <select
-    (ngModelChange)="value.set($event)"
-    [ngModel]="value()"
+    [(ngModel)]="value"
     class="text-m">
 
     <option [ngValue]="undefined" disabled selected>

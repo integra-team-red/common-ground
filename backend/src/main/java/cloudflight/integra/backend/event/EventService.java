@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -34,6 +35,10 @@ public class EventService {
     @Transactional(readOnly = true)
     public Page<Event> getAllByTime(LocalDateTime after, Pageable pageable) {
         return repository.findAllByStartTimeAfter(after, pageable);
+    }
+    @Transactional(readOnly = true)
+    public List<Event> getAllEventsForMap() {
+        return repository.findAll();
     }
 
     @Transactional(readOnly = true)
