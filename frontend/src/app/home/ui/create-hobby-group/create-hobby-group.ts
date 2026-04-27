@@ -66,7 +66,7 @@ export class CreateHobbyGroup {
                         name: "",
                         description: "",
                         radiusKm: 10,
-                        tagIds: []
+                        tagIds: [],
                     };
                 },
                 error: (err) => {

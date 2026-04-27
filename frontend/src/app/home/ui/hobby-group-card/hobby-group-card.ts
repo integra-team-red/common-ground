@@ -29,7 +29,7 @@ import {Skeleton} from "primeng/skeleton";
 export class HobbyGroupCard {
 
     loading = input<boolean>(true);
-    hobbyGroupDto = input.required<HobbyGroupDto>()
+    hobbyGroupDto = input<HobbyGroupDto>()
     hobbyGroupService = inject(HobbyGroupControllerService);
     tagService = inject(TagControllerService)
     userDetailsService = inject(UserDetailsService);
@@ -38,15 +38,15 @@ export class HobbyGroupCard {
     groupDeleted = output<void>();
 
     isMember = computed(() =>
-        (this.hobbyGroupDto().memberIds as unknown as string[])
+        (this.hobbyGroupDto()?.memberIds as unknown as string[])
             ?.includes(this.userDetailsService.getCurrentUser()?.id ?? '')
     );
     isOwner = computed(() =>
-        this.hobbyGroupDto().ownerID === this.userDetailsService.getCurrentUser()?.id
+        this.hobbyGroupDto()?.ownerID === this.userDetailsService.getCurrentUser()?.id
     );
     private tags = toObservable(this.hobbyGroupDto).pipe(
         switchMap(group => {
-            const ids = group.tagIds;
+            const ids = group?.tagIds;
             if (!ids || ids.length === 0) return of([]);
             const requests = ids.map(id => this.tagService.getTagById(id));
             return forkJoin(requests);
@@ -55,7 +55,7 @@ export class HobbyGroupCard {
     cardTags = toSignal(this.tags, { initialValue: [] });
 
     join() {
-        this.hobbyGroupService.joinHobbyGroup(this.hobbyGroupDto().id!)
+        this.hobbyGroupService.joinHobbyGroup(this.hobbyGroupDto()?.id!)
             .subscribe({
                 next: () => {
                     this.groupUpdated.emit();
@@ -68,7 +68,7 @@ export class HobbyGroupCard {
     }
 
     leave() {
-        this.hobbyGroupService.leaveHobbyGroup(this.hobbyGroupDto().id!)
+        this.hobbyGroupService.leaveHobbyGroup(this.hobbyGroupDto()?.id!)
             .subscribe({
 
                 next: () => {
@@ -83,4 +83,3 @@ export class HobbyGroupCard {
 
 
 }
-

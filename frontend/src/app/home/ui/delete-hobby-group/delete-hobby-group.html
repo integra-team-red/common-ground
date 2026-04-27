@@ -3,7 +3,7 @@
 <p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }" appendTo="body" header="Delete Hobby Group">
 
     <p class="m-0 mb-6">
-        Do you want to delete <strong>{{ hobbyGroupDto().name || 'this hobby group' }}</strong>?<br>
+        Do you want to delete <strong>{{ hobbyGroupDto()?.name || 'this hobby group' }}</strong>?<br>
         Changes will be irreversible.
     </p>
 
