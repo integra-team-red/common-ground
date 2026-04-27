@@ -49,24 +49,36 @@
                 }
             </div>
         </div>
+
         <div class="w-full sm:pb-4">
             <div class="px-3 mb-4">
                 <hr class="border-t border-white/70 w-full m-0"/>
             </div>
 
-            <div class="flex items-center justify-between w-full">
+            <div class="flex items-center justify-center w-full px-3 mb-6">
+                <p-toggleswitch [(ngModel)]="isAuraTheme"
+                    (onChange)="onThemeToggle()"
+                class="custom-theme-switch">
+                </p-toggleswitch>
+            </div>
 
+            <div class="px-3 mb-4">
+                <hr class="border-t border-white/70 w-full m-0"/>
+            </div>
+
+            <div class="flex items-center justify-between w-full px-3">
                 @if (user()) {
                     @let currentUser = user();
-                    <a (click)="visible = false" routerLink="/profile">
-                        <span class="text-white flex items-center gap-2 text-xl font-medium">
+                    <a (click)="visible = false" routerLink="/profile" class="cursor-pointer">
+                        <span class="text-white flex items-center gap-2 text-xl font-medium
+                        hover:text-surface-200 transition-colors">
                             <i class="pi pi-user text-3xl whitespace-nowrap font-bold"></i>{{ currentUser?.username }}
                         </span>
                     </a>
                 }
 
                 <div>
-                    <a (click)="logout()" class="flex items-center">
+                    <a (click)="logout()" class="flex items-center cursor-pointer hover:scale-110 transition-transform">
                         <i class="pi pi-sign-out text-white text-2xl font-thin"></i>
                     </a>
                 </div>

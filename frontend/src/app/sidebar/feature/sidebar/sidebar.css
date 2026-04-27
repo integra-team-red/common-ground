@@ -1,0 +1,5 @@
+.custom-theme-switch{
+    --p-toggleswitch-checked-background: gray !important;
+    --p-toggleswitch-handle-background: white !important;
+    --p-toggleswitch-handle-hover-background: white !important;
+}
