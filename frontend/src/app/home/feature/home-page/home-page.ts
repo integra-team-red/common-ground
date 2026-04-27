@@ -1,4 +1,4 @@
-import {Component, ElementRef, inject, OnInit, signal, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, inject, OnInit, signal, ViewChild} from '@angular/core';
 import {HobbyGroupCard} from "../../ui/hobby-group-card/hobby-group-card";
 import {HobbyGroupControllerService} from "@app/api/api/hobbyGroupController.service";
 import {HobbyGroupDto} from "@app/api/model/hobbyGroupDto";
@@ -8,7 +8,10 @@ import {Searchbar} from "../../../searchbar/searchbar";
 import {Pageable} from "@app/api/model/pageable";
 import {PageHobbyGroupDto} from "@app/api/model/pageHobbyGroupDto";
 import {Button} from "primeng/button";
-
+import * as L from 'leaflet';
+import{UserDetailsService} from "../../../services/UserDetailsService/user-details-service";
+import{EventControllerService} from "@app/api/api/eventController.service";
+import {EventMapDto} from "@app/api/model/eventMapDto";
 
 @Component({
     selector: 'app-home-page',
@@ -22,8 +25,12 @@ import {Button} from "primeng/button";
     templateUrl: './home-page.html',
     standalone: true,
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit,AfterViewInit {
+
     hobbyGroupService = inject(HobbyGroupControllerService);
+    userDetailsService = inject(UserDetailsService);
+    eventService=inject(EventControllerService);
+
     hobbyGroups = signal<HobbyGroupDto[]>([]);
     visible = signal<boolean>(false);
 
@@ -34,14 +41,17 @@ export class HomePage implements OnInit {
     loading = signal<boolean>(false);
     currentPage = signal<number>(0);
 
+    private map: L.Map | undefined;
+    userName = () => this.userDetailsService.getCurrentUser()?.username|| 'Guest';
+
     @ViewChild('scrollAnchor') scrollAnchor!: ElementRef;
 
     ngOnInit(): void {
         this.getHobbyGroups(0)
         this.loading.set(true)
     }
-
     ngAfterViewInit(): void {
+        this.initMap();
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting && !this.loading() &&
                 this.filteredHobbyGroups().length < this.totalRecords()) {
@@ -53,11 +63,50 @@ export class HomePage implements OnInit {
             observer.observe(this.scrollAnchor.nativeElement);
         }
     }
+    private initMap(): void {
+        this.map = L.map('map').setView([44.4268, 26.1025], 13);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(this.map);
+        const storedLocation = localStorage.getItem('selectedLocation');
+
+        if (storedLocation) {
+            try {
+                const loc = JSON.parse(storedLocation);
+                this.map.setView([loc.latitude, loc.longitude], 13);
+                L.marker([loc.latitude, loc.longitude]).addTo(this.map)
+                    .bindPopup(`Your Location: ${loc.name}`);
+            } catch (e) {
+                console.error("Error parsing stored location", e);
+            }
+        }
+        this.loadMapEvents();
+    }
 
     loadMore() {
         const nextPage = this.currentPage() + 1;
         this.currentPage.set(nextPage);
         this.getHobbyGroups(nextPage);
+    }
+
+    private addEventMarker(lat: number, lng: number, title: string): void {
+        const marker = L.marker([lat, lng]).addTo(this.map!);
+
+        marker.bindPopup(`<b>${title}</b>`);
+    }
+
+    loadMapEvents(): void {
+        this.eventService.getAllEventsForMap().subscribe({
+            next: (events: EventMapDto[]) => {
+                events.forEach(event => {
+                    if (event.latitude !== undefined && event.longitude !== undefined) {
+                        this.addEventMarker(event.latitude, event.longitude, event.title ?? 'Unknown event');
+                    }                });
+            },
+            error: (err) => console.error("Error ", err)
+        });
     }
 
     getHobbyGroups(page: number) {
