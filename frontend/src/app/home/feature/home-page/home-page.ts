@@ -1,4 +1,4 @@
-import {Component, ElementRef, inject, OnInit, signal, ViewChild} from '@angular/core';
+import {Component, ElementRef, inject, OnInit, signal, ViewChild, effect, computed} from '@angular/core';
 import {HobbyGroupCard} from "../../ui/hobby-group-card/hobby-group-card";
 import {HobbyGroupControllerService} from "@app/api/api/hobbyGroupController.service";
 import {HobbyGroupDto} from "@app/api/model/hobbyGroupDto";
@@ -8,6 +8,8 @@ import {Searchbar} from "../../../searchbar/searchbar";
 import {Pageable} from "@app/api/model/pageable";
 import {PageHobbyGroupDto} from "@app/api/model/pageHobbyGroupDto";
 import {Button} from "primeng/button";
+import {UserDetailsService} from '../../../services/UserDetailsService/user-details-service';
+import {EmptyStateCard} from '../../ui/empty-state-card/empty-state-card';
 
 
 @Component({
@@ -18,17 +20,21 @@ import {Button} from "primeng/button";
         CreateHobbyGroup,
         Searchbar,
         Button,
+        EmptyStateCard,
     ],
     templateUrl: './home-page.html',
     standalone: true,
 })
 export class HomePage implements OnInit {
     hobbyGroupService = inject(HobbyGroupControllerService);
+    userDetailsService = inject(UserDetailsService);
     hobbyGroups = signal<HobbyGroupDto[]>([]);
     visible = signal<boolean>(false);
 
     searchQuery = signal<string>('');
     filteredHobbyGroups = signal<HobbyGroupDto[]>([]);
+
+
 
     totalRecords = signal<number>(0);
     loading = signal<boolean>(false);
@@ -36,9 +42,25 @@ export class HomePage implements OnInit {
 
     @ViewChild('scrollAnchor') scrollAnchor!: ElementRef;
 
+    uiState = computed(() => {
+        if (this.loading()) return 'loading';
+
+        if (this.searchQuery().trim()) {
+            return this.filteredHobbyGroups().length == 0 ? 'empty': 'data';
+        }
+        return this.filteredHobbyGroups().length == 0 ? 'empty' : 'data';
+    });
+
     ngOnInit(): void {
-        this.getHobbyGroups(0)
-        this.loading.set(true)
+    }
+
+    constructor() {
+        effect(() => {
+            const locationId = this.userDetailsService.selectedLocation()?.id;
+            if (locationId) {
+                this.getHobbyGroupsByLocation(0);
+            }
+        });
     }
 
     ngAfterViewInit(): void {
@@ -63,6 +85,28 @@ export class HomePage implements OnInit {
     getHobbyGroups(page: number) {
         this.loading.set(true);
         this.hobbyGroupService.getAllHobbyGroups({ size: 4, page: page })
+            .subscribe({
+                next: (response) => {
+                    const newItems = response.content ?? [];
+                    this.totalRecords.set(response.totalElements ?? 0);
+
+                    if (page === 0) {
+                        this.hobbyGroups.set(newItems);
+                    } else {
+                        this.hobbyGroups.update(prev => [...prev, ...newItems]);
+                    }
+                    this.filteredHobbyGroups.set(this.hobbyGroups());
+                    this.loading.set(false);
+                },
+                error: () => this.loading.set(false)
+            });
+    }
+
+    getHobbyGroupsByLocation(page: number) {
+        this.loading.set(true);
+        const locationId = this.userDetailsService.selectedLocation()?.id;
+        console.log(locationId);
+        this.hobbyGroupService.getAllHobbyGroups({ size: 4, page: page },locationId)
             .subscribe({
                 next: (response) => {
                     const newItems = response.content ?? [];
@@ -105,7 +149,7 @@ export class HomePage implements OnInit {
         this.currentPage.set(0);
         this.hobbyGroups.set([]);
         if (!searchTerm || searchTerm.trim() === '') {
-            this.getHobbyGroups(0);
+            this.getHobbyGroupsByLocation(0);
             return;
         }
         const pageable: Pageable = { page: 0 };

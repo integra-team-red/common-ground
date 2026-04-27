@@ -1,5 +1,6 @@
 package cloudflight.integra.backend.hobbyGroup.model;
 
+import cloudflight.integra.backend.location.model.Location;
 import cloudflight.integra.backend.tag.model.Tag;
 import cloudflight.integra.backend.user.model.User;
 import jakarta.persistence.*;
@@ -27,6 +28,10 @@ public class HobbyGroup {
     @JoinColumn(name = "owner_id")
     private User owner;
 
+    @OneToOne
+    @JoinColumn(name="group_location_id")
+    private Location groupLocation;
+
     @ManyToMany
     @JoinTable(
         name = "group_members",
@@ -42,7 +47,8 @@ public class HobbyGroup {
         String description,
         double radiusKm,
         List<Tag> tags,
-        User owner
+        User owner,
+        Location groupLocation
     ) {
         this.id = id;
         this.name = name;
@@ -51,6 +57,7 @@ public class HobbyGroup {
         this.tags = tags;
         this.owner = owner;
         this.members.add(owner);
+        this.groupLocation = groupLocation;
     }
 
     public HobbyGroup() {
@@ -113,5 +120,14 @@ public class HobbyGroup {
     public HobbyGroup setOwner(User owner) {
         this.owner = owner;
         return this;
+    }
+
+    public HobbyGroup setGroupLocation(Location groupLocation) {
+        this.groupLocation = groupLocation;
+        return this;
+    }
+
+    public Location getGroupLocation() {
+        return groupLocation;
     }
 }

@@ -1,4 +1,4 @@
-import {Component, computed, inject, input, output} from '@angular/core';
+import {Component, computed, inject, input, OnInit, output, signal} from '@angular/core';
 import {Card} from "primeng/card";
 import {Avatar} from "primeng/avatar";
 import {Chip} from "primeng/chip";
@@ -12,6 +12,8 @@ import {HobbyGroupControllerService} from "@app/api/api/hobbyGroupController.ser
 import {ToastService} from "../../../toast-service/toast-service";
 import {DeleteHobbyGroup} from "../delete-hobby-group/delete-hobby-group";
 import {Skeleton} from "primeng/skeleton";
+import {LocationControllerService} from '@app/api/api/locationController.service';
+import {LocationDto} from '@app/api/model/locationDto';
 
 @Component({
     selector: 'app-hobby-group-card',
@@ -26,16 +28,21 @@ import {Skeleton} from "primeng/skeleton";
     standalone: true,
     templateUrl: './hobby-group-card.html'
 })
-export class HobbyGroupCard {
+export class HobbyGroupCard implements OnInit {
 
     loading = input<boolean>(true);
     hobbyGroupDto = input.required<HobbyGroupDto>()
     hobbyGroupService = inject(HobbyGroupControllerService);
     tagService = inject(TagControllerService)
     userDetailsService = inject(UserDetailsService);
+    locationService = inject(LocationControllerService);
     groupUpdated = output<void>();
     toastService = inject(ToastService);
     groupDeleted = output<void>();
+    groupLocation = signal<LocationDto | null>(null);
+
+
+
 
     isMember = computed(() =>
         (this.hobbyGroupDto().memberIds as unknown as string[])
@@ -44,6 +51,21 @@ export class HobbyGroupCard {
     isOwner = computed(() =>
         this.hobbyGroupDto().ownerID === this.userDetailsService.getCurrentUser()?.id
     );
+
+    ngOnInit() {
+        const group = this.hobbyGroupDto();
+        if(group.groupLocationId != null)
+            this.setGroupLocation();
+    }
+
+    private setGroupLocation() {
+        this.locationService
+            .getLocationById(this.hobbyGroupDto()?.groupLocationId!)
+            .subscribe(location => {
+                this.groupLocation.set(location);
+            });
+    }
+
     private tags = toObservable(this.hobbyGroupDto).pipe(
         switchMap(group => {
             const ids = group.tagIds;

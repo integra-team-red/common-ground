@@ -11,6 +11,7 @@ import {Message} from "primeng/message";
 import {MultiSelect} from "primeng/multiselect";
 import {Button} from "primeng/button";
 import {ToastService} from "../../../toast-service/toast-service";
+import {UserDetailsService} from '../../../services/UserDetailsService/user-details-service';
 
 @Component({
     selector: 'app-create-hobby-group',
@@ -29,6 +30,7 @@ export class CreateHobbyGroup {
     hobbyGroupService = inject(HobbyGroupControllerService);
     visible = signal<boolean>(false);
     toastService = inject(ToastService);
+    userDetailsService = inject(UserDetailsService);
 
     refreshHobbyGroup = output<void>()
 
@@ -36,7 +38,8 @@ export class CreateHobbyGroup {
         name: "",
         description: "",
         radiusKm: 10,
-        tagIds: []
+        tagIds: [],
+        groupLocationId: this.userDetailsService.selectedLocation()?.id
     }
     tagService = inject(TagControllerService)
     tags = signal<TagDto[]>([]);
@@ -66,7 +69,8 @@ export class CreateHobbyGroup {
                         name: "",
                         description: "",
                         radiusKm: 10,
-                        tagIds: []
+                        tagIds: [],
+                        groupLocationId: this.userDetailsService.selectedLocation()?.id
                     };
                 },
                 error: (err) => {
