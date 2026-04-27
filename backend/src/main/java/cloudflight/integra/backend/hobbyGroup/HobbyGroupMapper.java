@@ -4,6 +4,7 @@ import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroupDto;
 import cloudflight.integra.backend.tag.model.Tag;
 import cloudflight.integra.backend.user.model.User;
+import cloudflight.integra.backend.user.model.UserSummaryDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,7 +19,10 @@ public class HobbyGroupMapper {
             group.getDescription(),
             group.getRadiusKm(),
             tagIds,
-            group.getOwner().getId(),
+            new UserSummaryDto(
+                group.getOwner().getId(),
+                group.getOwner().getUsername()
+            ),
             group.getMembers().stream().map(User::getId).collect(Collectors.toList()));
     }
 
