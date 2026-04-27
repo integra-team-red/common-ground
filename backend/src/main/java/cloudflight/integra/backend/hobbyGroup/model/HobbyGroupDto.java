@@ -1,5 +1,7 @@
 package cloudflight.integra.backend.hobbyGroup.model;
 
+import cloudflight.integra.backend.user.model.UserSummaryDto;
+
 import cloudflight.integra.backend.location.model.Location;
 
 import jakarta.validation.constraints.NotBlank;
@@ -15,7 +17,7 @@ public record HobbyGroupDto(
     String description,
     double radiusKm,
     List<Long> tagIds,
-    UUID ownerID,
+    UserSummaryDto owner,
     List<UUID> memberIds,
     UUID groupLocationId
 ) {
