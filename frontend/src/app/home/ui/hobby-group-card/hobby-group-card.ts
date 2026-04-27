@@ -12,6 +12,7 @@ import {HobbyGroupControllerService} from "@app/api/api/hobbyGroupController.ser
 import {ToastService} from "../../../toast-service/toast-service";
 import {DeleteHobbyGroup} from "../delete-hobby-group/delete-hobby-group";
 import {Skeleton} from "primeng/skeleton";
+import {UserControllerService} from '@app/api/api/userController.service';
 
 @Component({
     selector: 'app-hobby-group-card',
@@ -33,16 +34,19 @@ export class HobbyGroupCard {
     hobbyGroupService = inject(HobbyGroupControllerService);
     tagService = inject(TagControllerService)
     userDetailsService = inject(UserDetailsService);
+    userControllerService = inject(UserControllerService);
     groupUpdated = output<void>();
     toastService = inject(ToastService);
     groupDeleted = output<void>();
+
+
 
     isMember = computed(() =>
         (this.hobbyGroupDto().memberIds as unknown as string[])
             ?.includes(this.userDetailsService.getCurrentUser()?.id ?? '')
     );
     isOwner = computed(() =>
-        this.hobbyGroupDto().ownerID === this.userDetailsService.getCurrentUser()?.id
+        this.hobbyGroupDto().owner?.id === this.userDetailsService.getCurrentUser()?.id
     );
     private tags = toObservable(this.hobbyGroupDto).pipe(
         switchMap(group => {
