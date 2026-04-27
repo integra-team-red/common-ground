@@ -2,15 +2,11 @@ package cloudflight.integra.backend.tag;
 
 import cloudflight.integra.backend.tag.model.Tag;
 import cloudflight.integra.backend.tag.model.TagDto;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 
-@Component
-public class TagMapper {
-    public TagDto toDto(Tag tag) {
-        return new TagDto(tag.getId(), tag.getLabel(), tag.getNormalizedLabel());
-    }
+@Mapper(componentModel = "spring")
+public interface TagMapper {
+    TagDto toDto(Tag tag);
 
-    public Tag toEntity(TagDto dto) {
-        return new Tag(dto.id(), dto.label(), dto.normalizedLabel());
-    }
+    Tag toEntity(TagDto dto);
 }
