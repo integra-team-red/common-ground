@@ -3,22 +3,15 @@ package cloudflight.integra.backend.user;
 import cloudflight.integra.backend.tag.model.Tag;
 import cloudflight.integra.backend.user.model.User;
 import cloudflight.integra.backend.user.model.UserDto;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-import java.util.stream.Collectors;
+@Mapper(componentModel = "spring")
+public interface UserMapper {
+    @Mapping(target = "tagIds", source = "user.tags")
+    UserDto toDto(User user, String matrixUserId, String matrixTemporaryPassword);
 
-@Component
-public class UserMapper {
-
-    public UserDto toDto(User user, String matrixUserId, String matrixTemporaryPassword){
-        return new UserDto(user.getId(),
-            user.getUsername(),
-            user.getEmail(),
-            user.getRole(),
-            user.getTags().stream().map(Tag::getId).collect(Collectors.toList()),
-            user.getJoinedDate(),
-            matrixUserId,
-            matrixTemporaryPassword);
+    default Long mapTag(Tag tag) {
+        return tag.getId();
     }
-
 }
