@@ -14,6 +14,7 @@ import {DeleteHobbyGroup} from "../delete-hobby-group/delete-hobby-group";
 import {Skeleton} from "primeng/skeleton";
 import {LocationControllerService} from '@app/api/api/locationController.service';
 import {LocationDto} from '@app/api/model/locationDto';
+import {UserControllerService} from '@app/api/api/userController.service';
 
 @Component({
     selector: 'app-hobby-group-card',
@@ -35,6 +36,7 @@ export class HobbyGroupCard implements OnInit {
     hobbyGroupService = inject(HobbyGroupControllerService);
     tagService = inject(TagControllerService)
     userDetailsService = inject(UserDetailsService);
+    userControllerService = inject(UserControllerService);
     locationService = inject(LocationControllerService);
     groupUpdated = output<void>();
     toastService = inject(ToastService);
@@ -44,12 +46,14 @@ export class HobbyGroupCard implements OnInit {
 
 
 
+
+
     isMember = computed(() =>
         (this.hobbyGroupDto()?.memberIds as unknown as string[])
             ?.includes(this.userDetailsService.getCurrentUser()?.id ?? '')
     );
     isOwner = computed(() =>
-        this.hobbyGroupDto()?.ownerID === this.userDetailsService.getCurrentUser()?.id
+        this.hobbyGroupDto()?.owner?.id === this.userDetailsService.getCurrentUser()?.id
     );
 
     ngOnInit() {

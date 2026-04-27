@@ -5,6 +5,7 @@ import cloudflight.integra.backend.hobbyGroup.model.HobbyGroupDto;
 import cloudflight.integra.backend.location.model.Location;
 import cloudflight.integra.backend.tag.model.Tag;
 import cloudflight.integra.backend.user.model.User;
+import cloudflight.integra.backend.user.model.UserSummaryDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 @Mapper(componentModel = "spring")
 public interface HobbyGroupMapper {
-    @Mapping(target = "ownerID", source = "group.owner.id")
+    @Mapping(target = "owner", source = "group.owner")
     @Mapping(target = "memberIds", source = "group.members")
     @Mapping(target = "groupLocationId", source = "group.groupLocation.id")
     HobbyGroupDto toDto(HobbyGroup group, List<Long> tagIds);
@@ -26,6 +27,10 @@ public interface HobbyGroupMapper {
     @Mapping(target = "groupLocation", source = "location")
     HobbyGroup toEntity(HobbyGroupDto groupDto, List<Tag> tags, User owner, Location location);
 
+    default UserSummaryDto map(User user) {
+        if(user == null) return null;
+        return new UserSummaryDto(user.getId(), user.getUsername());
+    }
     default UUID mapMember(User member) {
         return member.getId();
     }
