@@ -16,7 +16,7 @@ import {HobbyGroupDto} from "@app/api/model/hobbyGroupDto";
 export class DeleteHobbyGroup {
     hobbyGroupService = inject(HobbyGroupControllerService);
     toastService = inject(ToastService);
-    hobbyGroupDto = input.required<HobbyGroupDto>();
+    hobbyGroupDto = input<HobbyGroupDto>();
     visible = signal<boolean>(false);
 
     groupDeleted = output<string>();
@@ -26,7 +26,7 @@ export class DeleteHobbyGroup {
     }
 
     confirmDelete() {
-        const hobbyGroupId = this.hobbyGroupDto().id;
+        const hobbyGroupId = this.hobbyGroupDto()?.id;
         if (hobbyGroupId) {
             this.hobbyGroupService.deleteHobbyGroup(hobbyGroupId).subscribe({
                 next: () => {
