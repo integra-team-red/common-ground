@@ -4,31 +4,29 @@ import cloudflight.integra.backend.hobbyGroup.model.HobbyGroup;
 import cloudflight.integra.backend.hobbyGroup.model.HobbyGroupDto;
 import cloudflight.integra.backend.tag.model.Tag;
 import cloudflight.integra.backend.user.model.User;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
-@Component
-public class HobbyGroupMapper {
+@Mapper(componentModel = "spring")
+public interface HobbyGroupMapper {
+    @Mapping(target = "ownerID", source = "group.owner.id")
+    @Mapping(target = "memberIds", source = "group.members")
+    HobbyGroupDto toDto(HobbyGroup group, List<Long> tagIds);
 
-    public HobbyGroupDto toDto(HobbyGroup group, List<Long> tagIds) {
-        return new HobbyGroupDto(group.getId(),
-            group.getName(),
-            group.getDescription(),
-            group.getRadiusKm(),
-            tagIds,
-            group.getOwner().getId(),
-            group.getMembers().stream().map(User::getId).collect(Collectors.toList()));
+    @Mapping(target = "id", source = "groupDto.id")
+    @Mapping(target = "tags", source = "tags")
+    @Mapping(target = "owner", source = "owner")
+    @Mapping(target = "members", source = "owner")
+    HobbyGroup toEntity(HobbyGroupDto groupDto, List<Tag> tags, User owner);
+
+    default UUID mapMember(User member) {
+        return member.getId();
     }
 
-    public HobbyGroup toEntity(HobbyGroupDto groupDto, List<Tag> tags, User owner) {
-        return new HobbyGroup(groupDto.id(),
-            groupDto.name(),
-            groupDto.description(),
-            groupDto.radiusKm(),
-            tags,
-            owner);
+    default List<User> mapOwnerToMembers(User owner) {
+        return owner == null ? List.of() : List.of(owner);
     }
-
 }

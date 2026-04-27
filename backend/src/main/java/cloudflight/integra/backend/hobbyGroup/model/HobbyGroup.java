@@ -33,7 +33,7 @@ public class HobbyGroup {
         joinColumns = @JoinColumn(name = "hobby_group_id"),
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private final List<User> members = new LinkedList<>();
+    private List<User> members = new LinkedList<>();
 
 
     public HobbyGroup(
@@ -113,5 +113,9 @@ public class HobbyGroup {
     public HobbyGroup setOwner(User owner) {
         this.owner = owner;
         return this;
+    }
+
+    public void setMembers(List<User> members) {
+        this.members = members;
     }
 }
