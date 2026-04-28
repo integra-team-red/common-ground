@@ -8,6 +8,11 @@ import {EventDto} from "@app/api/model/eventDto";
 import {Dialog} from "primeng/dialog";
 import {Button} from "primeng/button";
 import {ToastService} from "../../../toast-service/toast-service";
+import {AutoComplete, AutoCompleteCompleteEvent} from 'primeng/autocomplete';
+import {LocationDto} from '@app/api/model/locationDto';
+import {HobbyGroupDto} from '@app/api/model/hobbyGroupDto';
+import {LocationControllerService} from '@app/api/api/locationController.service';
+import {HobbyGroupControllerService} from '@app/api/api/hobbyGroupController.service';
 
 @Component({
     selector: 'app-create-event',
@@ -18,15 +23,25 @@ import {ToastService} from "../../../toast-service/toast-service";
         DatePickerModule,
         FormsModule,
         Button,
-        Dialog
+        Dialog,
+        AutoComplete
     ],
     templateUrl: './create-event.html',
 })
 export class CreateEvent {
     eventService = inject(EventControllerService);
+    locationService = inject(LocationControllerService);
+    hobbyService = inject(HobbyGroupControllerService);
     visible = signal<boolean>(false);
     toastService = inject(ToastService);
     refreshTable = output<void>();
+
+    locationValue = signal<string>('');
+    locationItems = signal<LocationDto[]>([]);
+
+    hobbyValue = signal<string>('');
+    hobbyItems = signal<HobbyGroupDto[]>([]);
+
 
     newEvent: EventDto = {
         title: "",
@@ -38,7 +53,8 @@ export class CreateEvent {
 
     onSubmit(form: NgForm) {
         if (form.valid) {
-            this.eventService.createEvent(this.newEvent).subscribe({
+            console.log(form);
+            this.eventService.createEvent(form.form.value).subscribe({
                 next: (response) => {
                     this.visible.set(false);
                     this.refreshTable.emit();
@@ -51,5 +67,24 @@ export class CreateEvent {
                 }
             });
         }
+    }
+
+
+    protected searchLocations($event: AutoCompleteCompleteEvent) {
+        console.log($event);
+        this.locationService.getByName($event.query, { page: 0, size: 10 }).subscribe({
+            next: (response) => {
+                this.locationItems.set(response.content ?? []);
+            }
+        })
+    }
+
+    protected searchHobbyGroups($event: AutoCompleteCompleteEvent) {
+        console.log($event);
+        this.hobbyService.filterAllHobbyGroupsByName($event.query, { page: 0, size: 10 }).subscribe({
+            next: (response) => {
+                this.hobbyItems.set(response.content ?? []);
+            }
+        })
     }
 }
