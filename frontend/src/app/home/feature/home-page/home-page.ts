@@ -32,7 +32,7 @@ import {EventMapDto} from "@app/api/model/eventMapDto";
 export class HomePage implements OnInit,AfterViewInit {
 
     hobbyGroupService = inject(HobbyGroupControllerService);
-    userDetailsService = inject(UserDetailsService);
+    userDetailsService=inject(UserDetailsService);
     eventService=inject(EventControllerService);
 
     hobbyGroups = signal<HobbyGroupDto[]>([]);
@@ -46,9 +46,9 @@ export class HomePage implements OnInit,AfterViewInit {
     totalRecords = signal<number>(0);
     loading = signal<boolean>(false);
     currentPage = signal<number>(0);
+    showMapMobile = signal<boolean>(false);
 
     private map: L.Map | undefined;
-    userName = () => this.userDetailsService.getCurrentUser()?.username|| 'Guest';
 
     @ViewChild('scrollAnchor') scrollAnchor!: ElementRef;
 
@@ -69,8 +69,11 @@ export class HomePage implements OnInit,AfterViewInit {
             }
         });
     }
+
     ngAfterViewInit(): void {
-        this.initMap();
+        this.map = this.initMap('map-desktop');
+        this.loadMapEvents();
+
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting && !this.loading() &&
                 this.filteredHobbyGroups().length < this.totalRecords()) {
@@ -78,42 +81,54 @@ export class HomePage implements OnInit,AfterViewInit {
             }
         }, { threshold: 0.1 });
 
-        if (this.scrollAnchor) {
-            observer.observe(this.scrollAnchor.nativeElement);
-        }
-    }
-    private initMap(): void {
-        this.map = L.map('map').setView([44.4268, 26.1025], 13);
-
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(this.map);
-        const storedLocation = localStorage.getItem('selectedLocation');
-
-        if (storedLocation) {
-            try {
-                const loc = JSON.parse(storedLocation);
-                this.map.setView([loc.latitude, loc.longitude], 13);
-                L.marker([loc.latitude, loc.longitude]).addTo(this.map)
-                    .bindPopup(`Your Location: ${loc.name}`);
-            } catch (e) {
-                console.error("Error parsing stored location", e);
-            }
-        }
-        this.loadMapEvents();
+        if (this.scrollAnchor) observer.observe(this.scrollAnchor.nativeElement);
     }
 
     loadMore() {
         const nextPage = this.currentPage() + 1;
         this.currentPage.set(nextPage);
         this.getHobbyGroups(nextPage);
+
+    }
+
+    private initMap(containerId: string): L.Map {
+        const map = L.map(containerId).setView([44.4268, 26.1025], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        const storedLocation = localStorage.getItem('selectedLocation');
+        if (storedLocation) {
+            try {
+                const loc = JSON.parse(storedLocation);
+                map.setView([loc.latitude, loc.longitude], 13);
+                L.marker([loc.latitude, loc.longitude]).addTo(map).bindPopup(`Location: ${loc.name}`);
+            } catch (e) { console.error(e); }
+        }
+        return map;
+    }
+
+    toggleMap(visible: boolean) {
+        this.showMapMobile.set(visible);
+        if (this.map) {
+            this.map.remove();
+        }
+
+        setTimeout(() => {
+            if (visible) {
+                this.map = this.initMap('map-mobile');
+            } else {
+                this.map = this.initMap('map-desktop');
+            }
+            this.loadMapEvents();
+        }, 100);
     }
 
     private addEventMarker(lat: number, lng: number, title: string): void {
-        const marker = L.marker([lat, lng]).addTo(this.map!);
-
-        marker.bindPopup(`<b>${title}</b>`);
+        if (this.map) {
+            L.marker([lat, lng]).addTo(this.map).bindPopup(`<b>${title}</b>`);
+        }
     }
 
     loadMapEvents(): void {
@@ -121,10 +136,10 @@ export class HomePage implements OnInit,AfterViewInit {
             next: (events: EventMapDto[]) => {
                 events.forEach(event => {
                     if (event.latitude !== undefined && event.longitude !== undefined) {
-                        this.addEventMarker(event.latitude, event.longitude, event.title ?? 'Unknown event');
-                    }                });
-            },
-            error: (err) => console.error("Error ", err)
+                        this.addEventMarker(event.latitude, event.longitude, event.title ?? 'Unknown');
+                    }
+                });
+            }
         });
     }
 

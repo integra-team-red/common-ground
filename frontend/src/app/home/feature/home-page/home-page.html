@@ -21,9 +21,7 @@
             @else {
                 <app-empty-state-card/>
             }
-            <div #scrollAnchor class="h-20 w-full flex justify-center items-center">
-
-            </div>
+            <div #scrollAnchor class="h-20 w-full flex justify-center items-center"></div>
         </div>
     </div>
     <div class="w-full flex flex-col md:sticky md:top-6 md:h-[calc(100vh-3rem)] md:overflow-hidden order-1 md:order-2">
@@ -35,7 +33,17 @@
                 <app-create-hobby-group (refreshHobbyGroup)="getHobbyGroups(0)"></app-create-hobby-group>
             </div>
         </div>
-        <div id="map" class="w-full h-full border-2 border-primary rounded-2xl"></div>
+        <div id="map-desktop" class="hidden md:block w-full h-full border-2 border-primary rounded-2xl"></div>
     </div>
-    <p-button class="md:hidden fixed bottom-6 right-6 " label="Show map"></p-button>
+
+    @if (showMapMobile()) {
+        <div id="map-mobile" class="fixed inset-0 z-2000 border-2 border-primary">
+            <p-button (onClick)="toggleMap(false)"
+                class="absolute top-4 right-4 z-2001"
+                icon="pi pi-times" />
+        </div>
+    }
+    <p-button class="md:hidden fixed bottom-6 right-6 z-1900"
+        label="Show map"
+        (onClick)="toggleMap(true)"></p-button>
 </div>
