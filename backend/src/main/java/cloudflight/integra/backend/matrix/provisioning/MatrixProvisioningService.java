@@ -65,10 +65,13 @@ public class MatrixProvisioningService {
 
         } catch (RestClientResponseException e) {
             HttpStatusCode errorCode = e.getStatusCode();
+            String responseBody = e.getResponseBodyAsString();
             if (errorCode.value() == 409) {
                 return MatrixProvisioningResponse.warn("Matrix account already exists for this username");
             }
-
+            if (errorCode.value() == 400 && responseBody.contains("M_USER_IN_USE")) {
+                return MatrixProvisioningResponse.ok();
+            }
             return MatrixProvisioningResponse.warn("Matrix homeserver rejected request");
         }
     }
