@@ -1,6 +1,6 @@
 package cloudflight.integra.backend.location.model;
 
-import cloudflight.integra.backend.user.model.User;
+import cloudflight.integra.backend.user.model.UserDto;
 
 import java.util.UUID;
 
@@ -9,6 +9,6 @@ public record LocationDto(
     String name,
     Double latitude,
     Double longitude,
-    User creator
+    UserDto creator
 ) {
 }
